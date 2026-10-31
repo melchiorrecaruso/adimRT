@@ -38,6 +38,8 @@ unit ADimCL3;
     dividing by a non-invertible value raises a floating-point exception.
   - X.Rotation(A, B) is B A X A^-1 B^-1: the composition of two reflections,
     i.e. a rotation in the plane A^B by TWICE the angle from A to B.
+  - X.Rotate(R) is R X ~R, for a rotor R with R ~R = 1; it keeps the type
+    of X and drops the components of other grades.
 }
 
 { References:
@@ -348,6 +350,7 @@ type
     function Rotation(const AVector1, AVector2: TCL3Bivector): TCL3Multivector;
     function Rotation(const AVector1, AVector2: TCL3Trivector): TCL3Multivector;
     function Rotation(const AVector1, AVector2: TCL3Multivector): TCL3Multivector;
+    function Rotate(const ARotor: TCL3Multivector): TCL3Multivector;
 
     function Dot(const AVector: TCL3Vector): TCL3Multivector;
     function Dot(const AVector: TCL3Bivector): TCL3Multivector;
@@ -396,6 +399,7 @@ type
     function Rotation(const AVector1, AVector2: TCL3Bivector): TCL3Vector;
     function Rotation(const AVector1, AVector2: TCL3Trivector): TCL3Vector;
     function Rotation(const AVector1, AVector2: TCL3Multivector): TCL3Multivector;
+    function Rotate(const ARotor: TCL3Multivector): TCL3Vector;
 
     function Dot(const AVector: TCL3Vector): double;
     function Dot(const AVector: TCL3Bivector): TCL3Vector;
@@ -445,6 +449,7 @@ type
     function Rotation(const AVector1, AVector2: TCL3Bivector): TCL3Bivector;
     function Rotation(const AVector1, AVector2: TCL3Trivector): TCL3Bivector;
     function Rotation(const AVector1, AVector2: TCL3Multivector): TCL3Multivector;
+    function Rotate(const ARotor: TCL3Multivector): TCL3Bivector;
 
     function Dot(const AVector: TCL3Vector): TCL3Vector;
     function Dot(const AVector: TCL3Bivector): double;
@@ -493,6 +498,7 @@ type
     function Rotation(const AVector1, AVector2: TCL3Bivector): TCL3Trivector;
     function Rotation(const AVector1, AVector2: TCL3Trivector): TCL3Trivector;
     function Rotation(const AVector1, AVector2: TCL3Multivector): TCL3Trivector;
+    function Rotate(const ARotor: TCL3Multivector): TCL3Trivector;
 
     function Dot(const AVector: TCL3Vector): TCL3Bivector;
     function Dot(const AVector: TCL3Bivector): TCL3Vector;
@@ -2550,6 +2556,11 @@ begin
   result := AVector2 * AVector1 * Self * AVector1.Inverse * AVector2.Inverse;
 end;
 
+function TCL3MultivectorHelper.Rotate(const ARotor: TCL3Multivector): TCL3Multivector;
+begin
+  result := ARotor * Self * ARotor.Reverse;
+end;
+
 function TCL3MultivectorHelper.Dot(const AVector: TCL3Vector): TCL3Multivector;
 begin
   result.fm0 := fm1 * AVector.fm1
@@ -2895,6 +2906,11 @@ begin
   result := AVector2 * AVector1 * Self * AVector1.Inverse * AVector2.Inverse;
 end;
 
+function TCL3VectorHelper.Rotate(const ARotor: TCL3Multivector): TCL3Vector;
+begin
+  result := TCL3Vector(ARotor * Self * ARotor.Reverse);
+end;
+
 function TCL3VectorHelper.Dot(const AVector: TCL3Vector): double;
 begin
   result := fm1 * AVector.fm1
@@ -3168,6 +3184,11 @@ begin
   result := AVector2 * AVector1 * Self * AVector1.Inverse * AVector2.Inverse;
 end;
 
+function TCL3BivectorHelper.Rotate(const ARotor: TCL3Multivector): TCL3Bivector;
+begin
+  result := TCL3Bivector(ARotor * Self * ARotor.Reverse);
+end;
+
 function TCL3BivectorHelper.Dot(const AVector: TCL3Vector): TCL3Vector;
 begin
   result.fm1 := fm12 * AVector.fm2
@@ -3411,6 +3432,11 @@ end;
 function TCL3TrivectorHelper.Rotation(const AVector1, AVector2: TCL3Multivector): TCL3Trivector;
 begin
   result := TCL3Trivector(AVector2 * AVector1 * Self * AVector1.Inverse * AVector2.Inverse);
+end;
+
+function TCL3TrivectorHelper.Rotate(const ARotor: TCL3Multivector): TCL3Trivector;
+begin
+  result := TCL3Trivector(ARotor * Self * ARotor.Reverse);
 end;
 
 function TCL3TrivectorHelper.Dot(const AVector: TCL3Vector): TCL3Bivector;

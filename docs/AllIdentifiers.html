@@ -34,16 +34,6 @@
 <th class="itemdesc">Description</th>
 </tr>
 <tr class="list">
-<td class="itemname"><a class="bold" href="ADim.html#*-TCL3BivecQuantity-TCL3TrivecQuantity-">*</a></td>
-<td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
-<td class="itemdesc"><p>Returns the geometric product of a bivector quantity and a trivector quantity.</p></td>
-</tr>
-<tr class="list2">
-<td class="itemname"><a class="bold" href="ADim.html#*-TCL3TrivecQuantity-TCL3BivecQuantity-">*</a></td>
-<td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
-<td class="itemdesc"><p>Returns the geometric product of a trivector quantity and a bivector quantity.</p></td>
-</tr>
-<tr class="list">
 <td class="itemname"><a class="bold" href="ADim.html#*-TComplexMatrixQuantity-TComplexMatrixQuantity-">*</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
 <td class="itemdesc"><p>Returns the product of two complex matrix quantities.</p></td>
@@ -112,16 +102,6 @@
 <td class="itemname"><a class="bold" href="ADim.html#--TRealQuantity-TComplexQuantity-">-</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
 <td class="itemdesc"><p>Subtracts a complex quantity from a compatible real quantity.</p></td>
-</tr>
-<tr class="list">
-<td class="itemname"><a class="bold" href="ADim.html#/-TCL3BivecQuantity-TCL3TrivecQuantity-">/</a></td>
-<td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
-<td class="itemdesc"><p>Returns the geometric quotient of a bivector quantity divided by a trivector quantity: <code>ALeft * ARight⁻¹</code>.</p></td>
-</tr>
-<tr class="list2">
-<td class="itemname"><a class="bold" href="ADim.html#/-TCL3TrivecQuantity-TCL3BivecQuantity-">/</a></td>
-<td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
-<td class="itemdesc"><p>Returns the geometric quotient of a trivector quantity divided by a bivector quantity: <code>ALeft * ARight⁻¹</code>.</p></td>
 </tr>
 <tr class="list">
 <td class="itemname"><a class="bold" href="ADim.html#/-TComplex-TComplexQuantity-">/</a></td>
@@ -1229,8 +1209,18 @@
 <td class="itemdesc"><p>ds⁶ - sextic decisecond: submultiple of sextic second; 1 ds⁶ = 1e-06 s⁶.</p></td>
 </tr>
 <tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL2.html#e1">e1</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
 <td class="itemname"><a class="bold" href="ADimCL3.html#e1">e1</a></td>
 <td class="itemunit"><a class="bold" href="ADimCL3.html">ADimCL3</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL2.html#e12">e12</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list">
@@ -1249,134 +1239,214 @@
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL2.html#e2">e2</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
 <td class="itemname"><a class="bold" href="ADimCL3.html#e2">e2</a></td>
 <td class="itemunit"><a class="bold" href="ADimCL3.html">ADimCL3</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="ADimCL3.html#e23">e23</a></td>
 <td class="itemunit"><a class="bold" href="ADimCL3.html">ADimCL3</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="ADimCL3.html#e3">e3</a></td>
 <td class="itemunit"><a class="bold" href="ADimCL3.html">ADimCL3</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="ADimMath.EDimensionError.html">EDimensionError</a></td>
 <td class="itemunit"><a class="bold" href="ADimMath.html">ADimMath</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="ADim.html#ElectricPermittivity">ElectricPermittivity</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
 <td class="itemdesc"><p>Electric permittivity of free space <code>ε₀ = 8.8541878188 × 10⁻¹² F·m⁻¹</code>.</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="ADim.html#ElectronCharge">ElectronCharge</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
 <td class="itemdesc"><p>Elementary charge <code>e = 1.602176634 × 10⁻¹⁹ C</code>.</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="ADim.html#ElectronMass">ElectronMass</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
 <td class="itemdesc"><p>Electron rest mass <code>m_e = 9.1093837015 × 10⁻³¹ kg</code>.</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="ADim.html#Electronvolt">Electronvolt</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
 <td class="itemdesc"><p>eV - electronvolt: unit of energy; 1 eV = 1.602176634e-19 J.</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="ADim.html#EqualToZero-TRealQuantity-">EqualToZero</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
 <td class="itemdesc"><p>Returns <code>True</code> if the quantity is equal to zero within the default floating point tolerance.</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="ADim.html#eV">eV</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
 <td class="itemdesc"><p>eV - electronvolt: unit of energy; 1 eV = 1.602176634e-19 J.</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="ADim.html#Exp-TRealQuantity-">Exp</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
 <td class="itemdesc"><p>Returns <code>e&circ;AQuantity</code> as a dimensioned quantity.</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="ADimCommon.html#ExponentsPerWord">ExponentsPerWord</a></td>
 <td class="itemunit"><a class="bold" href="ADimCommon.html">ADimCommon</a></td>
 <td class="itemdesc"><p>Number of 16-bit exponents that fit in one 64-bit word.</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="ADim.html#F">F</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
 <td class="itemdesc"><p>F - farad: SI derived unit of electric capacitance; 1 F = 1 C/V.</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="ADim.html#Farad">Farad</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
 <td class="itemdesc"><p>F - farad: SI derived unit of electric capacitance; 1 F = 1 C/V.</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="ADim.html#FaradPerMeter">FaradPerMeter</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
 <td class="itemdesc"><p>F/m - farad per meter: SI unit of electric permittivity.</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="ADim.html#FineStructureConstant">FineStructureConstant</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
 <td class="itemdesc"><p>Fine-structure constant <code>α = 7.2973525643 × 10⁻³</code> (dimensionless).</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="ADimMath.html#FloatToStrF-TComplex-">FloatToStrF</a></td>
 <td class="itemunit"><a class="bold" href="ADimMath.html">ADimMath</a></td>
 <td class="itemdesc"><p>Converts a complex number to its default string representation.</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="ADimMath.html#FloatToStrF-TComplex-longint-longint-">FloatToStrF</a></td>
 <td class="itemunit"><a class="bold" href="ADimMath.html">ADimMath</a></td>
 <td class="itemdesc"><p>Converts a complex number to a string with controlled precision.</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="ADimMath.html#FloatToStrF-TReal-">FloatToStrF</a></td>
 <td class="itemunit"><a class="bold" href="ADimMath.html">ADimMath</a></td>
 <td class="itemdesc"><p>Converts a real number to its default string representation.</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="ADimMath.html#FloatToStrF-TReal-longint-longint-">FloatToStrF</a></td>
 <td class="itemunit"><a class="bold" href="ADimMath.html">ADimMath</a></td>
 <td class="itemdesc"><p>Converts a real number to a string with controlled precision.</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="ADim.html#Foot">Foot</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
 <td class="itemdesc"><p>ft - foot: imperial unit of length; 1 ft = 0.3048 m.</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="ADim.html#ft">ft</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
 <td class="itemdesc"><p>ft - foot: imperial unit of length; 1 ft = 0.3048 m.</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="ADim.html#ft2">ft2</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
 <td class="itemdesc"><p>ft² - square foot: imperial unit of area; 1 ft² = 0.09290304 m².</p></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemname"><a class="bold" href="ADim.html#ft3">ft3</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
 <td class="itemdesc"><p>ft³ - cubic foot: imperial unit of volume; 1 ft³ = 0.028316846592 m³.</p></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemname"><a class="bold" href="ADim.html#g">g</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
 <td class="itemdesc"><p>g - kilogram**: submultiple of kilogram; 1 g = 1e-03 kg**.</p></td>
 </tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#g0">g0</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
 <tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.html#g01">g01</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#g012">g012</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.html#g0123">g0123</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#g013">g013</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.html#g02">g02</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#g023">g023</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.html#g03">g03</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#g1">g1</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.html#g12">g12</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#g123">g123</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.html#g13">g13</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
 <td class="itemname"><a class="bold" href="ADim.html#g2">g2</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
 <td class="itemdesc"><p>g² - square kilogram**: submultiple of square kilogram; 1 g² = 1e-06 kg²**.</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.html#g2">g2</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#g23">g23</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.html#g3">g3</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list2">
 <td class="itemname"><a class="bold" href="ADim.html#gal">gal</a></td>
@@ -3359,8 +3429,28 @@
 <td class="itemdesc"><p>nT - nanotesla: submultiple of tesla; 1 nT = 1e-09 T.</p></td>
 </tr>
 <tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#NullBivector">NullBivector</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL2.html#NullBivector">NullBivector</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
 <td class="itemname"><a class="bold" href="ADimCL3.html#NullBivector">NullBivector</a></td>
 <td class="itemunit"><a class="bold" href="ADimCL3.html">ADimCL3</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.html#NullMultivector">NullMultivector</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL2.html#NullMultivector">NullMultivector</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list">
@@ -3369,13 +3459,43 @@
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#NullQuadrivector">NullQuadrivector</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.html#NullScalar">NullScalar</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL2.html#NullScalar">NullScalar</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
 <td class="itemname"><a class="bold" href="ADimCL3.html#NullScalar">NullScalar</a></td>
 <td class="itemunit"><a class="bold" href="ADimCL3.html">ADimCL3</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#NullTrivector">NullTrivector</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list">
 <td class="itemname"><a class="bold" href="ADimCL3.html#NullTrivector">NullTrivector</a></td>
 <td class="itemunit"><a class="bold" href="ADimCL3.html">ADimCL3</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#NullVector">NullVector</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL2.html#NullVector">NullVector</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list2">
@@ -6024,14 +6144,344 @@
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list">
+<td class="itemname"><a class="bold" href="ADim.TCL13BivecQuantity.html">TCL13BivecQuantity</a></td>
+<td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
+<td class="itemdesc"><p>Represents a bivector of <code>Cl(1,3)</code> with a physical dimension.</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADim.TCL13BivecQuantityHelper.html">TCL13BivecQuantityHelper</a></td>
+<td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
+<td class="itemdesc"><p>Record helper for <a class="normal" href="ADim.TCL13BivecQuantity.html">TCL13BivecQuantity</a>: the methods of <a class="normal" href="ADimCL13.TCL13Bivector.html">TCL13Bivector</a> on dimensioned values.</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13Bivector.html">TCL13Bivector</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>TCL13Bivector</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#TCL13BivectorComponent">TCL13BivectorComponent</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>TCL13Bivector components</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.html#TCL13BivectorComponents">TCL13BivectorComponents</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13BivectorHelper.html">TCL13BivectorHelper</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>TCL13BivectorHelper</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13Biversor01.html">TCL13Biversor01</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>TCL13Biversor</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13Biversor02.html">TCL13Biversor02</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13Biversor03.html">TCL13Biversor03</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13Biversor12.html">TCL13Biversor12</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13Biversor13.html">TCL13Biversor13</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13Biversor23.html">TCL13Biversor23</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADim.TCL13MultivecQuantity.html">TCL13MultivecQuantity</a></td>
+<td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
+<td class="itemdesc"><p>Represents a multivector of <code>Cl(1,3)</code> with a physical dimension.</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADim.TCL13MultivecQuantityHelper.html">TCL13MultivecQuantityHelper</a></td>
+<td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
+<td class="itemdesc"><p>Record helper for <a class="normal" href="ADim.TCL13MultivecQuantity.html">TCL13MultivecQuantity</a>: the methods of <a class="normal" href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a> on dimensioned values.</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>TCL13Multivector</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#TCL13MultivectorComponent">TCL13MultivectorComponent</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>TCL13Multivector components</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.html#TCL13MultivectorComponents">TCL13MultivectorComponents</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13MultivectorHelper.html">TCL13MultivectorHelper</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>TCL13MultivectorHelper</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADim.TCL13QuadrivecQuantity.html">TCL13QuadrivecQuantity</a></td>
+<td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
+<td class="itemdesc"><p>Represents a quadrivector of <code>Cl(1,3)</code> with a physical dimension.</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADim.TCL13QuadrivecQuantityHelper.html">TCL13QuadrivecQuantityHelper</a></td>
+<td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
+<td class="itemdesc"><p>Record helper for <a class="normal" href="ADim.TCL13QuadrivecQuantity.html">TCL13QuadrivecQuantity</a>: the methods of <a class="normal" href="ADimCL13.TCL13Quadrivector.html">TCL13Quadrivector</a> on dimensioned values.</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13Quadrivector.html">TCL13Quadrivector</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>TCL13Quadrivector</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#TCL13QuadrivectorComponent">TCL13QuadrivectorComponent</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>TCL13Quadrivector components</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.html#TCL13QuadrivectorComponents">TCL13QuadrivectorComponents</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13QuadrivectorHelper.html">TCL13QuadrivectorHelper</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>TCL13QuadrivectorHelper</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13Quadriversor0123.html">TCL13Quadriversor0123</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>TCL13Quadriversor</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADim.TCL13TrivecQuantity.html">TCL13TrivecQuantity</a></td>
+<td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
+<td class="itemdesc"><p>Represents a trivector of <code>Cl(1,3)</code> with a physical dimension.</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADim.TCL13TrivecQuantityHelper.html">TCL13TrivecQuantityHelper</a></td>
+<td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
+<td class="itemdesc"><p>Record helper for <a class="normal" href="ADim.TCL13TrivecQuantity.html">TCL13TrivecQuantity</a>: the methods of <a class="normal" href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a> on dimensioned values.</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>TCL13Trivector</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.html#TCL13TrivectorComponent">TCL13TrivectorComponent</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>TCL13Trivector components</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#TCL13TrivectorComponents">TCL13TrivectorComponents</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13TrivectorHelper.html">TCL13TrivectorHelper</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>TCL13TrivectorHelper</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13Triversor012.html">TCL13Triversor012</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>TCL13Triversor</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13Triversor013.html">TCL13Triversor013</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13Triversor023.html">TCL13Triversor023</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13Triversor123.html">TCL13Triversor123</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADim.TCL13VecQuantity.html">TCL13VecQuantity</a></td>
+<td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
+<td class="itemdesc"><p>Represents a vector of <code>Cl(1,3)</code> with a physical dimension.</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADim.TCL13VecQuantityHelper.html">TCL13VecQuantityHelper</a></td>
+<td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
+<td class="itemdesc"><p>Record helper for <a class="normal" href="ADim.TCL13VecQuantity.html">TCL13VecQuantity</a>: the methods of <a class="normal" href="ADimCL13.TCL13Vector.html">TCL13Vector</a> on dimensioned values.</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13Vector.html">TCL13Vector</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>TCL13Vector</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.html#TCL13VectorComponent">TCL13VectorComponent</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>TCL13Vector components</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#TCL13VectorComponents">TCL13VectorComponents</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13VectorHelper.html">TCL13VectorHelper</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>TCL13VectorHelper</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13Versor0.html">TCL13Versor0</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>TCL13Versor</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13Versor1.html">TCL13Versor1</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13Versor2.html">TCL13Versor2</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.TCL13Versor3.html">TCL13Versor3</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a></td>
+<td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
+<td class="itemdesc"><p>Represents a bivector of <code>Cl(2,0)</code> with a physical dimension.</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADim.TCL2BivecQuantityHelper.html">TCL2BivecQuantityHelper</a></td>
+<td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
+<td class="itemdesc"><p>Record helper for <a class="normal" href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>: the methods of <a class="normal" href="ADimCL2.TCL2Bivector.html">TCL2Bivector</a> on dimensioned values.</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL2.TCL2Bivector.html">TCL2Bivector</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
+<td class="itemdesc"><p>TCL2Bivector</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL2.html#TCL2BivectorComponent">TCL2BivectorComponent</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
+<td class="itemdesc"><p>TCL2Bivector components</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL2.html#TCL2BivectorComponents">TCL2BivectorComponents</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL2.TCL2BivectorHelper.html">TCL2BivectorHelper</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
+<td class="itemdesc"><p>TCL2BivectorHelper</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL2.TCL2Biversor12.html">TCL2Biversor12</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
+<td class="itemdesc"><p>TCL2Biversor</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a></td>
+<td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
+<td class="itemdesc"><p>Represents a multivector of <code>Cl(2,0)</code> with a physical dimension.</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADim.TCL2MultivecQuantityHelper.html">TCL2MultivecQuantityHelper</a></td>
+<td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
+<td class="itemdesc"><p>Record helper for <a class="normal" href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>: the methods of <a class="normal" href="ADimCL2.TCL2Multivector.html">TCL2Multivector</a> on dimensioned values.</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL2.TCL2Multivector.html">TCL2Multivector</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
+<td class="itemdesc"><p>TCL2Multivector</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL2.html#TCL2MultivectorComponent">TCL2MultivectorComponent</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
+<td class="itemdesc"><p>TCL2Multivector components</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL2.html#TCL2MultivectorComponents">TCL2MultivectorComponents</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL2.TCL2MultivectorHelper.html">TCL2MultivectorHelper</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
+<td class="itemdesc"><p>TCL2MultivectorHelper</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a></td>
+<td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
+<td class="itemdesc"><p>Represents a vector of <code>Cl(2,0)</code> with a physical dimension.</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADim.TCL2VecQuantityHelper.html">TCL2VecQuantityHelper</a></td>
+<td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
+<td class="itemdesc"><p>Record helper for <a class="normal" href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>: the methods of <a class="normal" href="ADimCL2.TCL2Vector.html">TCL2Vector</a> on dimensioned values.</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL2.TCL2Vector.html">TCL2Vector</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
+<td class="itemdesc"><p>TCL2Vector</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL2.html#TCL2VectorComponent">TCL2VectorComponent</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
+<td class="itemdesc"><p>TCL2Vector components</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL2.html#TCL2VectorComponents">TCL2VectorComponents</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL2.TCL2VectorHelper.html">TCL2VectorHelper</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
+<td class="itemdesc"><p>TCL2VectorHelper</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL2.TCL2Versor1.html">TCL2Versor1</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
+<td class="itemdesc"><p>TCL2Versor</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL2.TCL2Versor2.html">TCL2Versor2</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
 <td class="itemname"><a class="bold" href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
-<td class="itemdesc"><p>Represents a pure bivector (grade-2 element) of <code>Cl(3,0)</code> with physical dimensions.</p></td>
+<td class="itemdesc"><p>Represents a bivector of <code>Cl(3,0)</code> with a physical dimension.</p></td>
 </tr>
 <tr class="list2">
 <td class="itemname"><a class="bold" href="ADim.TCL3BivecQuantityHelper.html">TCL3BivecQuantityHelper</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
-<td class="itemdesc"><p>Record helper for <a class="normal" href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a> providing geometric operations specific to grade-2 elements of <code>Cl(3,0)</code> with physical dimensions.</p></td>
+<td class="itemdesc"><p>Record helper for <a class="normal" href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>: the methods of <a class="normal" href="ADimCL3.TCL3Bivector.html">TCL3Bivector</a> on dimensioned values.</p></td>
 </tr>
 <tr class="list">
 <td class="itemname"><a class="bold" href="ADimCL3.TCL3Bivector.html">TCL3Bivector</a></td>
@@ -6071,12 +6521,12 @@
 <tr class="list2">
 <td class="itemname"><a class="bold" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
-<td class="itemdesc"><p>Represents a general multivector of <code>Cl(3,0)</code> with physical dimensions.</p></td>
+<td class="itemdesc"><p>Represents a multivector of <code>Cl(3,0)</code> with a physical dimension.</p></td>
 </tr>
 <tr class="list">
 <td class="itemname"><a class="bold" href="ADim.TCL3MultivecQuantityHelper.html">TCL3MultivecQuantityHelper</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
-<td class="itemdesc"><p>Record helper for <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> providing the full set of geometric algebra operations on multivector quantities of <code>Cl(3,0)</code>.</p></td>
+<td class="itemdesc"><p>Record helper for <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>: the methods of <a class="normal" href="ADimCL3.TCL3Multivector.html">TCL3Multivector</a> on dimensioned values.</p></td>
 </tr>
 <tr class="list2">
 <td class="itemname"><a class="bold" href="ADimCL3.TCL3Multivector.html">TCL3Multivector</a></td>
@@ -6101,12 +6551,12 @@
 <tr class="list2">
 <td class="itemname"><a class="bold" href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
-<td class="itemdesc"><p>Represents a pure trivector (grade-3 element) of <code>Cl(3,0)</code> with physical dimensions.</p></td>
+<td class="itemdesc"><p>Represents a trivector of <code>Cl(3,0)</code> with a physical dimension.</p></td>
 </tr>
 <tr class="list">
 <td class="itemname"><a class="bold" href="ADim.TCL3TrivecQuantityHelper.html">TCL3TrivecQuantityHelper</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
-<td class="itemdesc"><p>Record helper for <a class="normal" href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a> providing geometric operations specific to grade-3 elements of <code>Cl(3,0)</code> with physical dimensions.</p></td>
+<td class="itemdesc"><p>Record helper for <a class="normal" href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>: the methods of <a class="normal" href="ADimCL3.TCL3Trivector.html">TCL3Trivector</a> on dimensioned values.</p></td>
 </tr>
 <tr class="list2">
 <td class="itemname"><a class="bold" href="ADimCL3.TCL3Trivector.html">TCL3Trivector</a></td>
@@ -6136,12 +6586,12 @@
 <tr class="list">
 <td class="itemname"><a class="bold" href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
-<td class="itemdesc"><p>Represents a pure vector (grade-1 element) of <code>Cl(3,0)</code> with physical dimensions.</p></td>
+<td class="itemdesc"><p>Represents a vector of <code>Cl(3,0)</code> with a physical dimension.</p></td>
 </tr>
 <tr class="list2">
 <td class="itemname"><a class="bold" href="ADim.TCL3VecQuantityHelper.html">TCL3VecQuantityHelper</a></td>
 <td class="itemunit"><a class="bold" href="ADim.html">ADim</a></td>
-<td class="itemdesc"><p>Record helper for <a class="normal" href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a> providing geometric operations specific to grade-1 elements of <code>Cl(3,0)</code> with physical dimensions.</p></td>
+<td class="itemdesc"><p>Record helper for <a class="normal" href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>: the methods of <a class="normal" href="ADimCL3.TCL3Vector.html">TCL3Vector</a> on dimensioned values.</p></td>
 </tr>
 <tr class="list">
 <td class="itemname"><a class="bold" href="ADimCL3.TCL3Vector.html">TCL3Vector</a></td>
@@ -6459,8 +6909,68 @@
 <td class="itemdesc"><p>TW - terawatt: multiple of watt; 1 TW = 1e+12 W.</p></td>
 </tr>
 <tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#u0">u0</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.html#u01">u01</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#u012">u012</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.html#u0123">u0123</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#u013">u013</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.html#u02">u02</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#u023">u023</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.html#u03">u03</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#u1">u1</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL2.html#u1">u1</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
 <td class="itemname"><a class="bold" href="ADimCL3.html#u1">u1</a></td>
 <td class="itemunit"><a class="bold" href="ADimCL3.html">ADimCL3</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.html#u12">u12</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL2.html#u12">u12</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list">
@@ -6469,8 +6979,18 @@
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#u123">u123</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
 <td class="itemname"><a class="bold" href="ADimCL3.html#u123">u123</a></td>
 <td class="itemunit"><a class="bold" href="ADimCL3.html">ADimCL3</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#u13">u13</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list">
@@ -6479,13 +6999,33 @@
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list2">
+<td class="itemname"><a class="bold" href="ADimCL13.html#u2">u2</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL2.html#u2">u2</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL2.html">ADimCL2</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
 <td class="itemname"><a class="bold" href="ADimCL3.html#u2">u2</a></td>
 <td class="itemunit"><a class="bold" href="ADimCL3.html">ADimCL3</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.html#u23">u23</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list2">
 <td class="itemname"><a class="bold" href="ADimCL3.html#u23">u23</a></td>
 <td class="itemunit"><a class="bold" href="ADimCL3.html">ADimCL3</a></td>
+<td class="itemdesc"><p>&nbsp;</p></td>
+</tr>
+<tr class="list">
+<td class="itemname"><a class="bold" href="ADimCL13.html#u3">u3</a></td>
+<td class="itemunit"><a class="bold" href="ADimCL13.html">ADimCL13</a></td>
 <td class="itemdesc"><p>&nbsp;</p></td>
 </tr>
 <tr class="list2">

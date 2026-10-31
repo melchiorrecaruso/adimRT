@@ -8,7 +8,7 @@
         <MainUnitHasTitleStatement Value="False"/>
         <MainUnitHasScaledStatement Value="False"/>
       </Flags>
-      <Title Value="sk"/>
+      <Title Value="templatetest"/>
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
     </General>
@@ -25,8 +25,8 @@
     </RunParams>
     <Units>
       <Unit>
-        <Filename Value="sk.lpr"/>
-        <UnitName Value="SK"/>
+        <Filename Value="templatetest.lpr"/>
+        <UnitName Value="TemplateTest"/>
         <Loaded Value="True"/>
         <UsageCount Value="63"/>
         <CursorPos Y="7"/>
@@ -40,8 +40,8 @@
         <CursorPos X="20" Y="612"/>
       </Unit>
       <Unit>
-        <Filename Value="skeleton.pas"/>
-        <UnitName Value="Skeleton"/>
+        <Filename Value="template.pas"/>
+        <UnitName Value="Template"/>
         <Loaded Value="True"/>
         <UsageCount Value="29"/>
         <IsVisibleTab Value="True"/>
@@ -129,83 +129,83 @@
     </Units>
     <JumpHistory HistoryIndex="19">
       <Position>
-        <Filename Value="skeleton.pas"/>
+        <Filename Value="template.pas"/>
         <Caret Line="6675" Column="22" TopLine="6661"/>
       </Position>
       <Position>
-        <Filename Value="skeleton.pas"/>
+        <Filename Value="template.pas"/>
         <Caret Line="6674" Column="22" TopLine="302"/>
       </Position>
       <Position>
-        <Filename Value="skeleton.pas"/>
+        <Filename Value="template.pas"/>
         <Caret Line="346" Column="76" TopLine="319"/>
       </Position>
       <Position>
-        <Filename Value="skeleton.pas"/>
+        <Filename Value="template.pas"/>
         <Caret Line="319" Column="76" TopLine="312"/>
       </Position>
       <Position>
-        <Filename Value="skeleton.pas"/>
+        <Filename Value="template.pas"/>
         <Caret Line="416" Column="3" TopLine="385"/>
       </Position>
       <Position>
-        <Filename Value="skeleton.pas"/>
+        <Filename Value="template.pas"/>
         <Caret Line="417" Column="5" TopLine="398"/>
       </Position>
       <Position>
-        <Filename Value="skeleton.pas"/>
+        <Filename Value="template.pas"/>
         <Caret Line="130" Column="21" TopLine="100"/>
       </Position>
       <Position>
-        <Filename Value="skeleton.pas"/>
+        <Filename Value="template.pas"/>
         <Caret Line="6622" TopLine="6614"/>
       </Position>
       <Position>
-        <Filename Value="skeleton.pas"/>
+        <Filename Value="template.pas"/>
         <Caret Line="6635" Column="5" TopLine="6610"/>
       </Position>
       <Position>
-        <Filename Value="skeleton.pas"/>
+        <Filename Value="template.pas"/>
         <Caret Line="6637" TopLine="6618"/>
       </Position>
       <Position>
-        <Filename Value="skeleton.pas"/>
+        <Filename Value="template.pas"/>
         <Caret Line="6647" Column="11" TopLine="6637"/>
       </Position>
       <Position>
-        <Filename Value="skeleton.pas"/>
+        <Filename Value="template.pas"/>
         <Caret Line="6657" Column="16" TopLine="6640"/>
       </Position>
       <Position>
-        <Filename Value="skeleton.pas"/>
+        <Filename Value="template.pas"/>
         <Caret Line="6657" TopLine="6620"/>
       </Position>
       <Position>
-        <Filename Value="skeleton.pas"/>
+        <Filename Value="template.pas"/>
         <Caret Line="6669" TopLine="6646"/>
       </Position>
       <Position>
-        <Filename Value="skeleton.pas"/>
+        <Filename Value="template.pas"/>
         <Caret Line="6674" Column="46" TopLine="6647"/>
       </Position>
       <Position>
-        <Filename Value="skeleton.pas"/>
+        <Filename Value="template.pas"/>
         <Caret Line="6667" Column="10" TopLine="6636"/>
       </Position>
       <Position>
-        <Filename Value="skeleton.pas"/>
+        <Filename Value="template.pas"/>
         <Caret Line="6677" TopLine="6658"/>
       </Position>
       <Position>
-        <Filename Value="skeleton.pas"/>
+        <Filename Value="template.pas"/>
         <Caret Line="6623" Column="63" TopLine="6620"/>
       </Position>
       <Position>
-        <Filename Value="skeleton.pas"/>
+        <Filename Value="template.pas"/>
         <Caret Line="6707" Column="43" TopLine="6620"/>
       </Position>
       <Position>
-        <Filename Value="skeleton.pas"/>
+        <Filename Value="template.pas"/>
         <Caret Line="323" Column="39" TopLine="55"/>
       </Position>
     </JumpHistory>
@@ -213,7 +213,7 @@
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="build/sk"/>
+      <Filename Value="build/templatetest"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>

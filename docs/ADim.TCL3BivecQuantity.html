@@ -37,11 +37,9 @@
 <code>type TCL3BivecQuantity = record</code></p>
 <h2 class="description">Description</h2>
 <p>
-Represents a pure bivector (grade-2 element) of <code>Cl(3,0)</code> with physical dimensions.
+Represents a bivector of <code>Cl(3,0)</code> with a physical dimension.
 
-<p>Combines a <a class="normal" href="ADimCL3.TCL3Bivector.html">TCL3Bivector</a> value with a <a class="normal" href="ADimCommon.TDimension.html">TDimension</a>, supporting geometric algebra arithmetic while preserving dimensional consistency. The physical dimension is stored in <code>FDim</code> and shared by the three bivector components <code>m12·e₁∧e₂ + m13·e₁∧e₃ + m23·e₂∧e₃</code>.
-
-<p>When combined with elements of other grades the result is promoted to a full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>. The geometric product of two bivector quantities produces a mixed-grade result (scalar + bivector), hence a full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>. When the symbol <code>ADIMOFF</code> is defined, this type degenerates to <a class="normal" href="ADimCL3.TCL3Bivector.html">TCL3Bivector</a> and all dimension checking is disabled.</p>
+<p>Combines a <a class="normal" href="ADimCL3.TCL3Bivector.html">TCL3Bivector</a> value with a <a class="normal" href="ADimCommon.TDimension.html">TDimension</a> shared by all its components. Arithmetic follows both the rules of the algebra and the rules of dimensional analysis: incompatible dimensions raise <a class="normal" href="ADimMath.EDimensionError.html">EDimensionError</a> at run time. When the symbol <code>ADIMOFF</code> is defined, this type is an alias of <a class="normal" href="ADimCL3.TCL3Bivector.html">TCL3Bivector</a>.</p>
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
@@ -51,19 +49,27 @@ Represents a pure bivector (grade-2 element) of <code>Cl(3,0)</code> with physic
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): boolean;</code></td>
+<td class="itemcode"><code>class operator <strong><a href="ADim.TCL3BivecQuantity.html#Explicit-TCL3MultivecQuantity-">Explicit</a></strong>(const AValue: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): boolean;</code></td>
+<td class="itemcode"><code>class operator =(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.html#TRealQuantity">TRealQuantity</a>): boolean;</code></td>
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): boolean;</code></td>
+<td class="itemcode"><code>class operator =(const ALeft: <a href="ADim.html#TRealQuantity">TRealQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): boolean;</code></td>
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator =(const ALeft, ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): boolean;</code></td>
+<td class="itemcode"><code>class operator =(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator =(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator =(const ALeft: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): boolean;</code></td>
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
@@ -75,15 +81,55 @@ Represents a pure bivector (grade-2 element) of <code>Cl(3,0)</code> with physic
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator +(const ALeft, ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+<td class="itemcode"><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.html#TRealQuantity">TRealQuantity</a>): boolean;</code></td>
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator +(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+<td class="itemcode"><code>class operator &lt;&gt;(const ALeft: <a href="ADim.html#TRealQuantity">TRealQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): boolean;</code></td>
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator +(const ALeft: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+<td class="itemcode"><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const AValue: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.html#TRealQuantity">TRealQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft: <a href="ADim.html#TRealQuantity">TRealQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
@@ -95,67 +141,59 @@ Represents a pure bivector (grade-2 element) of <code>Cl(3,0)</code> with physic
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator -(const ASelf: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.html#TRealQuantity">TRealQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator -(const ALeft, ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.html#TRealQuantity">TRealQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
 </tr>
 <tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
 </tr>
-<tr class="list2 visibility-public">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
 </tr>
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator *(const ALeft, ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
 <tr class="list2 visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr class="list2 visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.html#TRealQuantity">TRealQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
-</tr>
-<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.html#TRealQuantity">TRealQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
 </tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.html#TRealQuantity">TRealQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+</tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator /(const ALeft, ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator /(const ALeft: <a href="ADimMath.html#TReal">TReal</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADimMath.html#TReal">TReal</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
@@ -163,23 +201,35 @@ Represents a pure bivector (grade-2 element) of <code>Cl(3,0)</code> with physic
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADimMath.html#TReal">TReal</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.html#TRealQuantity">TRealQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
 </tr>
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator +(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.html#TRealQuantity">TRealQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator +(const ALeft: <a href="ADim.html#TRealQuantity">TRealQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADimMath.html#TReal">TReal</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.html#TRealQuantity">TRealQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.html#TRealQuantity">TRealQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
@@ -191,47 +241,67 @@ Represents a pure bivector (grade-2 element) of <code>Cl(3,0)</code> with physic
 </tr>
 <tr><td colspan="2">
 <p>
-Implicit conversion from a bivector quantity to a full multivector quantity. All components of the result are zero except <code>m12</code>, <code>m13</code>, <code>m23</code>. The dimension is preserved.</p>
+Widens the quantity to a <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>. The dimension is preserved.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="<-TCL3BivecQuantity-TCL3BivecQuantity-"></span><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): boolean;</code></td>
+<td class="itemcode"><span id="Explicit-TCL3MultivecQuantity-"></span><code>class operator <strong>Explicit</strong>(const AValue: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if the two bivector quantities differ in dimension or in any bivector component.</p>
+Keeps the bivector components of a multivector quantity and discards the others. The dimension is preserved.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="<-TCL3BivecQuantity-TCL3MultivecQuantity-"></span><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): boolean;</code></td>
+<td class="itemcode"><span id="=-TCL3BivecQuantity-TRealQuantity-"></span><code>class operator =(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.html#TRealQuantity">TRealQuantity</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if the bivector quantity and the multivector quantity differ in dimension or in any component.</p>
+Returns <code>True</code> if the two quantities have equal components. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="<-TCL3MultivecQuantity-TCL3BivecQuantity-"></span><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): boolean;</code></td>
+<td class="itemcode"><span id="=-TRealQuantity-TCL3BivecQuantity-"></span><code>class operator =(const ALeft: <a href="ADim.html#TRealQuantity">TRealQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if the multivector quantity and the bivector quantity differ in dimension or in any component.</p>
+Returns <code>True</code> if the two quantities have equal components. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="=-TCL3BivecQuantity-TCL3BivecQuantity-"></span><code>class operator =(const ALeft, ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): boolean;</code></td>
+<td class="itemcode"><span id="=-TCL3BivecQuantity-TCL3BivecQuantity-"></span><code>class operator =(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if both bivector quantities have the same dimension and all corresponding components are equal.</p>
+Returns <code>True</code> if the two quantities have equal components. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="=-TCL3BivecQuantity-TCL3VecQuantity-"></span><code>class operator =(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if the two quantities have equal components. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="=-TCL3VecQuantity-TCL3BivecQuantity-"></span><code>class operator =(const ALeft: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if the two quantities have equal components. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -241,7 +311,7 @@ Returns <code>True</code> if both bivector quantities have the same dimension an
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if the bivector quantity equals the multivector quantity, i.e. all non-bivector components of <code>ARight</code> are negligible.</p>
+Returns <code>True</code> if the two quantities have equal components. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -251,237 +321,87 @@ Returns <code>True</code> if the bivector quantity equals the multivector quanti
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if the multivector quantity equals the bivector quantity, i.e. all non-bivector components of <code>ALeft</code> are negligible.</p>
+Returns <code>True</code> if the two quantities have equal components. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="+-TCL3BivecQuantity-TCL3BivecQuantity-"></span><code>class operator +(const ALeft, ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+<td class="itemcode"><span id="<-TCL3BivecQuantity-TRealQuantity-"></span><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.html#TRealQuantity">TRealQuantity</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the component-wise sum of two bivector quantities. Both operands must have the same dimension. The result is a pure bivector quantity.</p>
+Returns <code>True</code> if the two quantities differ in some component. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="+-TCL3BivecQuantity-TCL3TrivecQuantity-"></span><code>class operator +(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+<td class="itemcode"><span id="<-TRealQuantity-TCL3BivecQuantity-"></span><code>class operator &lt;&gt;(const ALeft: <a href="ADim.html#TRealQuantity">TRealQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of a bivector quantity and a trivector quantity. Both operands must have the same dimension. The result is a full multivector quantity with grade-2 components from <code>ALeft</code> and grade-3 component from <code>ARight</code>.</p>
+Returns <code>True</code> if the two quantities differ in some component. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="+-TCL3TrivecQuantity-TCL3BivecQuantity-"></span><code>class operator +(const ALeft: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+<td class="itemcode"><span id="<-TCL3BivecQuantity-TCL3BivecQuantity-"></span><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of a trivector quantity and a bivector quantity. Both operands must have the same dimension. The result is a full multivector quantity with grade-3 component from <code>ALeft</code> and grade-2 components from <code>ARight</code>.</p>
+Returns <code>True</code> if the two quantities differ in some component. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="+-TCL3BivecQuantity-TCL3MultivecQuantity-"></span><code>class operator +(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+<td class="itemcode"><span id="<-TCL3BivecQuantity-TCL3VecQuantity-"></span><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of a bivector quantity and a multivector quantity. Both operands must have the same dimension. The bivector contributes only to the grade-2 components.</p>
+Returns <code>True</code> if the two quantities differ in some component. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="+-TCL3MultivecQuantity-TCL3BivecQuantity-"></span><code>class operator +(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+<td class="itemcode"><span id="<-TCL3VecQuantity-TCL3BivecQuantity-"></span><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of a multivector quantity and a bivector quantity. Both operands must have the same dimension. The bivector contributes only to the grade-2 components.</p>
+Returns <code>True</code> if the two quantities differ in some component. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="--TCL3BivecQuantity-"></span><code>class operator -(const ASelf: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+<td class="itemcode"><span id="<-TCL3BivecQuantity-TCL3MultivecQuantity-"></span><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Unary minus. Returns the negation of the bivector quantity. Each component <code>mₖ</code> becomes <code>-mₖ</code>.</p>
+Returns <code>True</code> if the two quantities differ in some component. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="--TCL3BivecQuantity-TCL3BivecQuantity-"></span><code>class operator -(const ALeft, ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+<td class="itemcode"><span id="<-TCL3MultivecQuantity-TCL3BivecQuantity-"></span><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the component-wise difference of two bivector quantities. Both operands must have the same dimension. The result is a pure bivector quantity.</p>
+Returns <code>True</code> if the two quantities differ in some component. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="--TCL3BivecQuantity-TCL3TrivecQuantity-"></span><code>class operator -(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+<td class="itemcode"><span id="--TCL3BivecQuantity-"></span><code>class operator -(const AValue: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of a bivector quantity and a trivector quantity. Both operands must have the same dimension. The result is a full multivector quantity with grade-2 components from <code>ALeft</code> and negated grade-3 component from <code>ARight</code>.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="--TCL3TrivecQuantity-TCL3BivecQuantity-"></span><code>class operator -(const ALeft: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the difference of a trivector quantity and a bivector quantity. Both operands must have the same dimension. The result is a full multivector quantity with grade-3 component from <code>ALeft</code> and negated grade-2 components from <code>ARight</code>.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="--TCL3BivecQuantity-TCL3MultivecQuantity-"></span><code>class operator -(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the difference of a bivector quantity and a multivector quantity. Both operands must have the same dimension. The bivector contributes only to the grade-2 components.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="--TCL3MultivecQuantity-TCL3BivecQuantity-"></span><code>class operator -(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the difference of a multivector quantity and a bivector quantity. Both operands must have the same dimension. The bivector contributes only to the grade-2 components.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-TCL3BivecQuantity-TCL3BivecQuantity-"></span><code>class operator *(const ALeft, ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the geometric product of two bivector quantities. The result is a mixed-grade element (scalar + bivector), hence a full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>. The resulting dimension is the product of the two dimensions.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-TCL3BivecQuantity-TCL3MultivecQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the geometric product of a bivector quantity and a multivector quantity. The resulting dimension is the product of the two dimensions. Grade mixing occurs according to the <code>Cl(3,0)</code> multiplication rules.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-TCL3MultivecQuantity-TCL3BivecQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the geometric product of a multivector quantity and a bivector quantity. The resulting dimension is the product of the two dimensions. Grade mixing occurs according to the <code>Cl(3,0)</code> multiplication rules.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-TRealQuantity-TCL3BivecQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.html#TRealQuantity">TRealQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the geometric product of a real quantity scalar and a bivector quantity. Each component is scaled by <code>ALeft</code>. The resulting dimension is the product of the two dimensions.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-TCL3BivecQuantity-TRealQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.html#TRealQuantity">TRealQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the geometric product of a bivector quantity and a real quantity scalar. Each component is scaled by <code>ARight</code>. The resulting dimension is the product of the two dimensions.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="/-TCL3BivecQuantity-TCL3BivecQuantity-"></span><code>class operator /(const ALeft, ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the geometric quotient of two bivector quantities: <code>ALeft * ARight⁻¹</code>. The result is a mixed-grade element, hence a full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>. The resulting dimension is the ratio of the two dimensions.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="/-TReal-TCL3BivecQuantity-"></span><code>class operator /(const ALeft: <a href="ADimMath.html#TReal">TReal</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the geometric quotient of a dimensionless real scalar divided by a bivector quantity: <code>ALeft * ARight⁻¹</code>. The inverse of a bivector <code>B</code> is <code>B⁻¹ = -B / |B|²</code>. The resulting dimension is the inverse of <code>ARight</code>.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="/-TCL3BivecQuantity-TReal-"></span><code>class operator /(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADimMath.html#TReal">TReal</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the geometric quotient of a bivector quantity divided by a dimensionless real scalar. Each component is divided by <code>ARight</code>. The dimension is preserved.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="/-TCL3BivecQuantity-TCL3MultivecQuantity-"></span><code>class operator /(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the geometric quotient of a bivector quantity divided by a multivector quantity: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="/-TCL3MultivecQuantity-TCL3BivecQuantity-"></span><code>class operator /(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the geometric quotient of a multivector quantity divided by a bivector quantity: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="/-TCL3BivecQuantity-TRealQuantity-"></span><code>class operator /(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.html#TRealQuantity">TRealQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the geometric quotient of a bivector quantity divided by a real quantity scalar: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="/-TRealQuantity-TCL3BivecQuantity-"></span><code>class operator /(const ALeft: <a href="ADim.html#TRealQuantity">TRealQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the geometric quotient of a real quantity scalar divided by a bivector quantity: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
+Returns the opposite of the quantity. The dimension is preserved.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -491,7 +411,7 @@ Returns the geometric quotient of a real quantity scalar divided by a bivector q
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of a bivector quantity and a real quantity. Both operands must have the same dimension. The result is a full multivector quantity with <code>m0 = ARight</code> and the bivector components of <code>ALeft</code>.</p>
+Returns the sum of two quantities. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -501,7 +421,57 @@ Returns the sum of a bivector quantity and a real quantity. Both operands must h
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of a real quantity and a bivector quantity. Both operands must have the same dimension. The result is a full multivector quantity with <code>m0 = ALeft</code> and the bivector components of <code>ARight</code>.</p>
+Returns the sum of two quantities. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TCL3BivecQuantity-TCL3BivecQuantity-"></span><code>class operator +(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the sum of two quantities. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TCL3BivecQuantity-TCL3VecQuantity-"></span><code>class operator +(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the sum of two quantities. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TCL3VecQuantity-TCL3BivecQuantity-"></span><code>class operator +(const ALeft: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the sum of two quantities. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TCL3BivecQuantity-TCL3MultivecQuantity-"></span><code>class operator +(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the sum of two quantities. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TCL3MultivecQuantity-TCL3BivecQuantity-"></span><code>class operator +(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the sum of two quantities. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -511,7 +481,7 @@ Returns the sum of a real quantity and a bivector quantity. Both operands must h
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of a bivector quantity and a real quantity. Both operands must have the same dimension. The result is a full multivector quantity with <code>m0 = -ARight</code> and the bivector components of <code>ALeft</code>.</p>
+Returns the difference of two quantities. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -521,7 +491,217 @@ Returns the difference of a bivector quantity and a real quantity. Both operands
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of a real quantity and a bivector quantity. Both operands must have the same dimension. The result is a full multivector quantity with <code>m0 = ALeft</code> and negated bivector components of <code>ARight</code>.</p>
+Returns the difference of two quantities. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TCL3BivecQuantity-TCL3BivecQuantity-"></span><code>class operator -(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the difference of two quantities. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TCL3BivecQuantity-TCL3VecQuantity-"></span><code>class operator -(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the difference of two quantities. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TCL3VecQuantity-TCL3BivecQuantity-"></span><code>class operator -(const ALeft: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the difference of two quantities. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TCL3BivecQuantity-TCL3MultivecQuantity-"></span><code>class operator -(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the difference of two quantities. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TCL3MultivecQuantity-TCL3BivecQuantity-"></span><code>class operator -(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the difference of two quantities. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL3BivecQuantity-TRealQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.html#TRealQuantity">TRealQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric product. The resulting dimension is the product of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TRealQuantity-TCL3BivecQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.html#TRealQuantity">TRealQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric product. The resulting dimension is the product of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL3BivecQuantity-TCL3BivecQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric product. The resulting dimension is the product of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL3BivecQuantity-TCL3VecQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric product. The resulting dimension is the product of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL3VecQuantity-TCL3BivecQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric product. The resulting dimension is the product of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL3BivecQuantity-TCL3MultivecQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric product. The resulting dimension is the product of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL3MultivecQuantity-TCL3BivecQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric product. The resulting dimension is the product of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL3BivecQuantity-TRealQuantity-"></span><code>class operator /(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.html#TRealQuantity">TRealQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric quotient <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL3BivecQuantity-TReal-"></span><code>class operator /(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADimMath.html#TReal">TReal</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric quotient <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TRealQuantity-TCL3BivecQuantity-"></span><code>class operator /(const ALeft: <a href="ADim.html#TRealQuantity">TRealQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric quotient <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TReal-TCL3BivecQuantity-"></span><code>class operator /(const ALeft: <a href="ADimMath.html#TReal">TReal</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric quotient <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL3BivecQuantity-TCL3BivecQuantity-"></span><code>class operator /(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric quotient <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL3BivecQuantity-TCL3VecQuantity-"></span><code>class operator /(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric quotient <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL3VecQuantity-TCL3BivecQuantity-"></span><code>class operator /(const ALeft: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric quotient <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL3BivecQuantity-TCL3MultivecQuantity-"></span><code>class operator /(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric quotient <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL3MultivecQuantity-TCL3BivecQuantity-"></span><code>class operator /(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric quotient <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>

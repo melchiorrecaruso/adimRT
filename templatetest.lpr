@@ -1,9 +1,9 @@
-program SK;
+program TemplateTest;
 
 {$mode ObjFPC}{$H+}
 
 uses
-  Skeleton, ADimMath, Math, SysUtils;
+  Math, SysUtils, Template, ADimMath, ADimCL3;
 
 procedure Require(ACondition: boolean; const AMessage: string);
 begin
@@ -60,9 +60,9 @@ begin
   RequireSame(-Pi / 2, ScalarUnit.ToFloat(ArcTan2(-1, 0)),
     'ArcTan2 negative y-axis');
 
-  RequireSame(-2, ScalarUnit.ToFloat(Skeleton.CubicRoot(TRealQuantity(-8))),
+  RequireSame(-2, ScalarUnit.ToFloat(Template.CubicRoot(TRealQuantity(-8))),
     'Real cubic root of a negative value');
-  RequireSame(-2, ScalarUnit.ToFloat(Skeleton.QuinticRoot(TRealQuantity(-32))),
+  RequireSame(-2, ScalarUnit.ToFloat(Template.QuinticRoot(TRealQuantity(-32))),
     'Real quintic root of a negative value');
 end;
 
@@ -185,10 +185,8 @@ var
   LQuantity, LConjugate: TComplexMatrixQuantity;
   LEigenvalues: TComplexVectorQuantity;
   LEigenvectors: TComplexMatrix;
-  {$IFNDEF ADIMOFF}
   LHermitianRaw: TComplexMatrix;
   LHermitian: TComplexMatrixQuantity;
-  {$ENDIF}
 begin
   LRaw.Init([
     Complex(0, 0), Complex(0, 1),
@@ -207,7 +205,6 @@ begin
   Require(LEigenvectors.Order = LRaw.Order,
     'Complex dimensionless eigenvectors');
 
-  {$IFNDEF ADIMOFF}
   LHermitianRaw.Init([
     Complex(2, 0), Complex(1, 1),
     Complex(1, -1), Complex(3, 0)
@@ -221,7 +218,6 @@ begin
   ]);
   LHermitian := LHermitianRaw * ScalarUnit;
   Require(not LHermitian.IsHermitian, 'Non-Hermitian quantity matrix');
-  {$ENDIF}
 end;
 
 procedure TestRuntimeSizedUnitConversions;
@@ -322,6 +318,88 @@ begin
   Require(LRaised, 'Matrix product rejects incompatible runtime orders');
 end;
 
+{ The same code must compile and give the same results with and without
+  ADIMOFF: every routine of a quantity type has a counterpart on the value
+  type that replaces it when the dimensional checks are disabled. }
+procedure TestModeAlignment;
+var
+  LReal: TRealQuantity;
+  LComplex: TComplexQuantity;
+  LRawVector: TRealVector;
+  LRawMatrix: TRealMatrix;
+  LRawComplexMatrix: TComplexMatrix;
+  LVector: TRealVectorQuantity;
+  LMatrix: TRealMatrixQuantity;
+  LComplexMatrix: TComplexMatrixQuantity;
+  LValues: TRealVectorQuantity;
+  LVectors: TRealMatrix;
+  LComplexVectors: TComplexMatrix;
+  LCL3: TCL3VecQuantity;
+begin
+  LReal := -2 * BohrRadius;
+  Require(QuantitiesSame(Abs(LReal), 2 * BohrRadius), 'Abs of a real quantity');
+  Require(QuantitiesSame(LReal.Norm, 2 * BohrRadius), 'Norm of a real quantity');
+  Require(QuantitiesSame(LReal.SquaredNorm, 4 * BohrRadius * BohrRadius),
+    'Squared norm of a real quantity');
+  Require(QuantitiesSame(LReal.Conjugate, LReal), 'Conjugate of a real quantity');
+  Require(QuantitiesSame(LReal.Reciprocal * LReal, TRealQuantity(1)),
+    'Reciprocal of a real quantity');
+  Require(Abs(-3) = 3, 'Abs of an integer is still the system Abs');
+
+  LComplex := Complex(0, 2) * BohrRadius;
+  RequireSame(Pi / 2, LComplex.Arg, 'Argument of a complex quantity');
+  Require(LComplex.IsNotNull and not LComplex.IsNull, 'Null test of a complex quantity');
+  Require(SameValueEx(LComplex, LComplex), 'SameValueEx of complex quantities');
+  Require(QuinticPower(TComplexQuantity(Complex(0, 1))).SameValue(Complex(0, 1)),
+    'Fifth power of a complex quantity');
+  Require(SexticPower(TComplexQuantity(Complex(0, 1))).SameValue(Complex(-1, 0)),
+    'Sixth power of a complex quantity');
+  Require((2.0 / TComplexQuantity(Complex(0, 2))).SameValue(Complex(0, -1)),
+    'Real scalar divided by a complex quantity');
+
+  LRawVector.Init([1.0, 2.0]);
+  LVector := BohrRadius * LRawVector;
+  Require(LVector.SameValue(LRawVector * BohrRadius), 'Real quantity times a vector');
+  Require(QuantitiesSame((LRawVector / BohrRadius)[1] * BohrRadius, TRealQuantity(2)),
+    'Vector divided by a real quantity');
+
+  LRawMatrix.Init([
+    2.0, 1.0,
+    1.0, 2.0
+  ]);
+  LMatrix := BohrRadius * LRawMatrix;
+  Require((-LMatrix + LMatrix).IsNull, 'Unary minus of a matrix quantity');
+  LMatrix.SymmetricEigenpairs(LValues, LVectors);
+  Require(QuantitiesSame(LValues[0], BohrRadius) and
+    QuantitiesSame(LValues[1], 3 * BohrRadius), 'Symmetric eigenvalues');
+
+  LRawComplexMatrix.Init([
+    Complex(2, 0), Complex(1, 1),
+    Complex(1, -1), Complex(3, 0)
+  ]);
+  LComplexMatrix := TComplexQuantity(BohrRadius) * LRawComplexMatrix;
+  Require(LComplexMatrix.IsHermitian, 'Hermitian quantity matrix');
+  LComplexMatrix.HermitianEigenpairs(LValues, LComplexVectors);
+  Require(QuantitiesSame(LValues[0], BohrRadius) and
+    QuantitiesSame(LValues[1], 4 * BohrRadius), 'Hermitian eigenvalues');
+
+  Require(QuantitiesSame(ScalarUnit * LReal, LReal), 'Unit on the left of a quantity');
+  Require(QuantitiesSame((ScalarUnit / LReal) * LReal, TRealQuantity(1)),
+    'Unit divided by a quantity');
+
+  LCL3 := (1*e1 + 2*e3) * BohrRadius;
+  Require(ScalarUnit.ToVector(LCL3 / BohrRadius).ToString = '+1e1 +2e3',
+    'Clifford vector expressed in a unit');
+  Require(ScalarUnit.ToString(LCL3 / BohrRadius, 3, 0, []) = '(+1e1 +2e3) ',
+    'Clifford vector formatted with a precision');
+  Require(ScalarUnit.ToString(LRawVector * ScalarUnit, 3, 0, []) = '(1,2) ',
+    'Vector formatted with a precision');
+  Require(ScalarUnit.ToString(LRawMatrix * ScalarUnit, 3, 0, []) = '((2, 1), (1, 2)) ',
+    'Matrix formatted with a precision');
+  Require(ScalarUnit.ToString(TComplexQuantity(Complex(1.5, 2)), []) = '(1.5 +2∙i) ',
+    'Complex quantity formatted with prefixes');
+end;
+
 {$IFNDEF ADIMOFF}
 procedure TestDimensionChecks;
 var
@@ -351,7 +429,7 @@ begin
 end;
 {$ENDIF}
 
-procedure RunSkeletonTests;
+procedure RunTemplateTests;
 begin
   TestScalarQuantities;
   TestCorrectedMathFunctions;
@@ -362,6 +440,7 @@ begin
   TestRuntimeSizedUnitConversions;
   TestLargeMatrixOperations;
   TestRuntimeSizeChecks;
+  TestModeAlignment;
   {$IFNDEF ADIMOFF}
   TestDimensionChecks;
   {$ENDIF}
@@ -369,5 +448,5 @@ end;
 
 
 begin
-  RunSkeletonTests;
+  RunTemplateTests;
 end.

@@ -37,49 +37,23 @@
 <code>type TCL3MultivecQuantity = record</code></p>
 <h2 class="description">Description</h2>
 <p>
-Represents a general multivector of <code>Cl(3,0)</code> with physical dimensions.
+Represents a multivector of <code>Cl(3,0)</code> with a physical dimension.
 
-<p>Combines a <a class="normal" href="ADimCL3.TCL3Multivector.html">TCL3Multivector</a> value with a <a class="normal" href="ADimCommon.TDimension.html">TDimension</a>, supporting the full geometric algebra arithmetic while preserving dimensional consistency. All eight grades (scalar, vector, bivector, trivector) are present simultaneously, each carrying the same physical dimension stored in <code>FDim</code>.
-
-<p>Arithmetic operations follow both the rules of <code>Cl(3,0)</code> and the rules of dimensional analysis: incompatible dimensions raise an exception at runtime. When the symbol <code>ADIMOFF</code> is defined, this type degenerates to <a class="normal" href="ADimCL3.TCL3Multivector.html">TCL3Multivector</a> and all dimension checking is disabled.</p>
+<p>Combines a <a class="normal" href="ADimCL3.TCL3Multivector.html">TCL3Multivector</a> value with a <a class="normal" href="ADimCommon.TDimension.html">TDimension</a> shared by all its components. Arithmetic follows both the rules of the algebra and the rules of dimensional analysis: incompatible dimensions raise <a class="normal" href="ADimMath.EDimensionError.html">EDimensionError</a> at run time. When the symbol <code>ADIMOFF</code> is defined, this type is an alias of <a class="normal" href="ADimCL3.TCL3Multivector.html">TCL3Multivector</a>.</p>
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): boolean;</code></td>
+<td class="itemcode"><code>class operator =(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.html#TRealQuantity">TRealQuantity</a>): boolean;</code></td>
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator =(const ALeft, ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): boolean;</code></td>
+<td class="itemcode"><code>class operator =(const ALeft: <a href="ADim.html#TRealQuantity">TRealQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): boolean;</code></td>
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator +(const ALeft, ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr class="list2 visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator -(const ASelf: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator -(const ALeft, ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr class="list2 visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator *(const ALeft, ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator /(const ALeft, ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr class="list2 visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator /(const ALeft: <a href="ADimMath.html#TReal">TReal</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADimMath.html#TReal">TReal</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+<td class="itemcode"><code>class operator =(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): boolean;</code></td>
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
@@ -91,11 +65,11 @@ Represents a general multivector of <code>Cl(3,0)</code> with physical dimension
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator =(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.html#TRealQuantity">TRealQuantity</a>): boolean;</code></td>
+<td class="itemcode"><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): boolean;</code></td>
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator =(const ALeft: <a href="ADim.html#TRealQuantity">TRealQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): boolean;</code></td>
+<td class="itemcode"><code>class operator -(const AValue: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
@@ -107,11 +81,19 @@ Represents a general multivector of <code>Cl(3,0)</code> with physical dimension
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.html#TRealQuantity">TRealQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+<td class="itemcode"><code>class operator +(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.html#TRealQuantity">TRealQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.html#TRealQuantity">TRealQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
@@ -123,11 +105,27 @@ Represents a general multivector of <code>Cl(3,0)</code> with physical dimension
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.html#TRealQuantity">TRealQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADimMath.html#TReal">TReal</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.html#TRealQuantity">TRealQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADimMath.html#TReal">TReal</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
@@ -135,121 +133,11 @@ Represents a general multivector of <code>Cl(3,0)</code> with physical dimension
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="<-TCL3MultivecQuantity-TCL3MultivecQuantity-"></span><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): boolean;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns <code>True</code> if the two multivector quantities differ in dimension or in any component.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="=-TCL3MultivecQuantity-TCL3MultivecQuantity-"></span><code>class operator =(const ALeft, ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): boolean;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns <code>True</code> if both multivector quantities have the same dimension and all components are equal.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="+-TCL3MultivecQuantity-TCL3MultivecQuantity-"></span><code>class operator +(const ALeft, ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the component-wise sum of two multivector quantities. Both operands must have the same dimension.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="--TCL3MultivecQuantity-"></span><code>class operator -(const ASelf: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Unary minus. Returns the negation of the multivector quantity. Each component <code>mₖ</code> becomes <code>-mₖ</code>.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="--TCL3MultivecQuantity-TCL3MultivecQuantity-"></span><code>class operator -(const ALeft, ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the component-wise difference of two multivector quantities. Both operands must have the same dimension.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-TCL3MultivecQuantity-TCL3MultivecQuantity-"></span><code>class operator *(const ALeft, ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the geometric product of two multivector quantities. The resulting dimension is the product of the two dimensions. The geometric product follows the full <code>Cl(3,0)</code> multiplication rules.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="/-TCL3MultivecQuantity-TCL3MultivecQuantity-"></span><code>class operator /(const ALeft, ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the geometric quotient of two multivector quantities: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="/-TReal-TCL3MultivecQuantity-"></span><code>class operator /(const ALeft: <a href="ADimMath.html#TReal">TReal</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the geometric quotient of a dimensionless real scalar divided by a multivector quantity: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the inverse of <code>ARight</code>.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="/-TCL3MultivecQuantity-TReal-"></span><code>class operator /(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADimMath.html#TReal">TReal</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the geometric quotient of a multivector quantity divided by a dimensionless real scalar. Each component is divided by <code>ARight</code>. The dimension is preserved.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="<-TCL3MultivecQuantity-TRealQuantity-"></span><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.html#TRealQuantity">TRealQuantity</a>): boolean;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns <code>True</code> if the multivector quantity and the real quantity differ in dimension or in any component.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="<-TRealQuantity-TCL3MultivecQuantity-"></span><code>class operator &lt;&gt;(const ALeft: <a href="ADim.html#TRealQuantity">TRealQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): boolean;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns <code>True</code> if the real quantity and the multivector quantity differ in dimension or in any component.</p>
-</td></tr>
-</table>
-<table class="detail visibility-public wide_list">
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="=-TCL3MultivecQuantity-TRealQuantity-"></span><code>class operator =(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.html#TRealQuantity">TRealQuantity</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if the multivector quantity equals the real quantity, i.e. all non-scalar components are negligible.</p>
+Returns <code>True</code> if the two quantities have equal components. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -259,7 +147,57 @@ Returns <code>True</code> if the multivector quantity equals the real quantity, 
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if the real quantity equals the multivector quantity, i.e. all non-scalar components are negligible.</p>
+Returns <code>True</code> if the two quantities have equal components. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="=-TCL3MultivecQuantity-TCL3MultivecQuantity-"></span><code>class operator =(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if the two quantities have equal components. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="<-TCL3MultivecQuantity-TRealQuantity-"></span><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.html#TRealQuantity">TRealQuantity</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if the two quantities differ in some component. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="<-TRealQuantity-TCL3MultivecQuantity-"></span><code>class operator &lt;&gt;(const ALeft: <a href="ADim.html#TRealQuantity">TRealQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if the two quantities differ in some component. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="<-TCL3MultivecQuantity-TCL3MultivecQuantity-"></span><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if the two quantities differ in some component. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TCL3MultivecQuantity-"></span><code>class operator -(const AValue: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the opposite of the quantity. The dimension is preserved.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -269,7 +207,7 @@ Returns <code>True</code> if the real quantity equals the multivector quantity, 
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of a multivector quantity and a real quantity. Both operands must have the same dimension.</p>
+Returns the sum of two quantities. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -279,7 +217,17 @@ Returns the sum of a multivector quantity and a real quantity. Both operands mus
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of a real quantity and a multivector quantity. Both operands must have the same dimension.</p>
+Returns the sum of two quantities. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TCL3MultivecQuantity-TCL3MultivecQuantity-"></span><code>class operator +(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the sum of two quantities. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -289,7 +237,7 @@ Returns the sum of a real quantity and a multivector quantity. Both operands mus
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of a multivector quantity and a real quantity. Both operands must have the same dimension.</p>
+Returns the difference of two quantities. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -299,7 +247,17 @@ Returns the difference of a multivector quantity and a real quantity. Both opera
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of a real quantity and a multivector quantity. Both operands must have the same dimension.</p>
+Returns the difference of two quantities. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TCL3MultivecQuantity-TCL3MultivecQuantity-"></span><code>class operator -(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the difference of two quantities. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -309,7 +267,7 @@ Returns the difference of a real quantity and a multivector quantity. Both opera
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric product of a multivector quantity and a real quantity. The resulting dimension is the product of the two dimensions.</p>
+Returns the geometric product. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -319,7 +277,17 @@ Returns the geometric product of a multivector quantity and a real quantity. The
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric product of a real quantity and a multivector quantity. The resulting dimension is the product of the two dimensions.</p>
+Returns the geometric product. The resulting dimension is the product of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL3MultivecQuantity-TCL3MultivecQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric product. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -329,7 +297,17 @@ Returns the geometric product of a real quantity and a multivector quantity. The
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric quotient of a multivector quantity divided by a real quantity: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
+Returns the geometric quotient <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL3MultivecQuantity-TReal-"></span><code>class operator /(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADimMath.html#TReal">TReal</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric quotient <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -339,7 +317,27 @@ Returns the geometric quotient of a multivector quantity divided by a real quant
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric quotient of a real quantity divided by a multivector quantity: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
+Returns the geometric quotient <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TReal-TCL3MultivecQuantity-"></span><code>class operator /(const ALeft: <a href="ADimMath.html#TReal">TReal</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric quotient <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL3MultivecQuantity-TCL3MultivecQuantity-"></span><code>class operator /(const ALeft: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ARight: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric quotient <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>

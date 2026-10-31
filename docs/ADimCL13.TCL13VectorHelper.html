@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>ADim Library: ADimCL13: Record TCL13VectorHelper</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 1.0.4">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<nav class="navbar d-md-none sticky-top bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html">ADim Library</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarNav" aria-controls="sidebarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
+<div class="offcanvas-md offcanvas-start navigation" tabindex="-1" id="sidebarNav" data-bs-scroll="true">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">ADim Library</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarNav" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body py-2">
+<h2><a href="index.html">ADim Library</a></h2><ul class="nav flex-column px-3"><li class="nav-item"><a class="nav-link px-2 py-1" href="AllUnits.html">Units</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="ClassHierarchy.html">Class Hierarchy</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllClasses.html">Classes, Interfaces, Objects and Records</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllTypes.html">Types</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllVariables.html">Variables</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllConstants.html">Constants</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllFunctions.html">Functions and Procedures</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllIdentifiers.html">Identifiers</a></li></ul></div></div>
+<main class="pasdoc-content content">
+<div class="container-fluid py-3 px-4">
+<span id="TCL13VectorHelper"></span><h1 class="cio">Record TCL13VectorHelper</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="ADimCL13.html">ADimCL13</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCL13VectorHelper = record helper for TCL13Vector</code></p>
+<h2 class="description">Description</h2>
+<p>
+TCL13VectorHelper</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Extract-TCL13VectorComponents-">Extract</a></strong>(AComponents: <a href="ADimCL13.html#TCL13VectorComponents">TCL13VectorComponents</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#ToMultivector">ToMultivector</a></strong>: <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#SameValue-TCL13Multivector-">SameValue</a></strong>(const AValue: <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>): boolean;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#SameValue-TCL13Vector-">SameValue</a></strong>(const AValue: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>): boolean;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Norm">Norm</a></strong>: double;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#SquaredNorm">SquaredNorm</a></strong>: double;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Dual">Dual</a></strong>: <a href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Involute">Involute</a></strong>: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Reverse">Reverse</a></strong>: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Conjugate">Conjugate</a></strong>: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Inverse">Inverse</a></strong>: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Normalized">Normalized</a></strong>: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Projection-TCL13Vector-">Projection</a></strong>(const AVector: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Projection-TCL13Bivector-">Projection</a></strong>(const AVector: <a href="ADimCL13.TCL13Bivector.html">TCL13Bivector</a>): <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Projection-TCL13Trivector-">Projection</a></strong>(const AVector: <a href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Projection-TCL13Quadrivector-">Projection</a></strong>(const AVector: <a href="ADimCL13.TCL13Quadrivector.html">TCL13Quadrivector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Projection-TCL13Multivector-">Projection</a></strong>(const AVector: <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>): <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Rejection-TCL13Vector-">Rejection</a></strong>(const AVector: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Rejection-TCL13Bivector-">Rejection</a></strong>(const AVector: <a href="ADimCL13.TCL13Bivector.html">TCL13Bivector</a>): <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Rejection-TCL13Trivector-">Rejection</a></strong>(const AVector: <a href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Rejection-TCL13Quadrivector-">Rejection</a></strong>(const AVector: <a href="ADimCL13.TCL13Quadrivector.html">TCL13Quadrivector</a>): double;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Rejection-TCL13Multivector-">Rejection</a></strong>(const AVector: <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>): <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Reflection-TCL13Vector-">Reflection</a></strong>(const AVector: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Reflection-TCL13Bivector-">Reflection</a></strong>(const AVector: <a href="ADimCL13.TCL13Bivector.html">TCL13Bivector</a>): <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Reflection-TCL13Trivector-">Reflection</a></strong>(const AVector: <a href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Reflection-TCL13Quadrivector-">Reflection</a></strong>(const AVector: <a href="ADimCL13.TCL13Quadrivector.html">TCL13Quadrivector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Reflection-TCL13Multivector-">Reflection</a></strong>(const AVector: <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>): <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Rotation-TCL13Vector-TCL13Vector-">Rotation</a></strong>(const AVector1, AVector2: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Rotation-TCL13Bivector-TCL13Bivector-">Rotation</a></strong>(const AVector1, AVector2: <a href="ADimCL13.TCL13Bivector.html">TCL13Bivector</a>): <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Rotation-TCL13Trivector-TCL13Trivector-">Rotation</a></strong>(const AVector1, AVector2: <a href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Rotation-TCL13Quadrivector-TCL13Quadrivector-">Rotation</a></strong>(const AVector1, AVector2: <a href="ADimCL13.TCL13Quadrivector.html">TCL13Quadrivector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Rotation-TCL13Multivector-TCL13Multivector-">Rotation</a></strong>(const AVector1, AVector2: <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>): <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Dot-TCL13Vector-">Dot</a></strong>(const AVector: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>): double;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Dot-TCL13Bivector-">Dot</a></strong>(const AVector: <a href="ADimCL13.TCL13Bivector.html">TCL13Bivector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Dot-TCL13Trivector-">Dot</a></strong>(const AVector: <a href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a>): <a href="ADimCL13.TCL13Bivector.html">TCL13Bivector</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Dot-TCL13Quadrivector-">Dot</a></strong>(const AVector: <a href="ADimCL13.TCL13Quadrivector.html">TCL13Quadrivector</a>): <a href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Dot-TCL13Multivector-">Dot</a></strong>(const AVector: <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>): <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Wedge-TCL13Vector-">Wedge</a></strong>(const AVector: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>): <a href="ADimCL13.TCL13Bivector.html">TCL13Bivector</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Wedge-TCL13Bivector-">Wedge</a></strong>(const AVector: <a href="ADimCL13.TCL13Bivector.html">TCL13Bivector</a>): <a href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Wedge-TCL13Trivector-">Wedge</a></strong>(const AVector: <a href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a>): <a href="ADimCL13.TCL13Quadrivector.html">TCL13Quadrivector</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Wedge-TCL13Quadrivector-">Wedge</a></strong>(const AVector: <a href="ADimCL13.TCL13Quadrivector.html">TCL13Quadrivector</a>): double;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#Wedge-TCL13Multivector-">Wedge</a></strong>(const AVector: <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>): <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#ToString-longint-longint-">ToString</a></strong>(APrecision, ADigits: longint): string;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimCL13.TCL13VectorHelper.html#ToString">ToString</a></strong>: string;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Extract-TCL13VectorComponents-"></span><code>function <strong>Extract</strong>(AComponents: <a href="ADimCL13.html#TCL13VectorComponents">TCL13VectorComponents</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="ToMultivector"></span><code>function <strong>ToMultivector</strong>: <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="SameValue-TCL13Multivector-"></span><code>function <strong>SameValue</strong>(const AValue: <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="SameValue-TCL13Vector-"></span><code>function <strong>SameValue</strong>(const AValue: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Norm"></span><code>function <strong>Norm</strong>: double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="SquaredNorm"></span><code>function <strong>SquaredNorm</strong>: double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Dual"></span><code>function <strong>Dual</strong>: <a href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Involute"></span><code>function <strong>Involute</strong>: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Reverse"></span><code>function <strong>Reverse</strong>: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Conjugate"></span><code>function <strong>Conjugate</strong>: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Inverse"></span><code>function <strong>Inverse</strong>: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Normalized"></span><code>function <strong>Normalized</strong>: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Projection-TCL13Vector-"></span><code>function <strong>Projection</strong>(const AVector: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Projection-TCL13Bivector-"></span><code>function <strong>Projection</strong>(const AVector: <a href="ADimCL13.TCL13Bivector.html">TCL13Bivector</a>): <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Projection-TCL13Trivector-"></span><code>function <strong>Projection</strong>(const AVector: <a href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Projection-TCL13Quadrivector-"></span><code>function <strong>Projection</strong>(const AVector: <a href="ADimCL13.TCL13Quadrivector.html">TCL13Quadrivector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Projection-TCL13Multivector-"></span><code>function <strong>Projection</strong>(const AVector: <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>): <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Rejection-TCL13Vector-"></span><code>function <strong>Rejection</strong>(const AVector: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Rejection-TCL13Bivector-"></span><code>function <strong>Rejection</strong>(const AVector: <a href="ADimCL13.TCL13Bivector.html">TCL13Bivector</a>): <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Rejection-TCL13Trivector-"></span><code>function <strong>Rejection</strong>(const AVector: <a href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Rejection-TCL13Quadrivector-"></span><code>function <strong>Rejection</strong>(const AVector: <a href="ADimCL13.TCL13Quadrivector.html">TCL13Quadrivector</a>): double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Rejection-TCL13Multivector-"></span><code>function <strong>Rejection</strong>(const AVector: <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>): <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Reflection-TCL13Vector-"></span><code>function <strong>Reflection</strong>(const AVector: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Reflection-TCL13Bivector-"></span><code>function <strong>Reflection</strong>(const AVector: <a href="ADimCL13.TCL13Bivector.html">TCL13Bivector</a>): <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Reflection-TCL13Trivector-"></span><code>function <strong>Reflection</strong>(const AVector: <a href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Reflection-TCL13Quadrivector-"></span><code>function <strong>Reflection</strong>(const AVector: <a href="ADimCL13.TCL13Quadrivector.html">TCL13Quadrivector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Reflection-TCL13Multivector-"></span><code>function <strong>Reflection</strong>(const AVector: <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>): <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Rotation-TCL13Vector-TCL13Vector-"></span><code>function <strong>Rotation</strong>(const AVector1, AVector2: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Rotation-TCL13Bivector-TCL13Bivector-"></span><code>function <strong>Rotation</strong>(const AVector1, AVector2: <a href="ADimCL13.TCL13Bivector.html">TCL13Bivector</a>): <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Rotation-TCL13Trivector-TCL13Trivector-"></span><code>function <strong>Rotation</strong>(const AVector1, AVector2: <a href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Rotation-TCL13Quadrivector-TCL13Quadrivector-"></span><code>function <strong>Rotation</strong>(const AVector1, AVector2: <a href="ADimCL13.TCL13Quadrivector.html">TCL13Quadrivector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Rotation-TCL13Multivector-TCL13Multivector-"></span><code>function <strong>Rotation</strong>(const AVector1, AVector2: <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>): <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Dot-TCL13Vector-"></span><code>function <strong>Dot</strong>(const AVector: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>): double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Dot-TCL13Bivector-"></span><code>function <strong>Dot</strong>(const AVector: <a href="ADimCL13.TCL13Bivector.html">TCL13Bivector</a>): <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Dot-TCL13Trivector-"></span><code>function <strong>Dot</strong>(const AVector: <a href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a>): <a href="ADimCL13.TCL13Bivector.html">TCL13Bivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Dot-TCL13Quadrivector-"></span><code>function <strong>Dot</strong>(const AVector: <a href="ADimCL13.TCL13Quadrivector.html">TCL13Quadrivector</a>): <a href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Dot-TCL13Multivector-"></span><code>function <strong>Dot</strong>(const AVector: <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>): <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Wedge-TCL13Vector-"></span><code>function <strong>Wedge</strong>(const AVector: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>): <a href="ADimCL13.TCL13Bivector.html">TCL13Bivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Wedge-TCL13Bivector-"></span><code>function <strong>Wedge</strong>(const AVector: <a href="ADimCL13.TCL13Bivector.html">TCL13Bivector</a>): <a href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Wedge-TCL13Trivector-"></span><code>function <strong>Wedge</strong>(const AVector: <a href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a>): <a href="ADimCL13.TCL13Quadrivector.html">TCL13Quadrivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Wedge-TCL13Quadrivector-"></span><code>function <strong>Wedge</strong>(const AVector: <a href="ADimCL13.TCL13Quadrivector.html">TCL13Quadrivector</a>): double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Wedge-TCL13Multivector-"></span><code>function <strong>Wedge</strong>(const AVector: <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>): <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="ToString-longint-longint-"></span><code>function <strong>ToString</strong>(APrecision, ADigits: longint): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="ToString"></span><code>function <strong>ToString</strong>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="nodescription">This item has no description.</p></td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>
+</span>
+</div></main>
+<script src="bootstrap.bundle.min.js"></script>
+</body></html>

@@ -87,8 +87,8 @@ type
     procedure ExpandUnits;
   public
     constructor Create(const AList: TToolKitList;
-      const ATemplateFileName: string = 'skeleton.pas';
-      const AResourceTemplateFileName: string = 'skeletonres.pas');
+      const ATemplateFileName: string = 'template.pas';
+      const AResourceTemplateFileName: string = 'templateres.pas');
     destructor Destroy; override;
 
     procedure Build;
@@ -283,7 +283,7 @@ procedure TToolKitBuilder.AddUnit(const AItem: TToolKitItem; const ASection: TSt
 begin
   FBaseUnits.Add(Format(' - %s [%sUnit]', [GetDescription(GetPluralName(AItem.FLongString)), GetUnitID(AItem.FQuantity)]));
 
-  { ScalarUnit is part of skeleton.pas because the template must compile on its
+  { ScalarUnit is part of template.pas because the template must compile on its
     own. Keep it in the generated unit summary, but do not declare it twice. }
   if CompareText(GetUnitID(AItem.FQuantity), 'Scalar') = 0 then Exit;
 
@@ -607,7 +607,7 @@ begin
     LUnitDeclarationCount := 0;
     for i := 0 to FDocument.Count -1 do
     begin
-      if CompareText(Trim(FDocument[i]), 'unit skeleton;') = 0 then
+      if CompareText(Trim(FDocument[i]), 'unit template;') = 0 then
       begin
         FDocument[i] := 'unit ADim;';
         Inc(LUnitDeclarationCount);
@@ -615,7 +615,7 @@ begin
     end;
     if LUnitDeclarationCount <> 1 then
       raise Exception.CreateFmt(
-        'Template %s must contain exactly one "unit skeleton;" declaration.',
+        'Template %s must contain exactly one "unit template;" declaration.',
         [FTemplateFileName]);
     RemoveIncludeDirective(Section1, FDocument, '{#HEADER}');
     RemoveIncludeDirective(Section0, FDocument, '{#UNITSOFMEASUREMENT}');
@@ -628,7 +628,7 @@ begin
     LUnitDeclarationCount := 0;
     for i := 0 to FResources.Count -1 do
     begin
-      if CompareText(Trim(FResources[i]), 'unit skeletonres;') = 0 then
+      if CompareText(Trim(FResources[i]), 'unit templateres;') = 0 then
       begin
         FResources[i] := 'unit ADimRes;';
         Inc(LUnitDeclarationCount);
@@ -636,7 +636,7 @@ begin
     end;
     if LUnitDeclarationCount <> 1 then
       raise Exception.CreateFmt(
-        'Template %s must contain exactly one "unit skeletonres;" declaration.',
+        'Template %s must contain exactly one "unit templateres;" declaration.',
         [FResourceTemplateFileName]);
     RemoveIncludeDirective(Section2, FResources, '{#RESOURCESTRINGS}');
     CleanDocument(FResources);

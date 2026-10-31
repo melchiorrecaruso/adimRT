@@ -9,7 +9,7 @@
 program ADimTest;
 
 uses
-  ADimMath, ADim, ADimCL3, Math, SysUtils;
+  ADimMath, ADim, ADimCL2, ADimCL13, ADimCL3, Math, SysUtils;
 
 var
   side1: TRealQuantity;
@@ -202,6 +202,15 @@ var
   generic_: TCL3MultivecQuantity;
   position1_: TCL3VecQuantity;
   position2_: TCL3VecQuantity;
+  planarside1_: TCL2VecQuantity;
+  planarside2_: TCL2VecQuantity;
+  planararea_: TCL2BivecQuantity;
+  planarspeed_: TCL2VecQuantity;
+  planarrotor_: TCL2MultivecQuantity;
+  event_: TCL13VecQuantity;
+  boostedevent_: TCL13VecQuantity;
+  boost_: TCL13MultivecQuantity;
+  shiptime_: TRealQuantity;
 
   acc__: TRealVectorQuantity;
   radius__: TRealVectorQuantity;
@@ -1616,6 +1625,53 @@ begin
   if MeterUnit.ToString(area_ / (4*e123*m)) <> '(+0.75e1 +0.5e3) m'  then halt(2);
   if MeterUnit.ToString((2 + 1*e13 + 3*e123)*m) <> '(+2 +1e13 +3e123) m' then halt(3);
   writeln('* TEST-519: PASSED');
+
+  // TEST-520 - Area of a rectangular table and its missing side in Cl(2).
+  // Exercise: a table is 3 m long and 4 m wide.  Find its area and, knowing
+  // the area and the width, recover the length.  A program that only works in
+  // the plane can use ADimCL2: the wedge product of the two sides is the
+  // oriented area, and dividing it by one side gives back the other side.
+  // ADimCL3 is also used in this program, so the Cl(2) basis is qualified.
+  planarside1_ := 3*ADimCL2.e1*m;
+  planarside2_ := 4*ADimCL2.e2*m;
+  planararea_  := planarside1_.Wedge(planarside2_);
+  if SquareMeterUnit.ToString(planararea_) <> '(+12e12) m²'           then halt(1);
+  if MeterUnit.ToString(planararea_.Dot(1/planarside2_)) <> '(+3e1) m' then halt(2);
+  writeln('* TEST-520: PASSED');
+
+  // TEST-521 - A cyclist turns left in Cl(2).
+  // Exercise: a cyclist rides east (e1) at 2 m/s and turns left by 90 degrees.
+  // Find the new velocity.  A rotation by theta in the plane is the rotor
+  // R = cos(theta/2) - sin(theta/2) e12, and v.Rotate(R) computes R v ~R.
+  // The same rotation is the composition of two reflections: v.Rotation(a, b)
+  // turns v by twice the angle from a to b, here from e1 to e1 + e2 (45
+  // degrees).  Both return a vector: the speed is unchanged and the cyclist
+  // now rides north (e2).
+  planarspeed_ := 2*ADimCL2.e1*m/s;
+  planarrotor_ := Cos(pi/4) - Sin(pi/4)*ADimCL2.e12;
+  if MeterPerSecondUnit.ToString(planarspeed_.Rotate(planarrotor_)) <> '(+2e2) m/s' then halt(1);
+  if MeterPerSecondUnit.ToString(
+       planarspeed_.Rotation(1*ADimCL2.e1, 1*ADimCL2.e1 + 1*ADimCL2.e2)) <> '(+2e2) m/s' then halt(2);
+  writeln('* TEST-521: PASSED');
+
+  // TEST-522 - Time dilation on a spaceship in Cl(1,3).
+  // Exercise: a spaceship leaves the Earth at 0.6c.  After 5 s of Earth time,
+  // how much time has the clock on board measured?  In the spacetime algebra
+  // the event "the ship after 5 s" is the four-vector c*t g0 + x g1, with all
+  // its components in metres.  Its interval (ct)^2 - x^2 is the same in every
+  // frame, so the proper time of the ship is Norm/c = 4 s.  The same result
+  // follows by moving to the ship frame with the boost rotor
+  // R = cosh(phi/2) + sinh(phi/2) g01, where tanh(phi) = v/c: there the ship
+  // is at rest (x' = 0, up to rounding) and only the time component remains.
+  time          := 5*s;
+  event_        := (SpeedOfLight*time)*g0 + (0.6*SpeedOfLight*time)*g1;
+  shiptime_     := event_.Norm/SpeedOfLight;
+  boost_        := Cosh(ArcTanh(0.6)/2) + Sinh(ArcTanh(0.6)/2)*g01;
+  boostedevent_ := event_.Rotate(boost_);
+  if SecondUnit.ToString(shiptime_, 5, 0, []) <> '4 s' then halt(1);
+  if SecondUnit.ToString(boostedevent_.Dot(1*g0)/SpeedOfLight, 5, 0, []) <> '4 s' then halt(2);
+  if Abs(MeterUnit.ToFloat(boostedevent_.Dot(1*g1))) > 1E-6 then halt(3);
+  writeln('* TEST-522: PASSED');
 
   // The TEST-6xx group repeats selected exercises with ordinary real or complex
   // vectors and matrices.  It demonstrates the alternative linear-algebra API.

@@ -97,36 +97,100 @@ ADim - Automatic Dimensional Analysis run-time library.
 <td class="itemdesc">Adds complex-matrix algorithms to <a class="normal" href="ADim.html#TComplexMatrixQuantity">TComplexMatrixQuantity</a>.</td>
 </tr>
 <tr class="list2">
-<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3MultivecQuantity.html"><code>TCL3MultivecQuantity</code></a></td>
-<td class="itemdesc">Represents a general multivector of <code>Cl(3,0)</code> with physical dimensions.</td>
+<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL2MultivecQuantity.html"><code>TCL2MultivecQuantity</code></a></td>
+<td class="itemdesc">Represents a multivector of <code>Cl(2,0)</code> with a physical dimension.</td>
 </tr>
 <tr class="list">
-<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3TrivecQuantity.html"><code>TCL3TrivecQuantity</code></a></td>
-<td class="itemdesc">Represents a pure trivector (grade-3 element) of <code>Cl(3,0)</code> with physical dimensions.</td>
+<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL2VecQuantity.html"><code>TCL2VecQuantity</code></a></td>
+<td class="itemdesc">Represents a vector of <code>Cl(2,0)</code> with a physical dimension.</td>
 </tr>
 <tr class="list2">
-<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3BivecQuantity.html"><code>TCL3BivecQuantity</code></a></td>
-<td class="itemdesc">Represents a pure bivector (grade-2 element) of <code>Cl(3,0)</code> with physical dimensions.</td>
+<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL2BivecQuantity.html"><code>TCL2BivecQuantity</code></a></td>
+<td class="itemdesc">Represents a bivector of <code>Cl(2,0)</code> with a physical dimension.</td>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL2MultivecQuantityHelper.html"><code>TCL2MultivecQuantityHelper</code></a></td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>: the methods of <a class="normal" href="ADimCL2.TCL2Multivector.html">TCL2Multivector</a> on dimensioned values.</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL2VecQuantityHelper.html"><code>TCL2VecQuantityHelper</code></a></td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>: the methods of <a class="normal" href="ADimCL2.TCL2Vector.html">TCL2Vector</a> on dimensioned values.</td>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL2BivecQuantityHelper.html"><code>TCL2BivecQuantityHelper</code></a></td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>: the methods of <a class="normal" href="ADimCL2.TCL2Bivector.html">TCL2Bivector</a> on dimensioned values.</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3MultivecQuantity.html"><code>TCL3MultivecQuantity</code></a></td>
+<td class="itemdesc">Represents a multivector of <code>Cl(3,0)</code> with a physical dimension.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3VecQuantity.html"><code>TCL3VecQuantity</code></a></td>
-<td class="itemdesc">Represents a pure vector (grade-1 element) of <code>Cl(3,0)</code> with physical dimensions.</td>
+<td class="itemdesc">Represents a vector of <code>Cl(3,0)</code> with a physical dimension.</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3BivecQuantity.html"><code>TCL3BivecQuantity</code></a></td>
+<td class="itemdesc">Represents a bivector of <code>Cl(3,0)</code> with a physical dimension.</td>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3TrivecQuantity.html"><code>TCL3TrivecQuantity</code></a></td>
+<td class="itemdesc">Represents a trivector of <code>Cl(3,0)</code> with a physical dimension.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3MultivecQuantityHelper.html"><code>TCL3MultivecQuantityHelper</code></a></td>
-<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> providing the full set of geometric algebra operations on multivector quantities of <code>Cl(3,0)</code>.</td>
-</tr>
-<tr class="list">
-<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3TrivecQuantityHelper.html"><code>TCL3TrivecQuantityHelper</code></a></td>
-<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a> providing geometric operations specific to grade-3 elements of <code>Cl(3,0)</code> with physical dimensions.</td>
-</tr>
-<tr class="list2">
-<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3BivecQuantityHelper.html"><code>TCL3BivecQuantityHelper</code></a></td>
-<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a> providing geometric operations specific to grade-2 elements of <code>Cl(3,0)</code> with physical dimensions.</td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>: the methods of <a class="normal" href="ADimCL3.TCL3Multivector.html">TCL3Multivector</a> on dimensioned values.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3VecQuantityHelper.html"><code>TCL3VecQuantityHelper</code></a></td>
-<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a> providing geometric operations specific to grade-1 elements of <code>Cl(3,0)</code> with physical dimensions.</td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>: the methods of <a class="normal" href="ADimCL3.TCL3Vector.html">TCL3Vector</a> on dimensioned values.</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3BivecQuantityHelper.html"><code>TCL3BivecQuantityHelper</code></a></td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>: the methods of <a class="normal" href="ADimCL3.TCL3Bivector.html">TCL3Bivector</a> on dimensioned values.</td>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3TrivecQuantityHelper.html"><code>TCL3TrivecQuantityHelper</code></a></td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>: the methods of <a class="normal" href="ADimCL3.TCL3Trivector.html">TCL3Trivector</a> on dimensioned values.</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL13MultivecQuantity.html"><code>TCL13MultivecQuantity</code></a></td>
+<td class="itemdesc">Represents a multivector of <code>Cl(1,3)</code> with a physical dimension.</td>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL13VecQuantity.html"><code>TCL13VecQuantity</code></a></td>
+<td class="itemdesc">Represents a vector of <code>Cl(1,3)</code> with a physical dimension.</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL13BivecQuantity.html"><code>TCL13BivecQuantity</code></a></td>
+<td class="itemdesc">Represents a bivector of <code>Cl(1,3)</code> with a physical dimension.</td>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL13TrivecQuantity.html"><code>TCL13TrivecQuantity</code></a></td>
+<td class="itemdesc">Represents a trivector of <code>Cl(1,3)</code> with a physical dimension.</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL13QuadrivecQuantity.html"><code>TCL13QuadrivecQuantity</code></a></td>
+<td class="itemdesc">Represents a quadrivector of <code>Cl(1,3)</code> with a physical dimension.</td>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL13MultivecQuantityHelper.html"><code>TCL13MultivecQuantityHelper</code></a></td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL13MultivecQuantity.html">TCL13MultivecQuantity</a>: the methods of <a class="normal" href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a> on dimensioned values.</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL13VecQuantityHelper.html"><code>TCL13VecQuantityHelper</code></a></td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL13VecQuantity.html">TCL13VecQuantity</a>: the methods of <a class="normal" href="ADimCL13.TCL13Vector.html">TCL13Vector</a> on dimensioned values.</td>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL13BivecQuantityHelper.html"><code>TCL13BivecQuantityHelper</code></a></td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL13BivecQuantity.html">TCL13BivecQuantity</a>: the methods of <a class="normal" href="ADimCL13.TCL13Bivector.html">TCL13Bivector</a> on dimensioned values.</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL13TrivecQuantityHelper.html"><code>TCL13TrivecQuantityHelper</code></a></td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL13TrivecQuantity.html">TCL13TrivecQuantity</a>: the methods of <a class="normal" href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a> on dimensioned values.</td>
+</tr>
+<tr class="list">
+<td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL13QuadrivecQuantityHelper.html"><code>TCL13QuadrivecQuantityHelper</code></a></td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL13QuadrivecQuantity.html">TCL13QuadrivecQuantity</a>: the methods of <a class="normal" href="ADimCL13.TCL13Quadrivector.html">TCL13Quadrivector</a> on dimensioned values.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TUnit.html"><code>TUnit</code></a></td>
@@ -237,18 +301,6 @@ ADim - Automatic Dimensional Analysis run-time library.
 </tr>
 <tr class="list visibility-published">
 <td class="itemcode"><code>operator *(const ALeft: <a href="ADim.html#TComplexVectorQuantity">TComplexVectorQuantity</a>; const ARight: <a href="ADim.html#TComplexMatrixQuantity">TComplexMatrixQuantity</a>): <a href="ADim.html#TComplexVectorQuantity">TComplexVectorQuantity</a>;</code></td>
-</tr>
-<tr class="list2 visibility-published">
-<td class="itemcode"><code>operator *(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>;</code></td>
-</tr>
-<tr class="list visibility-published">
-<td class="itemcode"><code>operator *(const ALeft: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>;</code></td>
-</tr>
-<tr class="list2 visibility-published">
-<td class="itemcode"><code>operator /(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>;</code></td>
-</tr>
-<tr class="list visibility-published">
-<td class="itemcode"><code>operator /(const ALeft: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>;</code></td>
 </tr>
 <tr class="list2 visibility-published">
 <td class="itemcode"><code>function <strong><a href="ADim.html#SquarePower-TComplexQuantity-">SquarePower</a></strong>(const AQuantity: <a href="ADim.html#TComplexQuantity">TComplexQuantity</a>): <a href="ADim.html#TComplexQuantity">TComplexQuantity</a>;</code></td>
@@ -4031,42 +4083,6 @@ Returns a complex matrix-vector product. Sizes must agree.</p>
 <tr><td colspan="1">
 <p>
 Returns a complex row-vector/matrix product. Sizes must agree.</p>
-</td></tr>
-</table>
-<table class="detail visibility-published wide_list">
-<tr class="list visibility-published">
-<td class="itemcode"><span id="*-TCL3BivecQuantity-TCL3TrivecQuantity-"></span><code>operator *(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
-Returns the geometric product of a bivector quantity and a trivector quantity. The resulting dimension is the product of the two dimensions. The product of a bivector and the pseudoscalar is a vector.</p>
-</td></tr>
-</table>
-<table class="detail visibility-published wide_list">
-<tr class="list visibility-published">
-<td class="itemcode"><span id="*-TCL3TrivecQuantity-TCL3BivecQuantity-"></span><code>operator *(const ALeft: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
-Returns the geometric product of a trivector quantity and a bivector quantity. The resulting dimension is the product of the two dimensions. The product of a bivector and the pseudoscalar is a vector.</p>
-</td></tr>
-</table>
-<table class="detail visibility-published wide_list">
-<tr class="list visibility-published">
-<td class="itemcode"><span id="/-TCL3BivecQuantity-TCL3TrivecQuantity-"></span><code>operator /(const ALeft: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ARight: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
-Returns the geometric quotient of a bivector quantity divided by a trivector quantity: <code>ALeft * ARight⁻¹</code>. The quotient of a bivector and the pseudoscalar is a vector. The resulting dimension is the ratio of the two dimensions.</p>
-</td></tr>
-</table>
-<table class="detail visibility-published wide_list">
-<tr class="list visibility-published">
-<td class="itemcode"><span id="/-TCL3TrivecQuantity-TCL3BivecQuantity-"></span><code>operator /(const ALeft: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; const ARight: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
-Returns the geometric quotient of a trivector quantity divided by a bivector quantity: <code>ALeft * ARight⁻¹</code>. The quotient of a bivector and the pseudoscalar is a vector. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">

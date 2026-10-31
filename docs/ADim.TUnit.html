@@ -97,35 +97,99 @@ Represents a physical unit of measurement with its dimensional signature, symbol
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator *(const AVector: <a href="ADimCL3.TCL3Vector.html">TCL3Vector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; inline;</code></td>
+<td class="itemcode"><code>class operator *(const AValue: <a href="ADimCL2.TCL2Multivector.html">TCL2Multivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>; inline;</code></td>
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator *(const ABivector: <a href="ADimCL3.TCL3Bivector.html">TCL3Bivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; inline;</code></td>
+<td class="itemcode"><code>class operator /(const AValue: <a href="ADimCL2.TCL2Multivector.html">TCL2Multivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>; inline;</code></td>
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator *(const ATrivector: <a href="ADimCL3.TCL3Trivector.html">TCL3Trivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; inline;</code></td>
+<td class="itemcode"><code>class operator *(const AValue: <a href="ADimCL2.TCL2Vector.html">TCL2Vector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>; inline;</code></td>
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator *(const AMultivector: <a href="ADimCL3.TCL3Multivector.html">TCL3Multivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; inline;</code></td>
+<td class="itemcode"><code>class operator /(const AValue: <a href="ADimCL2.TCL2Vector.html">TCL2Vector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>; inline;</code></td>
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator /(const AVector: <a href="ADimCL3.TCL3Vector.html">TCL3Vector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; inline;</code></td>
+<td class="itemcode"><code>class operator *(const AValue: <a href="ADimCL2.TCL2Bivector.html">TCL2Bivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>; inline;</code></td>
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator /(const ABivector: <a href="ADimCL3.TCL3Bivector.html">TCL3Bivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; inline;</code></td>
+<td class="itemcode"><code>class operator /(const AValue: <a href="ADimCL2.TCL2Bivector.html">TCL2Bivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>; inline;</code></td>
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator /(const ATrivector: <a href="ADimCL3.TCL3Trivector.html">TCL3Trivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; inline;</code></td>
+<td class="itemcode"><code>class operator *(const AValue: <a href="ADimCL3.TCL3Multivector.html">TCL3Multivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; inline;</code></td>
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator /(const AMultivector: <a href="ADimCL3.TCL3Multivector.html">TCL3Multivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; inline;</code></td>
+<td class="itemcode"><code>class operator /(const AValue: <a href="ADimCL3.TCL3Multivector.html">TCL3Multivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const AValue: <a href="ADimCL3.TCL3Vector.html">TCL3Vector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const AValue: <a href="ADimCL3.TCL3Vector.html">TCL3Vector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const AValue: <a href="ADimCL3.TCL3Bivector.html">TCL3Bivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const AValue: <a href="ADimCL3.TCL3Bivector.html">TCL3Bivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const AValue: <a href="ADimCL3.TCL3Trivector.html">TCL3Trivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const AValue: <a href="ADimCL3.TCL3Trivector.html">TCL3Trivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const AValue: <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13MultivecQuantity.html">TCL13MultivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const AValue: <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13MultivecQuantity.html">TCL13MultivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const AValue: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13VecQuantity.html">TCL13VecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const AValue: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13VecQuantity.html">TCL13VecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const AValue: <a href="ADimCL13.TCL13Bivector.html">TCL13Bivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13BivecQuantity.html">TCL13BivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const AValue: <a href="ADimCL13.TCL13Bivector.html">TCL13Bivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13BivecQuantity.html">TCL13BivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const AValue: <a href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13TrivecQuantity.html">TCL13TrivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const AValue: <a href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13TrivecQuantity.html">TCL13TrivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const AValue: <a href="ADimCL13.TCL13Quadrivector.html">TCL13Quadrivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13QuadrivecQuantity.html">TCL13QuadrivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const AValue: <a href="ADimCL13.TCL13Quadrivector.html">TCL13Quadrivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13QuadrivecQuantity.html">TCL13QuadrivecQuantity</a>; inline;</code></td>
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
@@ -185,23 +249,47 @@ Represents a physical unit of measurement with its dimensional signature, symbol
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const AQuantity: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const AQuantity: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const AQuantity: <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const AQuantity: <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const AQuantity: <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const AQuantity: <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const AQuantity: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const AQuantity: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator *(const AQuantity: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; inline;</code></td>
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator *(const AQuantity: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; inline;</code></td>
-</tr>
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator *(const AQuantity: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; inline;</code></td>
-</tr>
-<tr class="list2 visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator *(const AQuantity: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; inline;</code></td>
-</tr>
-<tr class="list visibility-public">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator /(const AQuantity: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const AQuantity: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; inline;</code></td>
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
@@ -209,11 +297,51 @@ Represents a physical unit of measurement with its dimensional signature, symbol
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator /(const AQuantity: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; inline;</code></td>
+<td class="itemcode"><code>class operator *(const AQuantity: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; inline;</code></td>
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator /(const AQuantity: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; inline;</code></td>
+<td class="itemcode"><code>class operator /(const AQuantity: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const AQuantity: <a href="ADim.TCL13MultivecQuantity.html">TCL13MultivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13MultivecQuantity.html">TCL13MultivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const AQuantity: <a href="ADim.TCL13MultivecQuantity.html">TCL13MultivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13MultivecQuantity.html">TCL13MultivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const AQuantity: <a href="ADim.TCL13VecQuantity.html">TCL13VecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13VecQuantity.html">TCL13VecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const AQuantity: <a href="ADim.TCL13VecQuantity.html">TCL13VecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13VecQuantity.html">TCL13VecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const AQuantity: <a href="ADim.TCL13BivecQuantity.html">TCL13BivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13BivecQuantity.html">TCL13BivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const AQuantity: <a href="ADim.TCL13BivecQuantity.html">TCL13BivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13BivecQuantity.html">TCL13BivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const AQuantity: <a href="ADim.TCL13TrivecQuantity.html">TCL13TrivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13TrivecQuantity.html">TCL13TrivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const AQuantity: <a href="ADim.TCL13TrivecQuantity.html">TCL13TrivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13TrivecQuantity.html">TCL13TrivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const AQuantity: <a href="ADim.TCL13QuadrivecQuantity.html">TCL13QuadrivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13QuadrivecQuantity.html">TCL13QuadrivecQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const AQuantity: <a href="ADim.TCL13QuadrivecQuantity.html">TCL13QuadrivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13QuadrivecQuantity.html">TCL13QuadrivecQuantity</a>; inline;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
@@ -341,81 +469,241 @@ Returns the complex matrix quantity <code>AMatrix / [unit]</code>, with inverted
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-TCL3Vector-TUnit-"></span><code>class operator *(const AVector: <a href="ADimCL3.TCL3Vector.html">TCL3Vector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; inline;</code></td>
+<td class="itemcode"><span id="*-TCL2Multivector-TUnit-"></span><code>class operator *(const AValue: <a href="ADimCL2.TCL2Multivector.html">TCL2Multivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>Cl(3,0)</code> vector quantity <code>AVector [unit]</code>.</p>
+Returns the <code>Cl(2,0)</code> multivector quantity <code>AValue [unit]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-TCL3Bivector-TUnit-"></span><code>class operator *(const ABivector: <a href="ADimCL3.TCL3Bivector.html">TCL3Bivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; inline;</code></td>
+<td class="itemcode"><span id="/-TCL2Multivector-TUnit-"></span><code>class operator /(const AValue: <a href="ADimCL2.TCL2Multivector.html">TCL2Multivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>Cl(3,0)</code> bivector quantity <code>ABivector [unit]</code>.</p>
+Returns the <code>Cl(2,0)</code> multivector quantity <code>AValue / [unit]</code>, with inverted dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-TCL3Trivector-TUnit-"></span><code>class operator *(const ATrivector: <a href="ADimCL3.TCL3Trivector.html">TCL3Trivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; inline;</code></td>
+<td class="itemcode"><span id="*-TCL2Vector-TUnit-"></span><code>class operator *(const AValue: <a href="ADimCL2.TCL2Vector.html">TCL2Vector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>Cl(3,0)</code> trivector quantity <code>ATrivector [unit]</code>.</p>
+Returns the <code>Cl(2,0)</code> vector quantity <code>AValue [unit]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-TCL3Multivector-TUnit-"></span><code>class operator *(const AMultivector: <a href="ADimCL3.TCL3Multivector.html">TCL3Multivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; inline;</code></td>
+<td class="itemcode"><span id="/-TCL2Vector-TUnit-"></span><code>class operator /(const AValue: <a href="ADimCL2.TCL2Vector.html">TCL2Vector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>Cl(3,0)</code> multivector quantity <code>AMultivector [unit]</code>.</p>
+Returns the <code>Cl(2,0)</code> vector quantity <code>AValue / [unit]</code>, with inverted dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="/-TCL3Vector-TUnit-"></span><code>class operator /(const AVector: <a href="ADimCL3.TCL3Vector.html">TCL3Vector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; inline;</code></td>
+<td class="itemcode"><span id="*-TCL2Bivector-TUnit-"></span><code>class operator *(const AValue: <a href="ADimCL2.TCL2Bivector.html">TCL2Bivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>Cl(3,0)</code> vector quantity <code>AVector / [unit]</code>, with inverted dimension.</p>
+Returns the <code>Cl(2,0)</code> bivector quantity <code>AValue [unit]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="/-TCL3Bivector-TUnit-"></span><code>class operator /(const ABivector: <a href="ADimCL3.TCL3Bivector.html">TCL3Bivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; inline;</code></td>
+<td class="itemcode"><span id="/-TCL2Bivector-TUnit-"></span><code>class operator /(const AValue: <a href="ADimCL2.TCL2Bivector.html">TCL2Bivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>Cl(3,0)</code> bivector quantity <code>ABivector / [unit]</code>, with inverted dimension.</p>
+Returns the <code>Cl(2,0)</code> bivector quantity <code>AValue / [unit]</code>, with inverted dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="/-TCL3Trivector-TUnit-"></span><code>class operator /(const ATrivector: <a href="ADimCL3.TCL3Trivector.html">TCL3Trivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; inline;</code></td>
+<td class="itemcode"><span id="*-TCL3Multivector-TUnit-"></span><code>class operator *(const AValue: <a href="ADimCL3.TCL3Multivector.html">TCL3Multivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>Cl(3,0)</code> trivector quantity <code>ATrivector / [unit]</code>, with inverted dimension.</p>
+Returns the <code>Cl(3,0)</code> multivector quantity <code>AValue [unit]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="/-TCL3Multivector-TUnit-"></span><code>class operator /(const AMultivector: <a href="ADimCL3.TCL3Multivector.html">TCL3Multivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; inline;</code></td>
+<td class="itemcode"><span id="/-TCL3Multivector-TUnit-"></span><code>class operator /(const AValue: <a href="ADimCL3.TCL3Multivector.html">TCL3Multivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>Cl(3,0)</code> multivector quantity <code>AMultivector / [unit]</code>, with inverted dimension.</p>
+Returns the <code>Cl(3,0)</code> multivector quantity <code>AValue / [unit]</code>, with inverted dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL3Vector-TUnit-"></span><code>class operator *(const AValue: <a href="ADimCL3.TCL3Vector.html">TCL3Vector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(3,0)</code> vector quantity <code>AValue [unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL3Vector-TUnit-"></span><code>class operator /(const AValue: <a href="ADimCL3.TCL3Vector.html">TCL3Vector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(3,0)</code> vector quantity <code>AValue / [unit]</code>, with inverted dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL3Bivector-TUnit-"></span><code>class operator *(const AValue: <a href="ADimCL3.TCL3Bivector.html">TCL3Bivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(3,0)</code> bivector quantity <code>AValue [unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL3Bivector-TUnit-"></span><code>class operator /(const AValue: <a href="ADimCL3.TCL3Bivector.html">TCL3Bivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(3,0)</code> bivector quantity <code>AValue / [unit]</code>, with inverted dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL3Trivector-TUnit-"></span><code>class operator *(const AValue: <a href="ADimCL3.TCL3Trivector.html">TCL3Trivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(3,0)</code> trivector quantity <code>AValue [unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL3Trivector-TUnit-"></span><code>class operator /(const AValue: <a href="ADimCL3.TCL3Trivector.html">TCL3Trivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(3,0)</code> trivector quantity <code>AValue / [unit]</code>, with inverted dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL13Multivector-TUnit-"></span><code>class operator *(const AValue: <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13MultivecQuantity.html">TCL13MultivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(1,3)</code> multivector quantity <code>AValue [unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL13Multivector-TUnit-"></span><code>class operator /(const AValue: <a href="ADimCL13.TCL13Multivector.html">TCL13Multivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13MultivecQuantity.html">TCL13MultivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(1,3)</code> multivector quantity <code>AValue / [unit]</code>, with inverted dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL13Vector-TUnit-"></span><code>class operator *(const AValue: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13VecQuantity.html">TCL13VecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(1,3)</code> vector quantity <code>AValue [unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL13Vector-TUnit-"></span><code>class operator /(const AValue: <a href="ADimCL13.TCL13Vector.html">TCL13Vector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13VecQuantity.html">TCL13VecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(1,3)</code> vector quantity <code>AValue / [unit]</code>, with inverted dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL13Bivector-TUnit-"></span><code>class operator *(const AValue: <a href="ADimCL13.TCL13Bivector.html">TCL13Bivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13BivecQuantity.html">TCL13BivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(1,3)</code> bivector quantity <code>AValue [unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL13Bivector-TUnit-"></span><code>class operator /(const AValue: <a href="ADimCL13.TCL13Bivector.html">TCL13Bivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13BivecQuantity.html">TCL13BivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(1,3)</code> bivector quantity <code>AValue / [unit]</code>, with inverted dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL13Trivector-TUnit-"></span><code>class operator *(const AValue: <a href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13TrivecQuantity.html">TCL13TrivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(1,3)</code> trivector quantity <code>AValue [unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL13Trivector-TUnit-"></span><code>class operator /(const AValue: <a href="ADimCL13.TCL13Trivector.html">TCL13Trivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13TrivecQuantity.html">TCL13TrivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(1,3)</code> trivector quantity <code>AValue / [unit]</code>, with inverted dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL13Quadrivector-TUnit-"></span><code>class operator *(const AValue: <a href="ADimCL13.TCL13Quadrivector.html">TCL13Quadrivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13QuadrivecQuantity.html">TCL13QuadrivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(1,3)</code> quadrivector quantity <code>AValue [unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL13Quadrivector-TUnit-"></span><code>class operator /(const AValue: <a href="ADimCL13.TCL13Quadrivector.html">TCL13Quadrivector</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13QuadrivecQuantity.html">TCL13QuadrivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(1,3)</code> quadrivector quantity <code>AValue / [unit]</code>, with inverted dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -561,31 +849,61 @@ Returns the complex matrix quantity with dimension divided by <code>[unit]</code
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-TCL3VecQuantity-TUnit-"></span><code>class operator *(const AQuantity: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; inline;</code></td>
+<td class="itemcode"><span id="*-TCL2MultivecQuantity-TUnit-"></span><code>class operator *(const AQuantity: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>Cl(3,0)</code> vector quantity with dimension scaled by <code>[unit]</code>.</p>
+Returns the <code>Cl(2,0)</code> multivector quantity with dimension scaled by <code>[unit]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-TCL3BivecQuantity-TUnit-"></span><code>class operator *(const AQuantity: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; inline;</code></td>
+<td class="itemcode"><span id="/-TCL2MultivecQuantity-TUnit-"></span><code>class operator /(const AQuantity: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>Cl(3,0)</code> bivector quantity with dimension scaled by <code>[unit]</code>.</p>
+Returns the <code>Cl(2,0)</code> multivector quantity with dimension divided by <code>[unit]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-TCL3TrivecQuantity-TUnit-"></span><code>class operator *(const AQuantity: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; inline;</code></td>
+<td class="itemcode"><span id="*-TCL2VecQuantity-TUnit-"></span><code>class operator *(const AQuantity: <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>Cl(3,0)</code> trivector quantity with dimension scaled by <code>[unit]</code>.</p>
+Returns the <code>Cl(2,0)</code> vector quantity with dimension scaled by <code>[unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL2VecQuantity-TUnit-"></span><code>class operator /(const AQuantity: <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(2,0)</code> vector quantity with dimension divided by <code>[unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL2BivecQuantity-TUnit-"></span><code>class operator *(const AQuantity: <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(2,0)</code> bivector quantity with dimension scaled by <code>[unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL2BivecQuantity-TUnit-"></span><code>class operator /(const AQuantity: <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(2,0)</code> bivector quantity with dimension divided by <code>[unit]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -601,11 +919,41 @@ Returns the <code>Cl(3,0)</code> multivector quantity with dimension scaled by <
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL3MultivecQuantity-TUnit-"></span><code>class operator /(const AQuantity: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(3,0)</code> multivector quantity with dimension divided by <code>[unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL3VecQuantity-TUnit-"></span><code>class operator *(const AQuantity: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(3,0)</code> vector quantity with dimension scaled by <code>[unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="/-TCL3VecQuantity-TUnit-"></span><code>class operator /(const AQuantity: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
 Returns the <code>Cl(3,0)</code> vector quantity with dimension divided by <code>[unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL3BivecQuantity-TUnit-"></span><code>class operator *(const AQuantity: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(3,0)</code> bivector quantity with dimension scaled by <code>[unit]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -621,6 +969,16 @@ Returns the <code>Cl(3,0)</code> bivector quantity with dimension divided by <co
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL3TrivecQuantity-TUnit-"></span><code>class operator *(const AQuantity: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(3,0)</code> trivector quantity with dimension scaled by <code>[unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="/-TCL3TrivecQuantity-TUnit-"></span><code>class operator /(const AQuantity: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; inline;</code></td>
 </tr>
 <tr><td colspan="2">
@@ -631,11 +989,101 @@ Returns the <code>Cl(3,0)</code> trivector quantity with dimension divided by <c
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="/-TCL3MultivecQuantity-TUnit-"></span><code>class operator /(const AQuantity: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; inline;</code></td>
+<td class="itemcode"><span id="*-TCL13MultivecQuantity-TUnit-"></span><code>class operator *(const AQuantity: <a href="ADim.TCL13MultivecQuantity.html">TCL13MultivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13MultivecQuantity.html">TCL13MultivecQuantity</a>; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>Cl(3,0)</code> multivector quantity with dimension divided by <code>[unit]</code>.</p>
+Returns the <code>Cl(1,3)</code> multivector quantity with dimension scaled by <code>[unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL13MultivecQuantity-TUnit-"></span><code>class operator /(const AQuantity: <a href="ADim.TCL13MultivecQuantity.html">TCL13MultivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13MultivecQuantity.html">TCL13MultivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(1,3)</code> multivector quantity with dimension divided by <code>[unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL13VecQuantity-TUnit-"></span><code>class operator *(const AQuantity: <a href="ADim.TCL13VecQuantity.html">TCL13VecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13VecQuantity.html">TCL13VecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(1,3)</code> vector quantity with dimension scaled by <code>[unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL13VecQuantity-TUnit-"></span><code>class operator /(const AQuantity: <a href="ADim.TCL13VecQuantity.html">TCL13VecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13VecQuantity.html">TCL13VecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(1,3)</code> vector quantity with dimension divided by <code>[unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL13BivecQuantity-TUnit-"></span><code>class operator *(const AQuantity: <a href="ADim.TCL13BivecQuantity.html">TCL13BivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13BivecQuantity.html">TCL13BivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(1,3)</code> bivector quantity with dimension scaled by <code>[unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL13BivecQuantity-TUnit-"></span><code>class operator /(const AQuantity: <a href="ADim.TCL13BivecQuantity.html">TCL13BivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13BivecQuantity.html">TCL13BivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(1,3)</code> bivector quantity with dimension divided by <code>[unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL13TrivecQuantity-TUnit-"></span><code>class operator *(const AQuantity: <a href="ADim.TCL13TrivecQuantity.html">TCL13TrivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13TrivecQuantity.html">TCL13TrivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(1,3)</code> trivector quantity with dimension scaled by <code>[unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL13TrivecQuantity-TUnit-"></span><code>class operator /(const AQuantity: <a href="ADim.TCL13TrivecQuantity.html">TCL13TrivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13TrivecQuantity.html">TCL13TrivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(1,3)</code> trivector quantity with dimension divided by <code>[unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL13QuadrivecQuantity-TUnit-"></span><code>class operator *(const AQuantity: <a href="ADim.TCL13QuadrivecQuantity.html">TCL13QuadrivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13QuadrivecQuantity.html">TCL13QuadrivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(1,3)</code> quadrivector quantity with dimension scaled by <code>[unit]</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL13QuadrivecQuantity-TUnit-"></span><code>class operator /(const AQuantity: <a href="ADim.TCL13QuadrivecQuantity.html">TCL13QuadrivecQuantity</a>; const ASelf: <a href="ADim.TUnit.html">TUnit</a>): <a href="ADim.TCL13QuadrivecQuantity.html">TCL13QuadrivecQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>Cl(1,3)</code> quadrivector quantity with dimension divided by <code>[unit]</code>.</p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>

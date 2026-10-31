@@ -322,8 +322,8 @@ begin
   LBuilder := nil;
   try
     LBuilder := TToolKitBuilder.Create(FList,
-      IncludeTrailingPathDelimiter(FTemplateDirectory) + 'skeleton.pas',
-      IncludeTrailingPathDelimiter(FTemplateDirectory) + 'skeletonres.pas');
+      IncludeTrailingPathDelimiter(FTemplateDirectory) + 'template.pas',
+      IncludeTrailingPathDelimiter(FTemplateDirectory) + 'templateres.pas');
     try
       LBuilder.Build;
       SynEdit.Lines.Assign(LBuilder.Document);

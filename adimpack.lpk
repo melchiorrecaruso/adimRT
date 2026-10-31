@@ -19,8 +19,16 @@
         <UnitName Value="ADimRes"/>
       </Item>
       <Item>
+        <Filename Value="adimcl2.pas"/>
+        <UnitName Value="ADimCL2"/>
+      </Item>
+      <Item>
         <Filename Value="adimcl3.pas"/>
         <UnitName Value="ADimCL3"/>
+      </Item>
+      <Item>
+        <Filename Value="adimcl13.pas"/>
+        <UnitName Value="ADimCL13"/>
       </Item>
       <Item>
         <Filename Value="adimmath.pas"/>
