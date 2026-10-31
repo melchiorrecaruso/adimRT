@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>ADim Library: ADim: Record TMatrixQuantity</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 1.0.4">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<nav class="navbar d-md-none sticky-top bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html">ADim Library</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarNav" aria-controls="sidebarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
+<div class="offcanvas-md offcanvas-start navigation" tabindex="-1" id="sidebarNav" data-bs-scroll="true">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">ADim Library</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarNav" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body py-2">
+<h2><a href="index.html">ADim Library</a></h2><ul class="nav flex-column px-3"><li class="nav-item"><a class="nav-link px-2 py-1" href="AllUnits.html">Units</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="ClassHierarchy.html">Class Hierarchy</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllClasses.html">Classes, Interfaces, Objects and Records</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllTypes.html">Types</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllVariables.html">Variables</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllConstants.html">Constants</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllFunctions.html">Functions and Procedures</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllIdentifiers.html">Identifiers</a></li></ul></div></div>
+<main class="pasdoc-content content">
+<div class="container-fluid py-3 px-4">
+<span id="TMatrixQuantity"></span><h1 class="cio">Record TMatrixQuantity</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-NestedTypes">Nested Types</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="ADim.html">ADim</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type generic TMatrixQuantity&lt;T&gt; = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+Represents a dynamically sized square matrix whose coefficients share one physical dimension. <code>T</code> is the mathematical coefficient type, normally <a class="normal" href="ADimMath.html#TReal">TReal</a> or <a class="normal" href="ADimMath.TComplex.html">TComplex</a>. Matrix order is determined by the underlying <a class="normal" href="ADimMath.TMatrix.generic.html">TMatrix</a> value.</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-NestedTypes"></span><h3 class="summary">Nested Types</h3>
+<table class="summary wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="ADim.TMatrixQuantity.generic.html#TScalarQuantity">TScalarQuantity</a></strong> = specialize <a href="ADim.TQuantity.generic.html">TQuantity</a>&lt;<a href="ADim.html#T">T</a>&gt;;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="ADim.TMatrixQuantity.generic.html#TValueMatrix">TValueMatrix</a></strong> = specialize <a href="ADimMath.TMatrix.generic.html">TMatrix</a>&lt;<a href="ADim.html#T">T</a>&gt;;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="ADim.TMatrixQuantity.generic.html#TVectorQuantityType">TVectorQuantityType</a></strong> = specialize <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>&lt;<a href="ADim.html#T">T</a>&gt;;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TMatrixQuantity.generic.html#Order">Order</a></strong>: longint;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TMatrixQuantity.generic.html#SolveLinear-TVectorQuantityType-">SolveLinear</a></strong>(const AData: <a href="ADim.TMatrixQuantity.generic.html#TVectorQuantityType">TVectorQuantityType</a>): <a href="ADim.TMatrixQuantity.generic.html#TVectorQuantityType">TVectorQuantityType</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TMatrixQuantity.generic.html#Identity">Identity</a></strong>: <a href="ADim.TMatrixQuantity.generic.html#TValueMatrix">TValueMatrix</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TMatrixQuantity.generic.html#Null">Null</a></strong>: <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TMatrixQuantity.generic.html#Diagonalize-TVectorQuantityType-">Diagonalize</a></strong>(const ADiagonal: <a href="ADim.TMatrixQuantity.generic.html#TVectorQuantityType">TVectorQuantityType</a>): <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TMatrixQuantity.generic.html#IsNull">IsNull</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TMatrixQuantity.generic.html#IsNotNull">IsNotNull</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TMatrixQuantity.generic.html#Determinant">Determinant</a></strong>: <a href="ADim.TMatrixQuantity.generic.html#TScalarQuantity">TScalarQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TMatrixQuantity.generic.html#Norm">Norm</a></strong>: <a href="ADim.html#TRealQuantity">TRealQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TMatrixQuantity.generic.html#Rank">Rank</a></strong>: longint;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TMatrixQuantity.generic.html#Trace">Trace</a></strong>: <a href="ADim.TMatrixQuantity.generic.html#TScalarQuantity">TScalarQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TMatrixQuantity.generic.html#Clone">Clone</a></strong>: <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TMatrixQuantity.generic.html#Transpose">Transpose</a></strong>: <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TMatrixQuantity.generic.html#Inverse">Inverse</a></strong>: <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>procedure <strong><a href="ADim.TMatrixQuantity.generic.html#Swap-longint-longint-">Swap</a></strong>(ARow1, ARow2: longint);</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TMatrixQuantity.generic.html#ToString">ToString</a></strong>: string;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TMatrixQuantity.generic.html#ToString-integer-integer-">ToString</a></strong>(APrecision, ADigits: integer): string;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator =(const ALeft, ARight: <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft, ARight: <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>): <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft, ARight: <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>): <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TMatrixQuantity.generic.html#TScalarQuantity">TScalarQuantity</a>; const ARight: <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>): <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>; const ARight: <a href="ADim.TMatrixQuantity.generic.html#TScalarQuantity">TScalarQuantity</a>): <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>; const ARight: <a href="ADim.TMatrixQuantity.generic.html#TScalarQuantity">TScalarQuantity</a>): <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>property <strong><a href="ADim.TMatrixQuantity.generic.html#A">A</a></strong>[ARow,ACol: longint]: <a href="ADim.TMatrixQuantity.generic.html#TScalarQuantity">TScalarQuantity</a> read Get write Put; default;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Nested Types</h3>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="TScalarQuantity"></span><code><strong>TScalarQuantity</strong> = specialize <a href="ADim.TQuantity.generic.html">TQuantity</a>&lt;<a href="ADim.html#T">T</a>&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Scalar physical quantity used for coefficients and scalar results.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="TValueMatrix"></span><code><strong>TValueMatrix</strong> = specialize <a href="ADimMath.TMatrix.generic.html">TMatrix</a>&lt;<a href="ADim.html#T">T</a>&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Mathematical square-matrix type used to store the coefficients.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="TVectorQuantityType"></span><code><strong>TVectorQuantityType</strong> = specialize <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>&lt;<a href="ADim.html#T">T</a>&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Vector quantity compatible with the matrix coefficient type.</p>
+</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Order"></span><code>function <strong>Order</strong>: longint;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the number of rows and columns of the square matrix.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="SolveLinear-TVectorQuantityType-"></span><code>function <strong>SolveLinear</strong>(const AData: <a href="ADim.TMatrixQuantity.generic.html#TVectorQuantityType">TVectorQuantityType</a>): <a href="ADim.TMatrixQuantity.generic.html#TVectorQuantityType">TVectorQuantityType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Solves <code>Self * X = AData</code>. The result dimension is <code>AData.Dimension / Self.Dimension</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Identity"></span><code>function <strong>Identity</strong>: <a href="ADim.TMatrixQuantity.generic.html#TValueMatrix">TValueMatrix</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns a dimensionless mathematical identity matrix of the same order.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Null"></span><code>function <strong>Null</strong>: <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns a zero matrix quantity of the same order and physical dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Diagonalize-TVectorQuantityType-"></span><code>function <strong>Diagonalize</strong>(const ADiagonal: <a href="ADim.TMatrixQuantity.generic.html#TVectorQuantityType">TVectorQuantityType</a>): <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns a diagonal matrix quantity whose diagonal coefficients come from <code>ADiagonal</code>. Its physical dimension is the vector dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="IsNull"></span><code>function <strong>IsNull</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if every matrix coefficient is numerically zero.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="IsNotNull"></span><code>function <strong>IsNotNull</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if at least one matrix coefficient is non-zero.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Determinant"></span><code>function <strong>Determinant</strong>: <a href="ADim.TMatrixQuantity.generic.html#TScalarQuantity">TScalarQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the determinant. For order <code>N</code>, its physical dimension is the matrix dimension raised to <code>N</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Norm"></span><code>function <strong>Norm</strong>: <a href="ADim.html#TRealQuantity">TRealQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the matrix norm with the same physical dimension as its coefficients.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Rank"></span><code>function <strong>Rank</strong>: longint;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the numerical rank of the underlying mathematical matrix.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Trace"></span><code>function <strong>Trace</strong>: <a href="ADim.TMatrixQuantity.generic.html#TScalarQuantity">TScalarQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the trace with the same physical dimension as the coefficients.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Clone"></span><code>function <strong>Clone</strong>: <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns an independent copy of the matrix quantity.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Transpose"></span><code>function <strong>Transpose</strong>: <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the transpose while preserving the physical dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Inverse"></span><code>function <strong>Inverse</strong>: <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the inverse matrix. The physical dimension is inverted.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Swap-longint-longint-"></span><code>procedure <strong>Swap</strong>(ARow1, ARow2: longint);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Exchanges rows <code>ARow1</code> and <code>ARow2</code> in place.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="ToString"></span><code>function <strong>ToString</strong>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the mathematical coefficients in their default string form.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="ToString-integer-integer-"></span><code>function <strong>ToString</strong>(APrecision, ADigits: integer): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the mathematical coefficients using the requested floating-point precision and digit count.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="=-TMatrixQuantity-TMatrixQuantity-"></span><code>class operator =(const ALeft, ARight: <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> when dimensions, orders and all coefficients are exactly equal.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="<-TMatrixQuantity-TMatrixQuantity-"></span><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> when dimensions, orders or any coefficients differ.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TMatrixQuantity-TMatrixQuantity-"></span><code>class operator +(const ALeft, ARight: <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>): <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Adds two matrices of equal order and physical dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TMatrixQuantity-TMatrixQuantity-"></span><code>class operator -(const ALeft, ARight: <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>): <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Subtracts two matrices of equal order and physical dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TScalarQuantity-TMatrixQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TMatrixQuantity.generic.html#TScalarQuantity">TScalarQuantity</a>; const ARight: <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>): <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Multiplies a scalar quantity by a matrix quantity.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TMatrixQuantity-TScalarQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>; const ARight: <a href="ADim.TMatrixQuantity.generic.html#TScalarQuantity">TScalarQuantity</a>): <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Multiplies a matrix quantity by a scalar quantity.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TMatrixQuantity-TScalarQuantity-"></span><code>class operator /(const ALeft: <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>; const ARight: <a href="ADim.TMatrixQuantity.generic.html#TScalarQuantity">TScalarQuantity</a>): <a href="ADim.TMatrixQuantity.generic.html">TMatrixQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Divides a matrix quantity by a scalar quantity.</p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="A"></span><code>property <strong>A</strong>[ARow,ACol: longint]: <a href="ADim.TMatrixQuantity.generic.html#TScalarQuantity">TScalarQuantity</a> read Get write Put; default;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Provides zero-based indexed access to coefficients as physical quantities. Assigned coefficients must have the matrix's dimension.</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>
+</span>
+</div></main>
+<script src="bootstrap.bundle.min.js"></script>
+</body></html>

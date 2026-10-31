@@ -3,24 +3,13 @@
 
   Copyright (C) 2024-2026 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU Lesser General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  Distributed under the MIT License, see the file LICENSE.
 }
 
 program ADimTest;
 
 uses
-  ADimMath, ADim, ADimCL3, Math, SysUtils;
+  ADimMath, ADim, ADimCL2, ADimCL13, ADimCL3, Math, SysUtils;
 
 var
   side1: TRealQuantity;
@@ -209,6 +198,19 @@ var
   omega_: TCL3BivecQuantity;
   impedance_: TCL3MultivecQuantity;
   power_: TCL3MultivecQuantity;
+  axialtorque_: TCL3VecQuantity;
+  generic_: TCL3MultivecQuantity;
+  position1_: TCL3VecQuantity;
+  position2_: TCL3VecQuantity;
+  planarside1_: TCL2VecQuantity;
+  planarside2_: TCL2VecQuantity;
+  planararea_: TCL2BivecQuantity;
+  planarspeed_: TCL2VecQuantity;
+  planarrotor_: TCL2MultivecQuantity;
+  event_: TCL13VecQuantity;
+  boostedevent_: TCL13VecQuantity;
+  boost_: TCL13MultivecQuantity;
+  shiptime_: TRealQuantity;
 
   acc__: TRealVectorQuantity;
   radius__: TRealVectorQuantity;
@@ -1581,6 +1583,95 @@ begin
   if A.ToString(current_.Norm) <> '22.3606797749979 A' then halt(6);
   if W.ToString(power_.Norm) <> '1118.03398874989 W'   then halt(7);
   writeln('* TEST-515: PASSED');
+
+  // TEST-516 - Torque as an axial vector.
+  // Exercise: tau = r x F.  In Cl(3) the cross product is the dual of the
+  // exterior product, r x F = -(r^F)*, and reverses sign with the operands.
+  radius_      := 2*e1*m;
+  force_       := 3*e3*N;
+  axialtorque_ := radius_.Cross(force_);
+  if NewtonMeterUnit.ToString(axialtorque_) <> '(-6e2) N∙m'                  then halt(1);
+  if NewtonMeterUnit.ToString(-radius_.Wedge(force_).Dual) <> '(-6e2) N∙m'   then halt(2);
+  if NewtonMeterUnit.ToString(force_.Cross(radius_)) <> '(+6e2) N∙m'         then halt(3);
+  writeln('* TEST-516: PASSED');
+
+  // TEST-517 - Inverse of a mixed-grade multivector.
+  // Exercise: X = e1 + 2e12 metres has no scalar or pseudoscalar part, yet it
+  // is invertible: X^-1 = -(e1 + 2e12)/3 per metre, a left and right inverse.
+  generic_ := (1*e1 + 2*e12)*m;
+  if not generic_.Inverse.SameValue((-1/3*e1 - 2/3*e12)/m) then halt(1);
+  if not (generic_ * generic_.Inverse).SameValue(1)        then halt(2);
+  if not (generic_.Inverse * generic_).SameValue(1)        then halt(3);
+  if not (generic_ / generic_).SameValue(1)                then halt(4);
+  writeln('* TEST-517: PASSED');
+
+  // TEST-518 - Equality of vector quantities.
+  // Exercise: two positions are equal only when every component matches;
+  // sharing the e1 component is not enough.
+  position1_ := (1*e1 + 2*e2)*m;
+  position2_ := (1*e1 + 3*e2)*m;
+  if position1_ = position2_       then halt(1);
+  if not (position1_ <> position2_) then halt(2);
+  if not (position1_ = position1_)  then halt(3);
+  writeln('* TEST-518: PASSED');
+
+  // TEST-519 - Bivector times pseudoscalar.
+  // Exercise: the product of a bivector and a trivector is a vector, here the
+  // normal of an oriented area scaled by a volume element.  Multivector strings
+  // name the e13 component as e13, with its own sign.
+  area_      := (2*e12 + 3*e23)*m2;
+  position1_ := area_ * (4*e123*m);
+  if CubicMeterUnit.ToString(position1_) <> '(-12e1 -8e3) m³'        then halt(1);
+  if MeterUnit.ToString(area_ / (4*e123*m)) <> '(+0.75e1 +0.5e3) m'  then halt(2);
+  if MeterUnit.ToString((2 + 1*e13 + 3*e123)*m) <> '(+2 +1e13 +3e123) m' then halt(3);
+  writeln('* TEST-519: PASSED');
+
+  // TEST-520 - Area of a rectangular table and its missing side in Cl(2).
+  // Exercise: a table is 3 m long and 4 m wide.  Find its area and, knowing
+  // the area and the width, recover the length.  A program that only works in
+  // the plane can use ADimCL2: the wedge product of the two sides is the
+  // oriented area, and dividing it by one side gives back the other side.
+  // ADimCL3 is also used in this program, so the Cl(2) basis is qualified.
+  planarside1_ := 3*ADimCL2.e1*m;
+  planarside2_ := 4*ADimCL2.e2*m;
+  planararea_  := planarside1_.Wedge(planarside2_);
+  if SquareMeterUnit.ToString(planararea_) <> '(+12e12) m²'           then halt(1);
+  if MeterUnit.ToString(planararea_.Dot(1/planarside2_)) <> '(+3e1) m' then halt(2);
+  writeln('* TEST-520: PASSED');
+
+  // TEST-521 - A cyclist turns left in Cl(2).
+  // Exercise: a cyclist rides east (e1) at 2 m/s and turns left by 90 degrees.
+  // Find the new velocity.  A rotation by theta in the plane is the rotor
+  // R = cos(theta/2) - sin(theta/2) e12, and v.Rotate(R) computes R v ~R.
+  // The same rotation is the composition of two reflections: v.Rotation(a, b)
+  // turns v by twice the angle from a to b, here from e1 to e1 + e2 (45
+  // degrees).  Both return a vector: the speed is unchanged and the cyclist
+  // now rides north (e2).
+  planarspeed_ := 2*ADimCL2.e1*m/s;
+  planarrotor_ := Cos(pi/4) - Sin(pi/4)*ADimCL2.e12;
+  if MeterPerSecondUnit.ToString(planarspeed_.Rotate(planarrotor_)) <> '(+2e2) m/s' then halt(1);
+  if MeterPerSecondUnit.ToString(
+       planarspeed_.Rotation(1*ADimCL2.e1, 1*ADimCL2.e1 + 1*ADimCL2.e2)) <> '(+2e2) m/s' then halt(2);
+  writeln('* TEST-521: PASSED');
+
+  // TEST-522 - Time dilation on a spaceship in Cl(1,3).
+  // Exercise: a spaceship leaves the Earth at 0.6c.  After 5 s of Earth time,
+  // how much time has the clock on board measured?  In the spacetime algebra
+  // the event "the ship after 5 s" is the four-vector c*t g0 + x g1, with all
+  // its components in metres.  Its interval (ct)^2 - x^2 is the same in every
+  // frame, so the proper time of the ship is Norm/c = 4 s.  The same result
+  // follows by moving to the ship frame with the boost rotor
+  // R = cosh(phi/2) + sinh(phi/2) g01, where tanh(phi) = v/c: there the ship
+  // is at rest (x' = 0, up to rounding) and only the time component remains.
+  time          := 5*s;
+  event_        := (SpeedOfLight*time)*g0 + (0.6*SpeedOfLight*time)*g1;
+  shiptime_     := event_.Norm/SpeedOfLight;
+  boost_        := Cosh(ArcTanh(0.6)/2) + Sinh(ArcTanh(0.6)/2)*g01;
+  boostedevent_ := event_.Rotate(boost_);
+  if SecondUnit.ToString(shiptime_, 5, 0, []) <> '4 s' then halt(1);
+  if SecondUnit.ToString(boostedevent_.Dot(1*g0)/SpeedOfLight, 5, 0, []) <> '4 s' then halt(2);
+  if Abs(MeterUnit.ToFloat(boostedevent_.Dot(1*g1))) > 1E-6 then halt(3);
+  writeln('* TEST-522: PASSED');
 
   // The TEST-6xx group repeats selected exercises with ordinary real or complex
   // vectors and matrices.  It demonstrates the alternative linear-algebra API.

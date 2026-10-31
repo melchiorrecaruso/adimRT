@@ -3,18 +3,7 @@
 
   Copyright (C) 2023-2025 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU Lesser General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  Distributed under the MIT License, see the file LICENSE.
 }
 
 program adimtoolkit;
@@ -51,14 +40,14 @@ begin
   WriteLn('ADimPas Toolkit command-line generator');
   WriteLn('');
   WriteLn('Usage:');
-  WriteLn('  adimtoolkit --generate [--input <skeleton.csv>] [--output-dir <directory>]');
+  WriteLn('  adimtoolkit --generate [--input <template.csv>] [--output-dir <directory>]');
   WriteLn('  adimtoolkit --help');
   WriteLn('');
   WriteLn('Defaults:');
-  WriteLn('  input       = skeleton.csv in the current directory');
+  WriteLn('  input       = template.csv in the current directory');
   WriteLn('  output-dir  = the directory containing the input CSV file');
   WriteLn('');
-  WriteLn('The input directory must also contain skeleton.pas and skeletonres.pas.');
+  WriteLn('The input directory must also contain template.pas and templateres.pas.');
   WriteLn('The generated files are adim.pas and adimres.pas.');
 end;
 
@@ -79,7 +68,7 @@ var
   LBuilder: TToolKitBuilder;
   LList: TToolKitList;
 begin
-  LInputFile := ExpandFileName('skeleton.csv');
+  LInputFile := ExpandFileName('template.csv');
   LOutputDirectory := '';
 
   LIndex := 2;
@@ -101,12 +90,12 @@ begin
   if LOutputDirectory = '' then
     LOutputDirectory := LInputDirectory;
 
-  if not FileExists(IncludeTrailingPathDelimiter(LInputDirectory) + 'skeleton.pas') then
+  if not FileExists(IncludeTrailingPathDelimiter(LInputDirectory) + 'template.pas') then
     raise EFOpenError.CreateFmt('Template file not found: %s',
-      [IncludeTrailingPathDelimiter(LInputDirectory) + 'skeleton.pas']);
-  if not FileExists(IncludeTrailingPathDelimiter(LInputDirectory) + 'skeletonres.pas') then
+      [IncludeTrailingPathDelimiter(LInputDirectory) + 'template.pas']);
+  if not FileExists(IncludeTrailingPathDelimiter(LInputDirectory) + 'templateres.pas') then
     raise EFOpenError.CreateFmt('Resource template not found: %s',
-      [IncludeTrailingPathDelimiter(LInputDirectory) + 'skeletonres.pas']);
+      [IncludeTrailingPathDelimiter(LInputDirectory) + 'templateres.pas']);
 
   if not DirectoryExists(LOutputDirectory) then
     if not ForceDirectories(LOutputDirectory) then
@@ -117,8 +106,8 @@ begin
   try
     LList.LoadFromFile(LInputFile);
     LBuilder := TToolKitBuilder.Create(LList,
-      IncludeTrailingPathDelimiter(LInputDirectory) + 'skeleton.pas',
-      IncludeTrailingPathDelimiter(LInputDirectory) + 'skeletonres.pas');
+      IncludeTrailingPathDelimiter(LInputDirectory) + 'template.pas',
+      IncludeTrailingPathDelimiter(LInputDirectory) + 'templateres.pas');
     try
       LBuilder.Build;
 

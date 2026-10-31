@@ -3,18 +3,7 @@
 
   Copyright (C) 2023-2025 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU Lesser General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public License
-  along with this program. If not, see <http://www.gnu.org/licenses/>.
+  Distributed under the MIT License, see the file LICENSE.
 }
 
 unit ToolKitUnit;
@@ -98,8 +87,8 @@ type
     procedure ExpandUnits;
   public
     constructor Create(const AList: TToolKitList;
-      const ATemplateFileName: string = 'skeleton.pas';
-      const AResourceTemplateFileName: string = 'skeletonres.pas');
+      const ATemplateFileName: string = 'template.pas';
+      const AResourceTemplateFileName: string = 'templateres.pas');
     destructor Destroy; override;
 
     procedure Build;
@@ -294,7 +283,7 @@ procedure TToolKitBuilder.AddUnit(const AItem: TToolKitItem; const ASection: TSt
 begin
   FBaseUnits.Add(Format(' - %s [%sUnit]', [GetDescription(GetPluralName(AItem.FLongString)), GetUnitID(AItem.FQuantity)]));
 
-  { ScalarUnit is part of skeleton.pas because the template must compile on its
+  { ScalarUnit is part of template.pas because the template must compile on its
     own. Keep it in the generated unit summary, but do not declare it twice. }
   if CompareText(GetUnitID(AItem.FQuantity), 'Scalar') = 0 then Exit;
 
@@ -618,7 +607,7 @@ begin
     LUnitDeclarationCount := 0;
     for i := 0 to FDocument.Count -1 do
     begin
-      if CompareText(Trim(FDocument[i]), 'unit skeleton;') = 0 then
+      if CompareText(Trim(FDocument[i]), 'unit template;') = 0 then
       begin
         FDocument[i] := 'unit ADim;';
         Inc(LUnitDeclarationCount);
@@ -626,7 +615,7 @@ begin
     end;
     if LUnitDeclarationCount <> 1 then
       raise Exception.CreateFmt(
-        'Template %s must contain exactly one "unit skeleton;" declaration.',
+        'Template %s must contain exactly one "unit template;" declaration.',
         [FTemplateFileName]);
     RemoveIncludeDirective(Section1, FDocument, '{#HEADER}');
     RemoveIncludeDirective(Section0, FDocument, '{#UNITSOFMEASUREMENT}');
@@ -639,7 +628,7 @@ begin
     LUnitDeclarationCount := 0;
     for i := 0 to FResources.Count -1 do
     begin
-      if CompareText(Trim(FResources[i]), 'unit skeletonres;') = 0 then
+      if CompareText(Trim(FResources[i]), 'unit templateres;') = 0 then
       begin
         FResources[i] := 'unit ADimRes;';
         Inc(LUnitDeclarationCount);
@@ -647,7 +636,7 @@ begin
     end;
     if LUnitDeclarationCount <> 1 then
       raise Exception.CreateFmt(
-        'Template %s must contain exactly one "unit skeletonres;" declaration.',
+        'Template %s must contain exactly one "unit templateres;" declaration.',
         [FResourceTemplateFileName]);
     RemoveIncludeDirective(Section2, FResources, '{#RESOURCESTRINGS}');
     CleanDocument(FResources);

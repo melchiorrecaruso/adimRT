@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>ADim Library: ADim: Record TCL2MultivecQuantityHelper</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 1.0.4">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<nav class="navbar d-md-none sticky-top bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html">ADim Library</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarNav" aria-controls="sidebarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
+<div class="offcanvas-md offcanvas-start navigation" tabindex="-1" id="sidebarNav" data-bs-scroll="true">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">ADim Library</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarNav" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body py-2">
+<h2><a href="index.html">ADim Library</a></h2><ul class="nav flex-column px-3"><li class="nav-item"><a class="nav-link px-2 py-1" href="AllUnits.html">Units</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="ClassHierarchy.html">Class Hierarchy</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllClasses.html">Classes, Interfaces, Objects and Records</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllTypes.html">Types</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllVariables.html">Variables</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllConstants.html">Constants</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllFunctions.html">Functions and Procedures</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllIdentifiers.html">Identifiers</a></li></ul></div></div>
+<main class="pasdoc-content content">
+<div class="container-fluid py-3 px-4">
+<span id="TCL2MultivecQuantityHelper"></span><h1 class="cio">Record TCL2MultivecQuantityHelper</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="ADim.html">ADim</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCL2MultivecQuantityHelper = record helper for TCL2MultivecQuantity</code></p>
+<h2 class="description">Description</h2>
+<p>
+Record helper for <a class="normal" href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>: the methods of <a class="normal" href="ADimCL2.TCL2Multivector.html">TCL2Multivector</a> on dimensioned values. Only available when <code>ADIMOFF</code> is not defined.</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Extract-TCL2MultivectorComponents-">Extract</a></strong>(AComponents: <a href="ADimCL2.html#TCL2MultivectorComponents">TCL2MultivectorComponents</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Extract-TCL2BivectorComponents-">Extract</a></strong>(AComponents: <a href="ADimCL2.html#TCL2BivectorComponents">TCL2BivectorComponents</a>): <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Extract-TCL2VectorComponents-">Extract</a></strong>(AComponents: <a href="ADimCL2.html#TCL2VectorComponents">TCL2VectorComponents</a>): <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#ExtractBivector">ExtractBivector</a></strong>: <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#ExtractVector">ExtractVector</a></strong>: <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#ExtractScalar">ExtractScalar</a></strong>: <a href="ADim.html#TRealQuantity">TRealQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#SameValue-TCL2MultivecQuantity-">SameValue</a></strong>(const AValue: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#SameValue-TCL2BivecQuantity-">SameValue</a></strong>(const AValue: <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#SameValue-TCL2VecQuantity-">SameValue</a></strong>(const AValue: <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#SameValue-TRealQuantity-">SameValue</a></strong>(const AValue: <a href="ADim.html#TRealQuantity">TRealQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#IsNull">IsNull</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#IsScalar">IsScalar</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#IsVector">IsVector</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#IsBivector">IsBivector</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#IsA">IsA</a></strong>: string;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Norm">Norm</a></strong>: <a href="ADim.html#TRealQuantity">TRealQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#SquaredNorm">SquaredNorm</a></strong>: <a href="ADim.html#TRealQuantity">TRealQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Dual">Dual</a></strong>: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Involute">Involute</a></strong>: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Reverse">Reverse</a></strong>: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Conjugate">Conjugate</a></strong>: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Inverse">Inverse</a></strong>: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#GradeMask">GradeMask</a></strong>: longword;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Normalized">Normalized</a></strong>: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Projection-TCL2VecQuantity-">Projection</a></strong>(const AVector: <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Projection-TCL2BivecQuantity-">Projection</a></strong>(const AVector: <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Projection-TCL2MultivecQuantity-">Projection</a></strong>(const AVector: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Rejection-TCL2VecQuantity-">Rejection</a></strong>(const AVector: <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Rejection-TCL2BivecQuantity-">Rejection</a></strong>(const AVector: <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>): <a href="ADim.html#TRealQuantity">TRealQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Rejection-TCL2MultivecQuantity-">Rejection</a></strong>(const AVector: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Reflection-TCL2VecQuantity-">Reflection</a></strong>(const AVector: <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Reflection-TCL2BivecQuantity-">Reflection</a></strong>(const AVector: <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Reflection-TCL2MultivecQuantity-">Reflection</a></strong>(const AVector: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Rotation-TCL2VecQuantity-TCL2VecQuantity-">Rotation</a></strong>(const AVector1: <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>; const AVector2: <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Rotation-TCL2BivecQuantity-TCL2BivecQuantity-">Rotation</a></strong>(const AVector1: <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>; const AVector2: <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Rotation-TCL2MultivecQuantity-TCL2MultivecQuantity-">Rotation</a></strong>(const AVector1: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>; const AVector2: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Dot-TCL2VecQuantity-">Dot</a></strong>(const AVector: <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Dot-TCL2BivecQuantity-">Dot</a></strong>(const AVector: <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Dot-TCL2MultivecQuantity-">Dot</a></strong>(const AVector: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Wedge-TCL2VecQuantity-">Wedge</a></strong>(const AVector: <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Wedge-TCL2BivecQuantity-">Wedge</a></strong>(const AVector: <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>): <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL2MultivecQuantityHelper.html#Wedge-TCL2MultivecQuantity-">Wedge</a></strong>(const AVector: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Extract-TCL2MultivectorComponents-"></span><code>function <strong>Extract</strong>(AComponents: <a href="ADimCL2.html#TCL2MultivectorComponents">TCL2MultivectorComponents</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the components listed in <code>AComponents</code>; the others are zero. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Extract-TCL2BivectorComponents-"></span><code>function <strong>Extract</strong>(AComponents: <a href="ADimCL2.html#TCL2BivectorComponents">TCL2BivectorComponents</a>): <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the components listed in <code>AComponents</code>; the others are zero. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Extract-TCL2VectorComponents-"></span><code>function <strong>Extract</strong>(AComponents: <a href="ADimCL2.html#TCL2VectorComponents">TCL2VectorComponents</a>): <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the components listed in <code>AComponents</code>; the others are zero. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="ExtractBivector"></span><code>function <strong>ExtractBivector</strong>: <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the bivector part. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="ExtractVector"></span><code>function <strong>ExtractVector</strong>: <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the vector part. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="ExtractScalar"></span><code>function <strong>ExtractScalar</strong>: <a href="ADim.html#TRealQuantity">TRealQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the scalar part. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="SameValue-TCL2MultivecQuantity-"></span><code>function <strong>SameValue</strong>(const AValue: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if the two quantities are equal within the default tolerance. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="SameValue-TCL2BivecQuantity-"></span><code>function <strong>SameValue</strong>(const AValue: <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if the two quantities are equal within the default tolerance. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="SameValue-TCL2VecQuantity-"></span><code>function <strong>SameValue</strong>(const AValue: <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if the two quantities are equal within the default tolerance. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="SameValue-TRealQuantity-"></span><code>function <strong>SameValue</strong>(const AValue: <a href="ADim.html#TRealQuantity">TRealQuantity</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if the two quantities are equal within the default tolerance. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="IsNull"></span><code>function <strong>IsNull</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if all the components are zero.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="IsScalar"></span><code>function <strong>IsScalar</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if only the scalar components are non-zero.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="IsVector"></span><code>function <strong>IsVector</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if only the vector components are non-zero.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="IsBivector"></span><code>function <strong>IsBivector</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if only the bivector components are non-zero.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="IsA"></span><code>function <strong>IsA</strong>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the name of the smallest value type that holds the value.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Norm"></span><code>function <strong>Norm</strong>: <a href="ADim.html#TRealQuantity">TRealQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the norm <code>Sqrt(Abs(SquaredNorm))</code>. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="SquaredNorm"></span><code>function <strong>SquaredNorm</strong>: <a href="ADim.html#TRealQuantity">TRealQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the squared norm <code>&lt;X ~X&gt;₀</code>. The resulting dimension is the square of the original dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Dual"></span><code>function <strong>Dual</strong>: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the dual <code>X * I</code>, with <code>I</code> the unit pseudoscalar. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Involute"></span><code>function <strong>Involute</strong>: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the grade involution: every grade-<code>k</code> component is multiplied by <code>(-1)&circ;k</code>. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Reverse"></span><code>function <strong>Reverse</strong>: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the reverse: every grade-<code>k</code> component is multiplied by <code>(-1)&circ;(k(k-1)/2)</code>. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Conjugate"></span><code>function <strong>Conjugate</strong>: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the Clifford conjugate, the reverse of the grade involution. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Inverse"></span><code>function <strong>Inverse</strong>: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the multiplicative inverse, <code>X⁻¹ * X = X * X⁻¹ = 1</code>. The resulting dimension is the inverse of the original dimension. Raises a floating-point exception if the value is not invertible.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="GradeMask"></span><code>function <strong>GradeMask</strong>: longword;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns a mask with bit <code>g</code> set when some component of grade <code>g</code> is non-zero.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Normalized"></span><code>function <strong>Normalized</strong>: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the value divided by its norm. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Projection-TCL2VecQuantity-"></span><code>function <strong>Projection</strong>(const AVector: <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the projection on <code>AVector</code>. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Projection-TCL2BivecQuantity-"></span><code>function <strong>Projection</strong>(const AVector: <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the projection on <code>AVector</code>. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Projection-TCL2MultivecQuantity-"></span><code>function <strong>Projection</strong>(const AVector: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the projection on <code>AVector</code>. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Rejection-TCL2VecQuantity-"></span><code>function <strong>Rejection</strong>(const AVector: <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the rejection from <code>AVector</code>. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Rejection-TCL2BivecQuantity-"></span><code>function <strong>Rejection</strong>(const AVector: <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>): <a href="ADim.html#TRealQuantity">TRealQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the rejection from <code>AVector</code>. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Rejection-TCL2MultivecQuantity-"></span><code>function <strong>Rejection</strong>(const AVector: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the rejection from <code>AVector</code>. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Reflection-TCL2VecQuantity-"></span><code>function <strong>Reflection</strong>(const AVector: <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the reflection <code>AVector * X * AVector⁻¹</code>. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Reflection-TCL2BivecQuantity-"></span><code>function <strong>Reflection</strong>(const AVector: <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the reflection <code>AVector * X * AVector⁻¹</code>. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Reflection-TCL2MultivecQuantity-"></span><code>function <strong>Reflection</strong>(const AVector: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the reflection <code>AVector * X * AVector⁻¹</code>. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Rotation-TCL2VecQuantity-TCL2VecQuantity-"></span><code>function <strong>Rotation</strong>(const AVector1: <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>; const AVector2: <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>AVector2 AVector1 X AVector1⁻¹ AVector2⁻¹</code>: the rotation in the plane <code>AVector1 ∧ AVector2</code> by twice the angle between them. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Rotation-TCL2BivecQuantity-TCL2BivecQuantity-"></span><code>function <strong>Rotation</strong>(const AVector1: <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>; const AVector2: <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>AVector2 AVector1 X AVector1⁻¹ AVector2⁻¹</code>: the rotation in the plane <code>AVector1 ∧ AVector2</code> by twice the angle between them. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Rotation-TCL2MultivecQuantity-TCL2MultivecQuantity-"></span><code>function <strong>Rotation</strong>(const AVector1: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>; const AVector2: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>AVector2 AVector1 X AVector1⁻¹ AVector2⁻¹</code>: the rotation in the plane <code>AVector1 ∧ AVector2</code> by twice the angle between them. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Dot-TCL2VecQuantity-"></span><code>function <strong>Dot</strong>(const AVector: <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the &quot;fat&quot; dot product. The resulting dimension is the product of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Dot-TCL2BivecQuantity-"></span><code>function <strong>Dot</strong>(const AVector: <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the &quot;fat&quot; dot product. The resulting dimension is the product of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Dot-TCL2MultivecQuantity-"></span><code>function <strong>Dot</strong>(const AVector: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the &quot;fat&quot; dot product. The resulting dimension is the product of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Wedge-TCL2VecQuantity-"></span><code>function <strong>Wedge</strong>(const AVector: <a href="ADim.TCL2VecQuantity.html">TCL2VecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the exterior (wedge) product. The resulting dimension is the product of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Wedge-TCL2BivecQuantity-"></span><code>function <strong>Wedge</strong>(const AVector: <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>): <a href="ADim.TCL2BivecQuantity.html">TCL2BivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the exterior (wedge) product. The resulting dimension is the product of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Wedge-TCL2MultivecQuantity-"></span><code>function <strong>Wedge</strong>(const AVector: <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>): <a href="ADim.TCL2MultivecQuantity.html">TCL2MultivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the exterior (wedge) product. The resulting dimension is the product of the two dimensions.</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>
+</span>
+</div></main>
+<script src="bootstrap.bundle.min.js"></script>
+</body></html>

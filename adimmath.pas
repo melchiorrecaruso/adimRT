@@ -7,22 +7,10 @@
 
   @author Melchiorre Caruso (melchiorrecaruso@@gmail.com)
   @copyright 2025-2026 Melchiorre Caruso
-  @license GNU Lesser General Public License v3 with modified LGPL exception.
+  @license MIT License, see the file LICENSE.
 
-  This unit is part of the ADim library, distributed under the
-  GNU Lesser General Public License v3 (LGPL v3) with the following
-  special exception:
-
-  As a special exception, the copyright holders of this library give you
-  permission to link this library with independent modules to produce an
-  executable, regardless of the license terms of these independent modules,
-  and to copy and distribute the resulting executable under terms of your
-  choice, provided that you also meet, for each linked independent module,
-  the terms and conditions of the license of that module. An independent
-  module is a module which is not derived from or based on this library.
-  If you modify this library, you may extend this exception to your version
-  of the library, but you are not obligated to do so. If you do not wish
-  to do so, delete this exception statement from your version.
+  This unit is part of the ADim library, distributed under the MIT License
+  (see the file LICENSE).
 }
 
 unit ADimMath;
@@ -251,6 +239,8 @@ function Abs(const AValue: TComplex): TReal; overload;
 type
   TRealHelper = type helper for TReal
     function Conjugate: TReal; inline;
+    function Norm: TReal; inline;
+    function Reciprocal: TReal; inline;
     function SameValue(const AValue: TReal): boolean; inline;
     function SquaredNorm: TReal; inline;
     function ToString: string; overload; inline;
@@ -272,11 +262,13 @@ type
     function Dot(const AVector: TVector): T;
     function IsNull: boolean;
     function IsNotNull: boolean;
+    function SameValue(const AVector: TVector): boolean;
     function Norm: TReal;
     function SquaredNorm: TReal;
     function Normalize: TVector;
     function Reciprocal: TVector;
     function ToString: string;
+    function ToString(APrecision, ADigits: integer): string;
 
     class operator Initialize(var ASelf: TVector);
     class operator Finalize(var ASelf: TVector);
@@ -357,7 +349,9 @@ type
     class operator Copy(constref ASrc: TMatrix; var ADst: TMatrix);
     class operator =(const ALeft, ARight: TMatrix): boolean;
     class operator <>(const ALeft, ARight: TMatrix): boolean;
+    class operator +(const ASelf: TMatrix): TMatrix;
     class operator +(const ALeft, ARight: TMatrix): TMatrix;
+    class operator -(const ASelf: TMatrix): TMatrix;
     class operator -(const ALeft, ARight: TMatrix): TMatrix;
     class operator *(const ALeft, ARight: TMatrix): TMatrix;
     class operator *(const ALeft: T; const ARight: TMatrix): TMatrix;
@@ -387,6 +381,7 @@ type
       out AVectors: TComplexMatrix);
     procedure HermitianEigenpairs(out AValues: TRealVector;
       out AVectors: TComplexMatrix);
+    function IsHermitian: boolean;
     function IsUnitary: boolean;
     function TransposeConjugate: TComplexMatrix;
   end;
@@ -409,10 +404,10 @@ procedure HermitianTridiagonalLowestEigenpairs(
 function Complex(const ARe, AIm: TReal): TComplex;
 
 { Returns @true if two real numbers are equal within @link(DefaultEpsilon). }
-function SameValueEx(const AValue1, AValue2: TReal): boolean;
+function SameValueEx(const AValue1, AValue2: TReal): boolean; overload;
 
 { Returns @true if two complex numbers are equal within @link(DefaultEpsilon). }
-function SameValueEx(const AValue1, AValue2: TComplex): boolean;
+function SameValueEx(const AValue1, AValue2: TComplex): boolean; overload;
 
 { Returns the square of a real number: @code(x²). }
 function SquareNorm(const AValue: TReal): TReal;
@@ -442,28 +437,34 @@ function FloatToStrF(const AValue: TReal; APrecision, ADigits: longint): string;
 function FloatToStrF(const AValue: TComplex; APrecision, ADigits: longint): string;
 
 { Returns @code(z²). }
-function SquarePower(const AValue: TComplex): TComplex;
+function SquarePower(const AValue: TComplex): TComplex; overload;
 
 { Returns @code(z³). }
-function CubicPower(const AValue: TComplex): TComplex;
+function CubicPower(const AValue: TComplex): TComplex; overload;
 
 { Returns @code(z⁴). }
-function QuarticPower(const AValue: TComplex): TComplex;
+function QuarticPower(const AValue: TComplex): TComplex; overload;
+
+{ Returns @code(z⁵). }
+function QuinticPower(const AValue: TComplex): TComplex; overload;
+
+{ Returns @code(z⁶). }
+function SexticPower(const AValue: TComplex): TComplex; overload;
 
 { Returns the two square roots of @code(AValue) as a 2-element array.
   @code(result[0]) is the principal root; @code(result[1] = -result[0]).
 }
-function SquareRoot(const AValue: TComplex): TArrayOfComplex;
+function SquareRoot(const AValue: TComplex): TArrayOfComplex; overload;
 
 { Returns the three cube roots of @code(AValue) as a 3-element array,
   at arguments @code(θ/3), @code((θ+2π)/3), and @code((θ+4π)/3).
 }
-function CubicRoot(const AValue: TComplex): TArrayOfComplex;
+function CubicRoot(const AValue: TComplex): TArrayOfComplex; overload;
 
 { Returns the four fourth roots of @code(AValue) as a 4-element array,
   at arguments @code(θ/4), @code((θ+2π)/4), @code((θ+4π)/4), and @code((θ+6π)/4).
 }
-function QuarticRoot(const AValue: TComplex): TArrayOfComplex;
+function QuarticRoot(const AValue: TComplex): TArrayOfComplex; overload;
 
 { @exclude }
 function Fmt(const AValue: TReal): string;
@@ -870,6 +871,16 @@ begin
   result := Self;
 end;
 
+function TRealHelper.Norm: TReal;
+begin
+  result := System.Abs(Self);
+end;
+
+function TRealHelper.Reciprocal: TReal;
+begin
+  result := 1 / Self;
+end;
+
 function TRealHelper.SameValue(const AValue: TReal): boolean;
 begin
   result := SameValueEx(Self, AValue);
@@ -1019,6 +1030,17 @@ begin
     result.FData[LIndex] := Self.FData[LIndex].Conjugate;
 end;
 
+function TVector.SameValue(const AVector: TVector): boolean;
+var
+  LIndex: longint;
+begin
+  if Size <> AVector.Size then Exit(False);
+  for LIndex := 0 to Size - 1 do
+    if not FData[LIndex].SameValue(AVector.FData[LIndex]) then
+      Exit(False);
+  result := True;
+end;
+
 function TVector.ToString: string;
 var
   LIndex: longint;
@@ -1028,6 +1050,19 @@ begin
   begin
     if LIndex > 0 then result := result + ',';
     result := result + FData[LIndex].ToString;
+  end;
+  result := result + ')';
+end;
+
+function TVector.ToString(APrecision, ADigits: integer): string;
+var
+  LIndex: longint;
+begin
+  result := '(';
+  for LIndex := 0 to Size - 1 do
+  begin
+    if LIndex > 0 then result := result + ',';
+    result := result + FData[LIndex].ToString(APrecision, ADigits);
   end;
   result := result + ')';
 end;
@@ -1382,6 +1417,17 @@ begin
   result := Self.Conjugate.Transpose;
 end;
 
+function TComplexMatrixHelper.IsHermitian: boolean;
+var
+  LRow, LColumn: longint;
+begin
+  for LRow := 0 to Self.FOrder - 1 do
+    for LColumn := LRow to Self.FOrder - 1 do
+      if not Self[LRow, LColumn].SameValue(Self[LColumn, LRow].Conjugate) then
+        Exit(False);
+  result := True;
+end;
+
 function TComplexMatrixHelper.IsUnitary: boolean;
 var
   LAdjoint, LProduct, LIdentity: TComplexMatrix;
@@ -1475,6 +1521,20 @@ end;
 class operator TMatrix.<>(const ALeft, ARight: TMatrix): boolean;
 begin
   result := not (ALeft = ARight);
+end;
+
+class operator TMatrix.+(const ASelf: TMatrix): TMatrix;
+begin
+  result := ASelf;
+end;
+
+class operator TMatrix.-(const ASelf: TMatrix): TMatrix;
+var
+  LIndex: longint;
+begin
+  result.SetOrder(ASelf.FOrder);
+  for LIndex := 0 to High(ASelf.FData) do
+    result.FData[LIndex] := -ASelf.FData[LIndex];
 end;
 
 class operator TMatrix.+(const ALeft, ARight: TMatrix): TMatrix;
@@ -1852,7 +1912,7 @@ var
   A, W, VR: TArrayOfComplex;
   HermitianValues: TRealVector;
   Scale, Tolerance: TReal;
-  IsHermitian, IsDiagonal: boolean;
+  HermitianInput, IsDiagonal: boolean;
 begin
   N := Self.FOrder;
   AValues.SetSize(N);
@@ -1868,18 +1928,18 @@ begin
     Scale := Max(Scale, Self.FData[I].Norm);
   end;
   IsDiagonal := True;
-  IsHermitian := True;
+  HermitianInput := True;
   Tolerance := 32 * Precision * Scale;
   for I := 0 to N - 1 do
   begin
     if System.Abs(Self.FData[I * N + I].fIm) > Tolerance then
-      IsHermitian := False;
+      HermitianInput := False;
     for J := 0 to N - 1 do
       if J <> I then
       begin
         if Self.FData[I * N + J].Norm <> 0 then IsDiagonal := False;
         if (Self.FData[I * N + J] - Self.FData[J * N + I].Conjugate).Norm >
-           Tolerance then IsHermitian := False;
+           Tolerance then HermitianInput := False;
       end;
   end;
   if IsDiagonal then
@@ -1892,7 +1952,7 @@ begin
     Exit;
   end;
 
-  if IsHermitian then
+  if HermitianInput then
   begin
     Self.HermitianEigenpairs(HermitianValues, AVectors);
     for I := 0 to N - 1 do AValues[I] := HermitianValues[I];
@@ -1979,6 +2039,16 @@ end;
 function QuarticPower(const AValue: TComplex): TComplex;
 begin
   result := AValue * AValue * AValue * AValue;
+end;
+
+function QuinticPower(const AValue: TComplex): TComplex;
+begin
+  result := AValue * AValue * AValue * AValue * AValue;
+end;
+
+function SexticPower(const AValue: TComplex): TComplex;
+begin
+  result := AValue * AValue * AValue * AValue * AValue * AValue;
 end;
 
 { Scales AValue by an exact power of two when its larger component is
