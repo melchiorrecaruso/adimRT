@@ -8,6 +8,7 @@
         <UnitOutputDirectory Value="build/lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
     </CompilerOptions>
+    <License Value="MIT License"/>
     <Files>
       <Item>
         <Filename Value="adim.pas"/>

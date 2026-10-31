@@ -268,6 +268,21 @@ rejection, reflection and rotation. This is useful when orientation is part of
 the physical model, for example directed lengths, oriented areas, torques and
 rotations.
 
+The algebra itself comes from the
+[Clifford](https://github.com/melchiorrecaruso/clifford) library. Conventions:
+
+- `Inverse` is the multiplicative inverse, `X * X.Inverse = X.Inverse * X = 1`;
+  the dimension is inverted. Dividing by a non-invertible value raises a
+  floating-point exception.
+- `Involute` is the grade involution and `Conjugate` the Clifford conjugate;
+  both preserve the dimension.
+- `Dot` is the "fat" dot product, `Dual` is `X * e123`, and `a.Cross(b)` equals
+  `-(a.Wedge(b)).Dual`.
+- `Extract` keeps the selected components: `mc0..mc123` for multivectors,
+  `bc12`, `bc13`, `bc23` for bivectors and `vc1`, `vc2`, `vc3` for vectors.
+- Widening to a multivector is implicit; narrowing is explicit, for example
+  `TCL3Vector(M)` or `double(M)`.
+
 ## Units, prefixes and physical constants
 
 `TUnit` represents a coherent unit with its dimension, symbol and names.
@@ -326,12 +341,13 @@ the most extensive source of runnable examples, including unit conversion,
 tolerances, affine temperatures, quantum-mechanical relations, vectors,
 matrices and Clifford algebra.
 
+## Author
+
+Melchiorre Caruso (melchiorrecaruso@gmail.com)
+
 ## License
 
-ADimRT is distributed under the [GNU Lesser General Public License v3](COPYING.LGPL)
-with the [modified LGPL linking exception](COPYING.modifiedLGPL). The exception
-allows the library to be linked with independent modules under the conditions
-stated in that file.
+ADimRT is distributed under the [MIT License](LICENSE).
 
 The unit `adimlapack.pas` contains translations to Pascal of routines of
 [LAPACK](https://www.netlib.org/lapack), distributed under the LAPACK license

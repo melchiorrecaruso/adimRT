@@ -37,25 +37,25 @@
 <code>type TComplexQuantityHelper = record helper for TComplexQuantity</code></p>
 <h2 class="description">Description</h2>
 <p>
-Record helper for <a class="normal" href="ADim.TComplexQuantity.html">TComplexQuantity</a> providing additional operations on complex physical quantities. Only available when <code>ADIMOFF</code> is not defined.</p>
+Adds complex-specific operations to <a class="normal" href="ADim.html#TComplexQuantity">TComplexQuantity</a>.</p>
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TComplexQuantityHelper.html#Conjugate">Conjugate</a></strong>: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>;</code></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TComplexQuantityHelper.html#Conjugate">Conjugate</a></strong>: <a href="ADim.html#TComplexQuantity">TComplexQuantity</a>;</code></td>
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TComplexQuantityHelper.html#Norm">Norm</a></strong>: <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TComplexQuantityHelper.html#Norm">Norm</a></strong>: <a href="ADim.html#TRealQuantity">TRealQuantity</a>;</code></td>
 </tr>
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TComplexQuantityHelper.html#Reciprocal">Reciprocal</a></strong>: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>;</code></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TComplexQuantityHelper.html#SameValue-TComplexQuantity-">SameValue</a></strong>(const AQuantity: <a href="ADim.html#TComplexQuantity">TComplexQuantity</a>): boolean;</code></td>
 </tr>
 <tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TComplexQuantityHelper.html#SquaredNorm">SquaredNorm</a></strong>: <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TComplexQuantityHelper.html#SquaredNorm">SquaredNorm</a></strong>: <a href="ADim.html#TRealQuantity">TRealQuantity</a>;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
@@ -63,41 +63,41 @@ Record helper for <a class="normal" href="ADim.TComplexQuantity.html">TComplexQu
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Conjugate"></span><code>function <strong>Conjugate</strong>: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>;</code></td>
+<td class="itemcode"><span id="Conjugate"></span><code>function <strong>Conjugate</strong>: <a href="ADim.html#TComplexQuantity">TComplexQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the complex conjugate of the quantity. If <code>z = (a + i·b) [dim]* </code>, the conjugate is <code>z* = (a - i·b) [dim]</code>. The physical dimension is preserved.</p>
+Returns the complex conjugate.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Norm"></span><code>function <strong>Norm</strong>: <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+<td class="itemcode"><span id="Norm"></span><code>function <strong>Norm</strong>: <a href="ADim.html#TRealQuantity">TRealQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the modulus (magnitude) of the complex quantity as a real quantity. Defined as <code>|z| = √(Re² + Im²)</code>. The resulting dimension equals the dimension of the original quantity.</p>
+Returns the complex modulus with the same physical dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Reciprocal"></span><code>function <strong>Reciprocal</strong>: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>;</code></td>
+<td class="itemcode"><span id="SameValue-TComplexQuantity-"></span><code>function <strong>SameValue</strong>(const AQuantity: <a href="ADim.html#TComplexQuantity">TComplexQuantity</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the reciprocal of the complex quantity: <code>1 / z</code>. The resulting dimension is the inverse of the original dimension.</p>
+Returns <code>True</code> when both quantities have the same dimension and their real and imaginary components agree within <a class="normal" href="ADimMath.html#DefaultEpsilon">DefaultEpsilon</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
 <tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="SquaredNorm"></span><code>function <strong>SquaredNorm</strong>: <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+<td class="itemcode"><span id="SquaredNorm"></span><code>function <strong>SquaredNorm</strong>: <a href="ADim.html#TRealQuantity">TRealQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the squared modulus of the complex quantity as a real quantity. Defined as <code>|z|² = Re² + Im²</code>. The resulting dimension is the square of the dimension of the original quantity. Avoids the square root computation of <a class="normal" href="ADim.TComplexQuantityHelper.html#Norm">Norm</a>.</p>
+Returns the squared modulus. The physical dimension is squared.</p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>

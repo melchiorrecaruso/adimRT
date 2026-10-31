@@ -3,18 +3,7 @@
 
   Copyright (C) 2024-2026 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU Lesser General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  Distributed under the MIT License, see the file LICENSE.
 }
 
 program ADimTest;
@@ -209,6 +198,10 @@ var
   omega_: TCL3BivecQuantity;
   impedance_: TCL3MultivecQuantity;
   power_: TCL3MultivecQuantity;
+  axialtorque_: TCL3VecQuantity;
+  generic_: TCL3MultivecQuantity;
+  position1_: TCL3VecQuantity;
+  position2_: TCL3VecQuantity;
 
   acc__: TRealVectorQuantity;
   radius__: TRealVectorQuantity;
@@ -1581,6 +1574,48 @@ begin
   if A.ToString(current_.Norm) <> '22.3606797749979 A' then halt(6);
   if W.ToString(power_.Norm) <> '1118.03398874989 W'   then halt(7);
   writeln('* TEST-515: PASSED');
+
+  // TEST-516 - Torque as an axial vector.
+  // Exercise: tau = r x F.  In Cl(3) the cross product is the dual of the
+  // exterior product, r x F = -(r^F)*, and reverses sign with the operands.
+  radius_      := 2*e1*m;
+  force_       := 3*e3*N;
+  axialtorque_ := radius_.Cross(force_);
+  if NewtonMeterUnit.ToString(axialtorque_) <> '(-6e2) N∙m'                  then halt(1);
+  if NewtonMeterUnit.ToString(-radius_.Wedge(force_).Dual) <> '(-6e2) N∙m'   then halt(2);
+  if NewtonMeterUnit.ToString(force_.Cross(radius_)) <> '(+6e2) N∙m'         then halt(3);
+  writeln('* TEST-516: PASSED');
+
+  // TEST-517 - Inverse of a mixed-grade multivector.
+  // Exercise: X = e1 + 2e12 metres has no scalar or pseudoscalar part, yet it
+  // is invertible: X^-1 = -(e1 + 2e12)/3 per metre, a left and right inverse.
+  generic_ := (1*e1 + 2*e12)*m;
+  if not generic_.Inverse.SameValue((-1/3*e1 - 2/3*e12)/m) then halt(1);
+  if not (generic_ * generic_.Inverse).SameValue(1)        then halt(2);
+  if not (generic_.Inverse * generic_).SameValue(1)        then halt(3);
+  if not (generic_ / generic_).SameValue(1)                then halt(4);
+  writeln('* TEST-517: PASSED');
+
+  // TEST-518 - Equality of vector quantities.
+  // Exercise: two positions are equal only when every component matches;
+  // sharing the e1 component is not enough.
+  position1_ := (1*e1 + 2*e2)*m;
+  position2_ := (1*e1 + 3*e2)*m;
+  if position1_ = position2_       then halt(1);
+  if not (position1_ <> position2_) then halt(2);
+  if not (position1_ = position1_)  then halt(3);
+  writeln('* TEST-518: PASSED');
+
+  // TEST-519 - Bivector times pseudoscalar.
+  // Exercise: the product of a bivector and a trivector is a vector, here the
+  // normal of an oriented area scaled by a volume element.  Multivector strings
+  // name the e13 component as e13, with its own sign.
+  area_      := (2*e12 + 3*e23)*m2;
+  position1_ := area_ * (4*e123*m);
+  if CubicMeterUnit.ToString(position1_) <> '(-12e1 -8e3) m³'        then halt(1);
+  if MeterUnit.ToString(area_ / (4*e123*m)) <> '(+0.75e1 +0.5e3) m'  then halt(2);
+  if MeterUnit.ToString((2 + 1*e13 + 3*e123)*m) <> '(+2 +1e13 +3e123) m' then halt(3);
+  writeln('* TEST-519: PASSED');
 
   // The TEST-6xx group repeats selected exercises with ordinary real or complex
   // vectors and matrices.  It demonstrates the alternative linear-algebra API.

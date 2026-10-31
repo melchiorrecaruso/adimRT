@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>ADim Library: ADim: Record TVectorQuantity</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 1.0.4">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<nav class="navbar d-md-none sticky-top bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html">ADim Library</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarNav" aria-controls="sidebarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
+<div class="offcanvas-md offcanvas-start navigation" tabindex="-1" id="sidebarNav" data-bs-scroll="true">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">ADim Library</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarNav" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body py-2">
+<h2><a href="index.html">ADim Library</a></h2><ul class="nav flex-column px-3"><li class="nav-item"><a class="nav-link px-2 py-1" href="AllUnits.html">Units</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="ClassHierarchy.html">Class Hierarchy</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllClasses.html">Classes, Interfaces, Objects and Records</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllTypes.html">Types</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllVariables.html">Variables</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllConstants.html">Constants</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllFunctions.html">Functions and Procedures</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllIdentifiers.html">Identifiers</a></li></ul></div></div>
+<main class="pasdoc-content content">
+<div class="container-fluid py-3 px-4">
+<span id="TVectorQuantity"></span><h1 class="cio">Record TVectorQuantity</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-NestedTypes">Nested Types</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="ADim.html">ADim</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type generic TVectorQuantity&lt;T&gt; = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+Represents a dynamically sized vector whose coefficients share one physical dimension. <code>T</code> is the mathematical coefficient type, normally <a class="normal" href="ADimMath.html#TReal">TReal</a> or <a class="normal" href="ADimMath.TComplex.html">TComplex</a>. Vector sizes are determined by the underlying <a class="normal" href="ADimMath.TVector.generic.html">TVector</a> value, and binary operations require equal sizes.</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-NestedTypes"></span><h3 class="summary">Nested Types</h3>
+<table class="summary wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="ADim.TVectorQuantity.generic.html#TScalarQuantity">TScalarQuantity</a></strong> = specialize <a href="ADim.TQuantity.generic.html">TQuantity</a>&lt;<a href="ADim.html#T">T</a>&gt;;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code><strong><a href="ADim.TVectorQuantity.generic.html#TValueVector">TValueVector</a></strong> = specialize <a href="ADimMath.TVector.generic.html">TVector</a>&lt;<a href="ADim.html#T">T</a>&gt;;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TVectorQuantity.generic.html#Size">Size</a></strong>: longint;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TVectorQuantity.generic.html#Dot-TVectorQuantity-">Dot</a></strong>(const AVector: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>): <a href="ADim.TVectorQuantity.generic.html#TScalarQuantity">TScalarQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TVectorQuantity.generic.html#IsNull">IsNull</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TVectorQuantity.generic.html#IsNotNull">IsNotNull</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TVectorQuantity.generic.html#Norm">Norm</a></strong>: <a href="ADim.html#TRealQuantity">TRealQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TVectorQuantity.generic.html#SquaredNorm">SquaredNorm</a></strong>: <a href="ADim.html#TRealQuantity">TRealQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TVectorQuantity.generic.html#Normalize">Normalize</a></strong>: <a href="ADim.TVectorQuantity.generic.html#TValueVector">TValueVector</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TVectorQuantity.generic.html#Reciprocal">Reciprocal</a></strong>: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TVectorQuantity.generic.html#ToString">ToString</a></strong>: string;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator =(const ALeft, ARight: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ASelf: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>): <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ASelf: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>): <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft, ARight: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>): <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft, ARight: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>): <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const ALeft, ARight: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>): <a href="ADim.TVectorQuantity.generic.html#TScalarQuantity">TScalarQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TVectorQuantity.generic.html#TScalarQuantity">TScalarQuantity</a>; const ARight: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>): <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>; const ARight: <a href="ADim.TVectorQuantity.generic.html#TScalarQuantity">TScalarQuantity</a>): <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>; const ARight: <a href="ADim.TVectorQuantity.generic.html#TScalarQuantity">TScalarQuantity</a>): <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>property <strong><a href="ADim.TVectorQuantity.generic.html#A">A</a></strong>[AIndex: longint]: <a href="ADim.TVectorQuantity.generic.html#TScalarQuantity">TScalarQuantity</a> read Get write Put; default;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Nested Types</h3>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="TScalarQuantity"></span><code><strong>TScalarQuantity</strong> = specialize <a href="ADim.TQuantity.generic.html">TQuantity</a>&lt;<a href="ADim.html#T">T</a>&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Scalar physical quantity returned for individual coefficients and scalar products.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="TValueVector"></span><code><strong>TValueVector</strong> = specialize <a href="ADimMath.TVector.generic.html">TVector</a>&lt;<a href="ADim.html#T">T</a>&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Mathematical vector type used to store the coefficients.</p>
+</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Size"></span><code>function <strong>Size</strong>: longint;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the number of vector coefficients.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Dot-TVectorQuantity-"></span><code>function <strong>Dot</strong>(const AVector: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>): <a href="ADim.TVectorQuantity.generic.html#TScalarQuantity">TScalarQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the dot product with <code>AVector</code>. Both vectors must have the same size.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="IsNull"></span><code>function <strong>IsNull</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if every coefficient is numerically zero.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="IsNotNull"></span><code>function <strong>IsNotNull</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if at least one coefficient is non-zero.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Norm"></span><code>function <strong>Norm</strong>: <a href="ADim.html#TRealQuantity">TRealQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the Euclidean norm with the same physical dimension as the vector.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="SquaredNorm"></span><code>function <strong>SquaredNorm</strong>: <a href="ADim.html#TRealQuantity">TRealQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the squared Euclidean norm. The physical dimension is squared.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Normalize"></span><code>function <strong>Normalize</strong>: <a href="ADim.TVectorQuantity.generic.html#TValueVector">TValueVector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the dimensionless mathematical unit vector in the same direction. The original quantity vector is not modified.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Reciprocal"></span><code>function <strong>Reciprocal</strong>: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the component-wise reciprocal vector.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="ToString"></span><code>function <strong>ToString</strong>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the mathematical coefficients in their default string form. The unit symbol is intentionally omitted.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="=-TVectorQuantity-TVectorQuantity-"></span><code>class operator =(const ALeft, ARight: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> when dimensions, sizes and all coefficients are exactly equal.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="<-TVectorQuantity-TVectorQuantity-"></span><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> when dimensions, sizes or any coefficients differ.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TVectorQuantity-"></span><code>class operator +(const ASelf: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>): <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Unary plus. Returns the vector quantity unchanged.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TVectorQuantity-"></span><code>class operator -(const ASelf: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>): <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Unary minus. Negates every coefficient.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TVectorQuantity-TVectorQuantity-"></span><code>class operator +(const ALeft, ARight: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>): <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Adds two same-sized vector quantities with equal physical dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TVectorQuantity-TVectorQuantity-"></span><code>class operator -(const ALeft, ARight: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>): <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Subtracts two same-sized vector quantities with equal physical dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TVectorQuantity-TVectorQuantity-"></span><code>class operator *(const ALeft, ARight: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>): <a href="ADim.TVectorQuantity.generic.html#TScalarQuantity">TScalarQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the dot product of two same-sized vector quantities.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TScalarQuantity-TVectorQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TVectorQuantity.generic.html#TScalarQuantity">TScalarQuantity</a>; const ARight: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>): <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Multiplies a scalar quantity by a vector quantity.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TVectorQuantity-TScalarQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>; const ARight: <a href="ADim.TVectorQuantity.generic.html#TScalarQuantity">TScalarQuantity</a>): <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Multiplies a vector quantity by a scalar quantity.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TVectorQuantity-TScalarQuantity-"></span><code>class operator /(const ALeft: <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>; const ARight: <a href="ADim.TVectorQuantity.generic.html#TScalarQuantity">TScalarQuantity</a>): <a href="ADim.TVectorQuantity.generic.html">TVectorQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Divides a vector quantity by a scalar quantity.</p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="A"></span><code>property <strong>A</strong>[AIndex: longint]: <a href="ADim.TVectorQuantity.generic.html#TScalarQuantity">TScalarQuantity</a> read Get write Put; default;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Provides zero-based indexed access to vector coefficients as physical quantities. Assigned coefficients must have the vector's dimension.</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>
+</span>
+</div></main>
+<script src="bootstrap.bundle.min.js"></script>
+</body></html>

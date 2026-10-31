@@ -26,22 +26,10 @@
 
   @author Melchiorre Caruso (melchiorrecaruso@@gmail.com)
   @copyright 2024-2026 Melchiorre Caruso
-  @license GNU Lesser General Public License v3 with modified LGPL exception.
+  @license MIT License, see the file LICENSE.
 
-  This unit is part of the ADim library, distributed under the
-  GNU Lesser General Public License v3 (LGPL v3) with the following
-  special exception:
-
-  As a special exception, the copyright holders of this library give you
-  permission to link this library with independent modules to produce an
-  executable, regardless of the license terms of these independent modules,
-  and to copy and distribute the resulting executable under terms of your
-  choice, provided that you also meet, for each linked independent module,
-  the terms and conditions of the license of that module. An independent
-  module is a module which is not derived from or based on this library.
-  If you modify this library, you may extend this exception to your version
-  of the library, but you are not obligated to do so. If you do not wish
-  to do so, delete this exception statement from your version.
+  This unit is part of the ADim library, distributed under the MIT License
+  (see the file LICENSE).
 }
 
 unit Skeleton;
@@ -948,18 +936,6 @@ type
     }
     class operator *(const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 
-    { Returns the geometric product of a bivector quantity and a trivector quantity.
-      The resulting dimension is the product of the two dimensions.
-      Grade mixing occurs according to the @code(Cl(3,0)) multiplication rules.
-    }
-    class operator *(const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
-
-    { Returns the geometric product of a trivector quantity and a bivector quantity.
-      The resulting dimension is the product of the two dimensions.
-      Grade mixing occurs according to the @code(Cl(3,0)) multiplication rules.
-    }
-    class operator *(const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
-
     { Returns the geometric product of a multivector quantity and a bivector quantity.
       The resulting dimension is the product of the two dimensions.
       Grade mixing occurs according to the @code(Cl(3,0)) multiplication rules.
@@ -995,18 +971,6 @@ type
       Each component is divided by @code(ARight). The dimension is preserved.
     }
     class operator /(const ALeft: TCL3BivecQuantity; const ARight: TReal): TCL3BivecQuantity;
-
-    { Returns the geometric quotient of a bivector quantity divided by a trivector quantity:
-      @code(ALeft * ARight⁻¹).
-      The resulting dimension is the ratio of the two dimensions.
-    }
-    class operator /(const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
-
-    { Returns the geometric quotient of a trivector quantity divided by a bivector quantity:
-      @code(ALeft * ARight⁻¹).
-      The resulting dimension is the ratio of the two dimensions.
-    }
-    class operator /(const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 
     { Returns the geometric quotient of a bivector quantity divided by a multivector quantity:
       @code(ALeft * ARight⁻¹).
@@ -1344,6 +1308,32 @@ type
     }
     class operator -(const ALeft: TRealQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
   end;
+
+  { Returns the geometric product of a bivector quantity and a trivector quantity.
+    The resulting dimension is the product of the two dimensions.
+    The product of a bivector and the pseudoscalar is a vector.
+  }
+  operator *(const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3VecQuantity;
+
+  { Returns the geometric product of a trivector quantity and a bivector quantity.
+    The resulting dimension is the product of the two dimensions.
+    The product of a bivector and the pseudoscalar is a vector.
+  }
+  operator *(const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3VecQuantity;
+
+  { Returns the geometric quotient of a bivector quantity divided by a trivector quantity:
+    @code(ALeft * ARight⁻¹).
+    The quotient of a bivector and the pseudoscalar is a vector.
+    The resulting dimension is the ratio of the two dimensions.
+  }
+  operator /(const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3VecQuantity;
+
+  { Returns the geometric quotient of a trivector quantity divided by a bivector quantity:
+    @code(ALeft * ARight⁻¹).
+    The quotient of a bivector and the pseudoscalar is a vector.
+    The resulting dimension is the ratio of the two dimensions.
+  }
+  operator /(const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3VecQuantity;
   {$ELSE}
   { Mathematical @code(Cl(3,0)) vector used when dimensional checks are
     disabled. }
@@ -1368,13 +1358,12 @@ type
     }
     function Dual: TCL3MultivecQuantity;
 
-    { Returns the inverse of the multivector quantity under the geometric product.
-      Defined as @code(M⁻¹) such that @code(M · M⁻¹ = 1).
-      The resulting dimension is the inverse of the original dimension.
-      Not all multivectors are invertible; behaviour is undefined if @code(M)
-      has no inverse.
+    { Returns the grade involution of the multivector quantity: every grade-@code(k)
+      component is multiplied by @code((-1)^k).
+      @code(M̂ = m0 - m₁·e₁ - m₂·e₂ - m₃·e₃ + m₁₂·e₁₂ + m₁₃·e₁₃ + m₂₃·e₂₃ - m₁₂₃·e₁₂₃).
+      The physical dimension is preserved.
     }
-    function Inverse: TCL3MultivecQuantity;
+    function Involute: TCL3MultivecQuantity;
 
     { Returns the reverse of the multivector quantity.
       The reverse of a grade-@code(k) blade changes sign by @code((-1)^(k·(k-1)/2)).
@@ -1391,18 +1380,12 @@ type
     }
     function Conjugate: TCL3MultivecQuantity;
 
-    { Returns the right reciprocal of the multivector quantity: @code(M̃ / (M · M̃)).
-      Satisfies @code(M · Reciprocal(M) = 1).
+    { Returns the multiplicative inverse of the multivector quantity under the geometric
+      product: @code(M⁻¹ · M = M · M⁻¹ = 1).
       The resulting dimension is the inverse of the original dimension.
+      Raises a floating-point exception if the multivector is not invertible.
     }
-    function Reciprocal: TCL3MultivecQuantity;
-
-    { Returns the left reciprocal of the multivector quantity: @code(M̃ / (M̃ · M)).
-      Satisfies @code(LeftReciprocal(M) · M = 1).
-      For non-degenerate multivectors, left and right reciprocals coincide.
-      The resulting dimension is the inverse of the original dimension.
-    }
-    function LeftReciprocal: TCL3MultivecQuantity;
+    function Inverse: TCL3MultivecQuantity;
 
     { Returns the unit multivector in the same direction.
       Each component is divided by @link(Norm).
@@ -1640,23 +1623,23 @@ type
       @param(AComponents A set of @link(TCL3MultivectorComponent) values identifying
                          the components to retain.)
     }
-    function ExtractMultivector(AComponents: TCL3MultivectorComponents): TCL3MultivecQuantity;
+    function Extract(AComponents: TCL3MultivectorComponents): TCL3MultivecQuantity;
 
     { Returns the grade-2 components of the multivector quantity specified by
       @code(AComponents) as a @link(TCL3BivecQuantity).
       Components not present in @code(AComponents) are set to zero.
-      @param(AComponents A set of @link(TCL3MultivectorComponent) values. Valid values
-                         are @code(mcm12), @code(mcm13), @code(mcm23).)
+      @param(AComponents A set of @link(TCL3BivectorComponent) values identifying
+                         the components to retain.)
     }
-    function ExtractBivector(AComponents: TCL3MultivectorComponents): TCL3BivecQuantity;
+    function Extract(AComponents: TCL3BivectorComponents): TCL3BivecQuantity;
 
     { Returns the grade-1 components of the multivector quantity specified by
       @code(AComponents) as a @link(TCL3VecQuantity).
       Components not present in @code(AComponents) are set to zero.
-      @param(AComponents A set of @link(TCL3MultivectorComponent) values. Valid values
-                         are @code(mcm1), @code(mcm2), @code(mcm3).)
+      @param(AComponents A set of @link(TCL3VectorComponent) values identifying
+                         the components to retain.)
     }
-    function ExtractVector(AComponents: TCL3MultivectorComponents): TCL3VecQuantity;
+    function Extract(AComponents: TCL3VectorComponents): TCL3VecQuantity;
 
     { Returns all grade-3 components of the multivector quantity as a @link(TCL3TrivecQuantity).
       All other grade components are discarded.
@@ -1696,7 +1679,7 @@ type
     { Returns @true if the multivector quantity is a pure bivector (grade-2),
       i.e. only @code(m12), @code(m13), @code(m23) are non-negligible.
     }
-    function IsBiVector: boolean;
+    function IsBivector: boolean;
 
     { Returns @true if the multivector quantity is a pure trivector (grade-3),
       i.e. only @code(m123) is non-negligible.
@@ -1729,11 +1712,11 @@ type
     }
     function Dual: TRealQuantity;
 
-    { Returns the inverse of the trivector quantity under the geometric product.
-      For @code(T = m123·e₁₂₃ [dim]):
-      @code(T⁻¹ = -e₁₂₃ / m123 [dim⁻¹]), since @code(e₁₂₃² = -1).
+    { Returns the grade involution of the trivector quantity.
+      For a trivector (@code(k = 3)): @code(T̂ = -T).
+      The physical dimension is preserved.
     }
-    function Inverse: TCL3TrivecQuantity;
+    function Involute: TCL3TrivecQuantity;
 
     { Returns the reverse of the trivector quantity.
       For a trivector (@code(k = 3)): @code(T̃ = -T).
@@ -1747,11 +1730,12 @@ type
     }
     function Conjugate: TCL3TrivecQuantity;
 
-    { Returns the reciprocal of the trivector quantity: @code(T̃ / (T · T̃)).
-      Equivalent to @link(Inverse) for non-zero trivector quantities.
+    { Returns the multiplicative inverse of the trivector quantity under the geometric
+      product: @code(T⁻¹ · T = T · T⁻¹ = 1).
       The resulting dimension is the inverse of the original dimension.
+      Raises a floating-point exception if the trivector is not invertible.
     }
-    function Reciprocal: TCL3TrivecQuantity;
+    function Inverse: TCL3TrivecQuantity;
 
     { Returns the unit trivector quantity in the same direction.
       The coefficient @code(m123) is divided by @link(Norm).
@@ -1987,11 +1971,11 @@ type
     }
     function Dual: TCL3VecQuantity;
 
-    { Returns the inverse of the bivector quantity under the geometric product.
-      For a pure bivector @code(B): @code(B⁻¹ = -B / |B|²), since @code(B² ≤ 0).
-      The resulting dimension is the inverse of the original dimension.
+    { Returns the grade involution of the bivector quantity.
+      For a bivector (@code(k = 2)): @code(B̂ = B).
+      The physical dimension is preserved.
     }
-    function Inverse: TCL3BivecQuantity;
+    function Involute: TCL3BivecQuantity;
 
     { Returns the reverse of the bivector quantity.
       For a bivector (@code(k = 2)): @code(B̃ = -B).
@@ -2005,11 +1989,12 @@ type
     }
     function Conjugate: TCL3BivecQuantity;
 
-    { Returns the reciprocal of the bivector quantity: @code(B̃ / (B · B̃)).
-      Equivalent to @link(Inverse) for non-zero bivector quantities.
+    { Returns the multiplicative inverse of the bivector quantity under the geometric
+      product: @code(B⁻¹ · B = B · B⁻¹ = 1).
       The resulting dimension is the inverse of the original dimension.
+      Raises a floating-point exception if the bivector is not invertible.
     }
-    function Reciprocal: TCL3BivecQuantity;
+    function Inverse: TCL3BivecQuantity;
 
     { Returns the unit bivector quantity in the same orientation.
       Each component is divided by @link(Norm).
@@ -2233,11 +2218,11 @@ type
 
     { Returns a new bivector quantity containing only the components specified
       by @code(AComponents). Components not present in @code(AComponents) are set to zero.
-      @param(AComponents A set of @link(TCL3MultivectorComponent) values identifying
-                         the components to retain. Valid values are @code(mcm12),
-                         @code(mcm13), @code(mcm23).)
+      @param(AComponents A set of @link(TCL3BivectorComponent) values identifying
+                         the components to retain. Valid values are @code(bc12),
+                         @code(bc13), @code(bc23).)
     }
-    function ExtractBivector(AComponents: TCL3MultivectorComponents): TCL3BivecQuantity;
+    function Extract(AComponents: TCL3BivectorComponents): TCL3BivecQuantity;
 
     { Converts the bivector quantity to a full @link(TCL3MultivecQuantity).
       All components are zero except @code(m12), @code(m13), @code(m23).
@@ -2265,11 +2250,11 @@ type
     }
     function Dual: TCL3BivecQuantity;
 
-    { Returns the inverse of the vector quantity under the geometric product.
-      For a non-zero vector @code(v): @code(v⁻¹ = v / |v|²), since @code(v² > 0).
-      The resulting dimension is the inverse of the original dimension.
+    { Returns the grade involution of the vector quantity.
+      For a vector (@code(k = 1)): @code(v̂ = -v).
+      The physical dimension is preserved.
     }
-    function Inverse: TCL3VecQuantity;
+    function Involute: TCL3VecQuantity;
 
     { Returns the reverse of the vector quantity.
       For a vector (@code(k = 1)): @code(ṽ = v) (unchanged).
@@ -2283,11 +2268,12 @@ type
     }
     function Conjugate: TCL3VecQuantity;
 
-    { Returns the reciprocal of the vector quantity: @code(ṽ / (v · ṽ)).
-      Equivalent to @link(Inverse) for non-zero vector quantities.
+    { Returns the multiplicative inverse of the vector quantity under the geometric
+      product: @code(v⁻¹ · v = v · v⁻¹ = 1).
       The resulting dimension is the inverse of the original dimension.
+      Raises a floating-point exception if the vector is not invertible.
     }
-    function Reciprocal: TCL3VecQuantity;
+    function Inverse: TCL3VecQuantity;
 
     { Returns the unit vector quantity in the same direction.
       Each component is divided by @link(Norm).
@@ -2529,11 +2515,11 @@ type
 
     { Returns a new vector quantity containing only the components specified
       by @code(AComponents). Components not present in @code(AComponents) are set to zero.
-      @param(AComponents A set of @link(TCL3MultivectorComponent) values identifying
-                         the components to retain. Valid values are @code(mcm1),
-                         @code(mcm2), @code(mcm3).)
+      @param(AComponents A set of @link(TCL3VectorComponent) values identifying
+                         the components to retain. Valid values are @code(vc1),
+                         @code(vc2), @code(vc3).)
     }
-    function ExtractVector(AComponents: TCL3MultivectorComponents): TCL3VecQuantity;
+    function Extract(AComponents: TCL3VectorComponents): TCL3VecQuantity;
 
     { Converts the vector quantity to a full @link(TCL3MultivecQuantity).
       All components are zero except @code(m1), @code(m2), @code(m3).
@@ -2581,28 +2567,28 @@ type
     { Returns the complex quantity @code(AValue / [unit]), with inverted dimension. }
     class operator /(const AValue: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
 
-    { Returns the 2-component real vector quantity @code(AVector [unit]). }
+    { Returns the real vector quantity @code(AVector [unit]). }
     class operator *(const AVector: TRealVector; const ASelf: TUnit): TRealVectorQuantity; inline;
 
-    { Returns the 2-component real vector quantity @code(AVector / [unit]), with inverted dimension. }
+    { Returns the real vector quantity @code(AVector / [unit]), with inverted dimension. }
     class operator /(const AVector: TRealVector; const ASelf: TUnit): TRealVectorQuantity; inline;
 
-    { Returns the 2-component complex vector quantity @code(AVector [unit]). }
+    { Returns the complex vector quantity @code(AVector [unit]). }
     class operator *(const AVector: TComplexVector; const ASelf: TUnit): TComplexVectorQuantity; inline;
 
-    { Returns the 2-component complex vector quantity @code(AVector / [unit]), with inverted dimension. }
+    { Returns the complex vector quantity @code(AVector / [unit]), with inverted dimension. }
     class operator /(const AVector: TComplexVector; const ASelf: TUnit): TComplexVectorQuantity; inline;
 
-    { Returns the 2×2 real matrix quantity @code(AMatrix [unit]). }
+    { Returns the real matrix quantity @code(AMatrix [unit]). }
     class operator *(const AMatrix: TRealMatrix; const ASelf: TUnit): TRealMatrixQuantity; inline;
 
-    { Returns the 2×2 real matrix quantity @code(AMatrix / [unit]), with inverted dimension. }
+    { Returns the real matrix quantity @code(AMatrix / [unit]), with inverted dimension. }
     class operator /(const AMatrix: TRealMatrix; const ASelf: TUnit): TRealMatrixQuantity; inline;
 
-    { Returns the 2×2 complex matrix quantity @code(AMatrix [unit]). }
+    { Returns the complex matrix quantity @code(AMatrix [unit]). }
     class operator *(const AMatrix: TComplexMatrix; const ASelf: TUnit): TComplexMatrixQuantity; inline;
 
-    { Returns the 2×2 complex matrix quantity @code(AMatrix / [unit]), with inverted dimension. }
+    { Returns the complex matrix quantity @code(AMatrix / [unit]), with inverted dimension. }
     class operator /(const AMatrix: TComplexMatrix; const ASelf: TUnit): TComplexMatrixQuantity; inline;
 
     { Returns the @code(Cl(3,0)) vector quantity @code(AVector [unit]). }
@@ -2652,28 +2638,28 @@ type
     { Returns the complex quantity with dimension inverted relative to @code([unit]). }
     class operator /(const ASelf: TUnit; const AQuantity: TComplexQuantity): TComplexQuantity; inline;
 
-    { Returns the 2-component real vector quantity with dimension scaled by @code([unit]). }
+    { Returns the real vector quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TRealVectorQuantity; const ASelf: TUnit): TRealVectorQuantity; inline;
 
-    { Returns the 2-component real vector quantity with dimension divided by @code([unit]). }
+    { Returns the real vector quantity with dimension divided by @code([unit]). }
     class operator /(const AQuantity: TRealVectorQuantity; const ASelf: TUnit): TRealVectorQuantity; inline;
 
-    { Returns the 2-component complex vector quantity with dimension scaled by @code([unit]). }
+    { Returns the complex vector quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TComplexVectorQuantity; const ASelf: TUnit): TComplexVectorQuantity; inline;
 
-    { Returns the 2-component complex vector quantity with dimension divided by @code([unit]). }
+    { Returns the complex vector quantity with dimension divided by @code([unit]). }
     class operator /(const AQuantity: TComplexVectorQuantity; const ASelf: TUnit): TComplexVectorQuantity; inline;
 
-    { Returns the 2×2 real matrix quantity with dimension scaled by @code([unit]). }
+    { Returns the real matrix quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TRealMatrixQuantity; const ASelf: TUnit): TRealMatrixQuantity; inline;
 
-    { Returns the 2×2 real matrix quantity with dimension divided by @code([unit]). }
+    { Returns the real matrix quantity with dimension divided by @code([unit]). }
     class operator /(const AQuantity: TRealMatrixQuantity; const ASelf: TUnit): TRealMatrixQuantity; inline;
 
-    { Returns the 2×2 complex matrix quantity with dimension scaled by @code([unit]). }
+    { Returns the complex matrix quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TComplexMatrixQuantity; const ASelf: TUnit): TComplexMatrixQuantity; inline;
 
-    { Returns the 2×2 complex matrix quantity with dimension divided by @code([unit]). }
+    { Returns the complex matrix quantity with dimension divided by @code([unit]). }
     class operator /(const AQuantity: TComplexMatrixQuantity; const ASelf: TUnit): TComplexMatrixQuantity; inline;
 
     { Returns the @code(Cl(3,0)) vector quantity with dimension scaled by @code([unit]). }
@@ -2752,28 +2738,28 @@ type
     }
     class operator /(const AValue: TComplex; const ASelf: TFactoredUnit): TComplexQuantity; inline;
 
-    { Returns the 2-component real vector quantity @code(AVector * FFactor [dim]). }
+    { Returns the real vector quantity @code(AVector * FFactor [dim]). }
     class operator *(const AVector: TRealVector; const ASelf: TFactoredUnit): TRealVectorQuantity; inline;
 
-    { Returns the 2-component real vector quantity @code(AVector / FFactor [dim⁻¹]). }
+    { Returns the real vector quantity @code(AVector / FFactor [dim⁻¹]). }
     class operator /(const AVector: TRealVector; const ASelf: TFactoredUnit): TRealVectorQuantity; inline;
 
-    { Returns the 2-component complex vector quantity @code(AVector * FFactor [dim]). }
+    { Returns the complex vector quantity @code(AVector * FFactor [dim]). }
     class operator *(const AVector: TComplexVector; const ASelf: TFactoredUnit): TComplexVectorQuantity; inline;
 
-    { Returns the 2-component complex vector quantity @code(AVector / FFactor [dim⁻¹]). }
+    { Returns the complex vector quantity @code(AVector / FFactor [dim⁻¹]). }
     class operator /(const AVector: TComplexVector; const ASelf: TFactoredUnit): TComplexVectorQuantity; inline;
 
-    { Returns the 2×2 real matrix quantity @code(AMatrix * FFactor [dim]). }
+    { Returns the real matrix quantity @code(AMatrix * FFactor [dim]). }
     class operator *(const AMatrix: TRealMatrix; const ASelf: TFactoredUnit): TRealMatrixQuantity; inline;
 
-    { Returns the 2×2 real matrix quantity @code(AMatrix / FFactor [dim⁻¹]). }
+    { Returns the real matrix quantity @code(AMatrix / FFactor [dim⁻¹]). }
     class operator /(const AMatrix: TRealMatrix; const ASelf: TFactoredUnit): TRealMatrixQuantity; inline;
 
-    { Returns the 2×2 complex matrix quantity @code(AMatrix * FFactor [dim]). }
+    { Returns the complex matrix quantity @code(AMatrix * FFactor [dim]). }
     class operator *(const AMatrix: TComplexMatrix; const ASelf: TFactoredUnit): TComplexMatrixQuantity; inline;
 
-    { Returns the 2×2 complex matrix quantity @code(AMatrix / FFactor [dim⁻¹]). }
+    { Returns the complex matrix quantity @code(AMatrix / FFactor [dim⁻¹]). }
     class operator /(const AMatrix: TComplexMatrix; const ASelf: TFactoredUnit): TComplexMatrixQuantity; inline;
 
     { Returns the @code(Cl(3,0)) vector quantity @code(AQuantity * FFactor [dim]). }
@@ -2818,28 +2804,28 @@ type
     { Returns the complex quantity with dimension and value rescaled by @code(1/FFactor). }
     class operator /(const AQuantity: TComplexQuantity; const ASelf: TFactoredUnit): TComplexQuantity; inline;
 
-    { Returns the 2-component real vector quantity rescaled by @code(FFactor). }
+    { Returns the real vector quantity rescaled by @code(FFactor). }
     class operator *(const AQuantity: TRealVectorQuantity; const ASelf: TFactoredUnit): TRealVectorQuantity; inline;
 
-    { Returns the 2-component real vector quantity rescaled by @code(1/FFactor). }
+    { Returns the real vector quantity rescaled by @code(1/FFactor). }
     class operator /(const AQuantity: TRealVectorQuantity; const ASelf: TFactoredUnit): TRealVectorQuantity; inline;
 
-    { Returns the 2-component complex vector quantity rescaled by @code(FFactor). }
+    { Returns the complex vector quantity rescaled by @code(FFactor). }
     class operator *(const AQuantity: TComplexVectorQuantity; const ASelf: TFactoredUnit): TComplexVectorQuantity; inline;
 
-    { Returns the 2-component complex vector quantity rescaled by @code(1/FFactor). }
+    { Returns the complex vector quantity rescaled by @code(1/FFactor). }
     class operator /(const AQuantity: TComplexVectorQuantity; const ASelf: TFactoredUnit): TComplexVectorQuantity; inline;
 
-    { Returns the 2×2 real matrix quantity rescaled by @code(FFactor). }
+    { Returns the real matrix quantity rescaled by @code(FFactor). }
     class operator *(const AQuantity: TRealMatrixQuantity; const ASelf: TFactoredUnit): TRealMatrixQuantity; inline;
 
-    { Returns the 2×2 real matrix quantity rescaled by @code(1/FFactor). }
+    { Returns the real matrix quantity rescaled by @code(1/FFactor). }
     class operator /(const AQuantity: TRealMatrixQuantity; const ASelf: TFactoredUnit): TRealMatrixQuantity; inline;
 
-    { Returns the 2×2 complex matrix quantity rescaled by @code(FFactor). }
+    { Returns the complex matrix quantity rescaled by @code(FFactor). }
     class operator *(const AQuantity: TComplexMatrixQuantity; const ASelf: TFactoredUnit): TComplexMatrixQuantity; inline;
 
-    { Returns the 2×2 complex matrix quantity rescaled by @code(1/FFactor). }
+    { Returns the complex matrix quantity rescaled by @code(1/FFactor). }
     class operator /(const AQuantity: TComplexMatrixQuantity; const ASelf: TFactoredUnit): TComplexMatrixQuantity; inline;
 
     { Returns the @code(Cl(3,0)) vector quantity rescaled by @code(FFactor). }
@@ -2978,25 +2964,25 @@ type
     }
     function GetValue(const AQuantity: TComplex; const APrefixes: TPrefixes): TComplex;
 
-    { Returns the 2-component real vector scaled for the given prefix.
+    { Returns the real vector scaled for the given prefix.
       @param(AQuantity The dimensionless vector to scale.)
       @param(APrefixes  The SI prefixes defining the scaling factor.)
     }
     function GetValue(const AQuantity: TRealVector; const APrefixes: TPrefixes): TRealVector;
 
-    { Returns the 2-component complex vector scaled for the given prefix.
+    { Returns the complex vector scaled for the given prefix.
       @param(AQuantity The dimensionless complex vector to scale.)
       @param(APrefixes  The SI prefixes defining the scaling factor.)
     }
     function GetValue(const AQuantity: TComplexVector; const APrefixes: TPrefixes): TComplexVector;
 
-    { Returns the 2×2 real matrix scaled for the given prefix.
+    { Returns the real matrix scaled for the given prefix.
       @param(AQuantity The dimensionless matrix to scale.)
       @param(APrefixes  The SI prefixes defining the scaling factor.)
     }
     function GetValue(const AQuantity: TRealMatrix; const APrefixes: TPrefixes): TRealMatrix;
 
-    { Returns the 2×2 complex matrix scaled for the given prefix.
+    { Returns the complex matrix scaled for the given prefix.
       @param(AQuantity The dimensionless complex matrix to scale.)
       @param(APrefixes  The SI prefixes defining the scaling factor.)
     }
@@ -3152,76 +3138,76 @@ type
     }
     function ToVerboseString(const AQuantity: TComplexQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 
-    { Returns the dimensionless @link(TR2Vector) of the 2-component real vector quantity expressed in this unit. }
+    { Returns the dimensionless @link(TRealVector) of the real vector quantity expressed in this unit. }
     function ToVector(const AQuantity: TRealVectorQuantity): TRealVector;
 
-    { Returns the dimensionless @link(TR2Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns the dimensionless @link(TRealVector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVector(const AQuantity: TRealVectorQuantity; const APrefixes: TPrefixes): TRealVector;
 
-    { Returns a compact string representation of the 2-component real vector quantity in this unit. }
+    { Returns a compact string representation of the real vector quantity in this unit. }
     function ToString(const AQuantity: TRealVectorQuantity): string;
 
-    { Returns a compact string representation of the 2-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns a compact string representation of the real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TRealVectorQuantity; const APrefixes: TPrefixes): string;
 
-    { Returns a verbose string representation of the 2-component real vector quantity in this unit. }
+    { Returns a verbose string representation of the real vector quantity in this unit. }
     function ToVerboseString(const AQuantity: TRealVectorQuantity): string;
 
-    { Returns a verbose string representation of the 2-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns a verbose string representation of the real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TRealVectorQuantity; const APrefixes: TPrefixes): string;
 
-    { Returns the dimensionless @link(TC2Vector) of the 2-component complex vector quantity expressed in this unit. }
+    { Returns the dimensionless @link(TComplexVector) of the complex vector quantity expressed in this unit. }
     function ToVector(const AQuantity: TComplexVectorQuantity): TComplexVector;
 
-    { Returns the dimensionless @link(TC2Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns the dimensionless @link(TComplexVector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVector(const AQuantity: TComplexVectorQuantity; const APrefixes: TPrefixes): TComplexVector;
 
-    { Returns a compact string representation of the 2-component complex vector quantity in this unit. }
+    { Returns a compact string representation of the complex vector quantity in this unit. }
     function ToString(const AQuantity: TComplexVectorQuantity): string;
 
-    { Returns a compact string representation of the 2-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns a compact string representation of the complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TComplexVectorQuantity; const APrefixes: TPrefixes): string;
 
-    { Returns a verbose string representation of the 2-component complex vector quantity in this unit. }
+    { Returns a verbose string representation of the complex vector quantity in this unit. }
     function ToVerboseString(const AQuantity: TComplexVectorQuantity): string;
 
-    { Returns a verbose string representation of the 2-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns a verbose string representation of the complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TComplexVectorQuantity; const APrefixes: TPrefixes): string;
 
-    { Returns the dimensionless @link(TR2Matrix) of the 2×2 real matrix quantity expressed in this unit. }
+    { Returns the dimensionless @link(TRealMatrix) of the real matrix quantity expressed in this unit. }
     function ToMatrix(const AQuantity: TRealMatrixQuantity): TRealMatrix;
 
-    { Returns the dimensionless @link(TR2Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns the dimensionless @link(TRealMatrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToMatrix(const AQuantity: TRealMatrixQuantity; const APrefixes: TPrefixes): TRealMatrix;
 
-    { Returns a compact string representation of the 2×2 real matrix quantity in this unit. }
+    { Returns a compact string representation of the real matrix quantity in this unit. }
     function ToString(const AQuantity: TRealMatrixQuantity): string;
 
-    { Returns a compact string representation of the 2×2 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns a compact string representation of the real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TRealMatrixQuantity; const APrefixes: TPrefixes): string;
 
-    { Returns a verbose string representation of the 2×2 real matrix quantity in this unit. }
+    { Returns a verbose string representation of the real matrix quantity in this unit. }
     function ToVerboseString(const AQuantity: TRealMatrixQuantity): string;
 
-    { Returns a verbose string representation of the 2×2 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns a verbose string representation of the real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TRealMatrixQuantity; const APrefixes: TPrefixes): string;
 
-    { Returns the dimensionless @link(TC2Matrix) of the 2×2 complex matrix quantity expressed in this unit. }
+    { Returns the dimensionless @link(TComplexMatrix) of the complex matrix quantity expressed in this unit. }
     function ToMatrix(const AQuantity: TComplexMatrixQuantity): TComplexMatrix;
 
-    { Returns the dimensionless @link(TC2Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns the dimensionless @link(TComplexMatrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToMatrix(const AQuantity: TComplexMatrixQuantity; const APrefixes: TPrefixes): TComplexMatrix;
 
-    { Returns a compact string representation of the 2×2 complex matrix quantity in this unit. }
+    { Returns a compact string representation of the complex matrix quantity in this unit. }
     function ToString(const AQuantity: TComplexMatrixQuantity): string;
 
-    { Returns a compact string representation of the 2×2 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns a compact string representation of the complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TComplexMatrixQuantity; const APrefixes: TPrefixes): string;
 
-    { Returns a verbose string representation of the 2×2 complex matrix quantity in this unit. }
+    { Returns a verbose string representation of the complex matrix quantity in this unit. }
     function ToVerboseString(const AQuantity: TComplexMatrixQuantity): string;
 
-    { Returns a verbose string representation of the 2×2 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns a verbose string representation of the complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TComplexMatrixQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a compact string representation of the @code(Cl(3,0)) vector quantity in this unit. }
@@ -3321,25 +3307,25 @@ type
     }
     function GetValue(const AQuantity: TComplex; const APrefixes: TPrefixes): TComplex;
 
-    { Returns the 2-component real vector scaled by @code(FFactor) and the given prefix.
+    { Returns the real vector scaled by @code(FFactor) and the given prefix.
       @param(AQuantity The dimensionless vector to scale.)
       @param(APrefixes  The SI prefixes defining additional scaling.)
     }
     function GetValue(const AQuantity: TRealVector; const APrefixes: TPrefixes): TRealVector;
 
-    { Returns the 2-component complex vector scaled by @code(FFactor) and the given prefix.
+    { Returns the complex vector scaled by @code(FFactor) and the given prefix.
       @param(AQuantity The dimensionless complex vector to scale.)
       @param(APrefixes  The SI prefixes defining additional scaling.)
     }
     function GetValue(const AQuantity: TComplexVector; const APrefixes: TPrefixes): TComplexVector;
 
-    { Returns the 2×2 real matrix scaled by @code(FFactor) and the given prefix.
+    { Returns the real matrix scaled by @code(FFactor) and the given prefix.
       @param(AQuantity The dimensionless matrix to scale.)
       @param(APrefixes  The SI prefixes defining additional scaling.)
     }
     function GetValue(const AQuantity: TRealMatrix; const APrefixes: TPrefixes): TRealMatrix;
 
-    { Returns the 2×2 complex matrix scaled by @code(FFactor) and the given prefix.
+    { Returns the complex matrix scaled by @code(FFactor) and the given prefix.
       @param(AQuantity The dimensionless complex matrix to scale.)
       @param(APrefixes  The SI prefixes defining additional scaling.)
     }
@@ -3484,76 +3470,76 @@ type
     }
     function ToVerboseString(const AQuantity: TComplexQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 
-    { Returns the dimensionless @link(TR2Vector) of the 2-component real vector quantity expressed in this factored unit. }
+    { Returns the dimensionless @link(TRealVector) of the real vector quantity expressed in this factored unit. }
     function ToVector(const AQuantity: TRealVectorQuantity): TRealVector;
 
-    { Returns the dimensionless @link(TR2Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns the dimensionless @link(TRealVector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVector(const AQuantity: TRealVectorQuantity; const APrefixes: TPrefixes): TRealVector;
 
-    { Returns a compact string representation of the 2-component real vector quantity in this factored unit. }
+    { Returns a compact string representation of the real vector quantity in this factored unit. }
     function ToString(const AQuantity: TRealVectorQuantity): string;
 
-    { Returns a compact string representation of the 2-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns a compact string representation of the real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TRealVectorQuantity; const APrefixes: TPrefixes): string;
 
-    { Returns a verbose string representation of the 2-component real vector quantity in this factored unit. }
+    { Returns a verbose string representation of the real vector quantity in this factored unit. }
     function ToVerboseString(const AQuantity: TRealVectorQuantity): string;
 
-    { Returns a verbose string representation of the 2-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns a verbose string representation of the real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TRealVectorQuantity; const APrefixes: TPrefixes): string;
 
-    { Returns the dimensionless @link(TC2Vector) of the 2-component complex vector quantity expressed in this factored unit. }
+    { Returns the dimensionless @link(TComplexVector) of the complex vector quantity expressed in this factored unit. }
     function ToVector(const AQuantity: TComplexVectorQuantity): TComplexVector;
 
-    { Returns the dimensionless @link(TC2Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns the dimensionless @link(TComplexVector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVector(const AQuantity: TComplexVectorQuantity; const APrefixes: TPrefixes): TComplexVector;
 
-    { Returns a compact string representation of the 2-component complex vector quantity in this factored unit. }
+    { Returns a compact string representation of the complex vector quantity in this factored unit. }
     function ToString(const AQuantity: TComplexVectorQuantity): string;
 
-    { Returns a compact string representation of the 2-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns a compact string representation of the complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TComplexVectorQuantity; const APrefixes: TPrefixes): string;
 
-    { Returns a verbose string representation of the 2-component complex vector quantity in this factored unit. }
+    { Returns a verbose string representation of the complex vector quantity in this factored unit. }
     function ToVerboseString(const AQuantity: TComplexVectorQuantity): string;
 
-    { Returns a verbose string representation of the 2-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns a verbose string representation of the complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TComplexVectorQuantity; const APrefixes: TPrefixes): string;
 
-    { Returns the dimensionless @link(TR2Matrix) of the 2×2 real matrix quantity expressed in this factored unit. }
+    { Returns the dimensionless @link(TRealMatrix) of the real matrix quantity expressed in this factored unit. }
     function ToMatrix(const AQuantity: TRealMatrixQuantity): TRealMatrix;
 
-    { Returns the dimensionless @link(TR2Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns the dimensionless @link(TRealMatrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToMatrix(const AQuantity: TRealMatrixQuantity; const APrefixes: TPrefixes): TRealMatrix;
 
-    { Returns a compact string representation of the 2×2 real matrix quantity in this factored unit. }
+    { Returns a compact string representation of the real matrix quantity in this factored unit. }
     function ToString(const AQuantity: TRealMatrixQuantity): string;
 
-    { Returns a compact string representation of the 2×2 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns a compact string representation of the real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TRealMatrixQuantity; const APrefixes: TPrefixes): string;
 
-    { Returns a verbose string representation of the 2×2 real matrix quantity in this factored unit. }
+    { Returns a verbose string representation of the real matrix quantity in this factored unit. }
     function ToVerboseString(const AQuantity: TRealMatrixQuantity): string;
 
-    { Returns a verbose string representation of the 2×2 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns a verbose string representation of the real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TRealMatrixQuantity; const APrefixes: TPrefixes): string;
 
-    { Returns the dimensionless @link(TC2Matrix) of the 2×2 complex matrix quantity expressed in this factored unit. }
+    { Returns the dimensionless @link(TComplexMatrix) of the complex matrix quantity expressed in this factored unit. }
     function ToMatrix(const AQuantity: TComplexMatrixQuantity): TComplexMatrix;
 
-    { Returns the dimensionless @link(TC2Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns the dimensionless @link(TComplexMatrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToMatrix(const AQuantity: TComplexMatrixQuantity; const APrefixes: TPrefixes): TComplexMatrix;
 
-    { Returns a compact string representation of the 2×2 complex matrix quantity in this factored unit. }
+    { Returns a compact string representation of the complex matrix quantity in this factored unit. }
     function ToString(const AQuantity: TComplexMatrixQuantity): string;
 
-    { Returns a compact string representation of the 2×2 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns a compact string representation of the complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TComplexMatrixQuantity; const APrefixes: TPrefixes): string;
 
-    { Returns a verbose string representation of the 2×2 complex matrix quantity in this factored unit. }
+    { Returns a verbose string representation of the complex matrix quantity in this factored unit. }
     function ToVerboseString(const AQuantity: TComplexMatrixQuantity): string;
 
-    { Returns a verbose string representation of the 2×2 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
+    { Returns a verbose string representation of the complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TComplexMatrixQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a compact string representation of the @code(Cl(3,0)) vector quantity in this factored unit. }
@@ -5289,13 +5275,13 @@ end;
 class operator TCL3MultivecQuantity./(const ALeft, ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+  result.FValue := ALeft.FValue * ARight.FValue.Inverse;
 end;
 
 class operator TCL3MultivecQuantity./(const ALeft: TReal; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckDiv(ScalarUnit.FDim, ARight.FDim);
-  result.FValue := ALeft * ARight.FValue.Reciprocal;
+  result.FValue := ALeft * ARight.FValue.Inverse;
 end;
 
 class operator TCL3MultivecQuantity./(const ALeft: TCL3MultivecQuantity; const ARight: TReal): TCL3MultivecQuantity;
@@ -5373,7 +5359,7 @@ end;
 class operator TCL3MultivecQuantity./(const ALeft: TRealQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+  result.FValue := ALeft.FValue * ARight.FValue.Inverse;
 end;
 {$ENDIF}
 
@@ -5480,7 +5466,7 @@ end;
 class operator TCL3TrivecQuantity./(const ALeft: TReal; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
   result.FDim := CheckDiv(ScalarUnit.FDim, ARight.FDim);
-  result.FValue := ALeft * ARight.FValue.Reciprocal;
+  result.FValue := ALeft * ARight.FValue.Inverse;
 end;
 
 class operator TCL3TrivecQuantity./(const ALeft: TCL3TrivecQuantity; const ARight: TReal): TCL3TrivecQuantity;
@@ -5492,13 +5478,13 @@ end;
 class operator TCL3TrivecQuantity./(const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+  result.FValue := ALeft.FValue * ARight.FValue.Inverse;
 end;
 
 class operator TCL3TrivecQuantity./(const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+  result.FValue := ALeft.FValue * ARight.FValue.Inverse;
 end;
 
 class operator TCL3TrivecQuantity.+(const ALeft: TCL3TrivecQuantity; const ARight: TRealQuantity): TCL3MultivecQuantity;
@@ -5546,7 +5532,7 @@ end;
 class operator TCL3TrivecQuantity./(const ALeft, ARight: TCL3TrivecQuantity): TRealQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+  result.FValue := ALeft.FValue * ARight.FValue.Inverse;
 end;
 
 class operator TCL3TrivecQuantity./(const ALeft: TCL3TrivecQuantity; const ARight: TRealQuantity): TCL3TrivecQuantity;
@@ -5558,7 +5544,7 @@ end;
 class operator TCL3TrivecQuantity./(const ALeft: TRealQuantity; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+  result.FValue := ALeft.FValue * ARight.FValue.Inverse;
 end;
 
 {$ENDIF}
@@ -5686,18 +5672,6 @@ begin
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TCL3BivecQuantity.*(const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
-begin
-  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue;
-end;
-
-class operator TCL3BivecQuantity.*(const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
-begin
-  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue;
-end;
-
 class operator TCL3BivecQuantity.*(const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
@@ -5707,13 +5681,13 @@ end;
 class operator TCL3BivecQuantity./(const ALeft, ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+  result.FValue := ALeft.FValue * ARight.FValue.Inverse;
 end;
 
 class operator TCL3BivecQuantity./(const ALeft: TReal; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
 begin
   result.FDim := CheckDiv(ScalarUnit.FDim, ARight.FDim);
-  result.FValue := ALeft * ARight.FValue.Reciprocal;
+  result.FValue := ALeft * ARight.FValue.Inverse;
 end;
 
 class operator TCL3BivecQuantity./(const ALeft: TCL3BivecQuantity; const ARight: TReal): TCL3BivecQuantity;
@@ -5722,28 +5696,16 @@ begin
   result.FValue := ALeft.FValue * ARight;
 end;
 
-class operator TCL3BivecQuantity./(const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
-begin
-  result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
-end;
-
-class operator TCL3BivecQuantity./(const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
-begin
-  result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
-end;
-
 class operator TCL3BivecQuantity./(const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+  result.FValue := ALeft.FValue * ARight.FValue.Inverse;
 end;
 
 class operator TCL3BivecQuantity./(const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+  result.FValue := ALeft.FValue * ARight.FValue.Inverse;
 end;
 
 class operator TCL3BivecQuantity.+(const ALeft: TCL3BivecQuantity; const ARight: TRealQuantity): TCL3MultivecQuantity;
@@ -5791,7 +5753,7 @@ end;
 class operator TCL3BivecQuantity./(const ALeft: TRealQuantity; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+  result.FValue := ALeft.FValue * ARight.FValue.Inverse;
 end;
 {$ENDIF}
 
@@ -5825,7 +5787,7 @@ end;
 class operator TCL3VecQuantity.=(const ALeft, ARight: TCL3VecQuantity): boolean;
 begin
   Check(ALeft.FDim, ARight.FDim);
-  result := ALeft.FValue <> ARight.FValue;
+  result := ALeft.FValue = ARight.FValue;
 end;
 
 class operator TCL3VecQuantity.=(const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): boolean;
@@ -5975,13 +5937,13 @@ end;
 class operator TCL3VecQuantity./(const ALeft, ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+  result.FValue := ALeft.FValue * ARight.FValue.Inverse;
 end;
 
 class operator TCL3VecQuantity./(const ALeft: TReal; const ARight: TCL3VecQuantity): TCL3VecQuantity;
 begin
   result.FDim := CheckDiv(ScalarUnit.FDim, ARight.FDim);
-  result.FValue := ALeft * ARight.FValue.Reciprocal;
+  result.FValue := ALeft * ARight.FValue.Inverse;
 end;
 
 class operator TCL3VecQuantity./(const ALeft: TCL3VecQuantity; const ARight: TReal): TCL3VecQuantity;
@@ -5993,37 +5955,37 @@ end;
 class operator TCL3VecQuantity./(const ALeft: TCL3VecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+  result.FValue := ALeft.FValue * ARight.FValue.Inverse;
 end;
 
 class operator TCL3VecQuantity./(const ALeft: TCL3BivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+  result.FValue := ALeft.FValue * ARight.FValue.Inverse;
 end;
 
 class operator TCL3VecQuantity./(const ALeft: TCL3VecQuantity; const ARight: TCL3TrivecQuantity): TCL3BivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+  result.FValue := ALeft.FValue * ARight.FValue.Inverse;
 end;
 
 class operator TCL3VecQuantity./(const ALeft: TCL3TrivecQuantity; const ARight: TCL3VecQuantity): TCL3BivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+  result.FValue := ALeft.FValue * ARight.FValue.Inverse;
 end;
 
 class operator TCL3VecQuantity./(const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+  result.FValue := ALeft.FValue * ARight.FValue.Inverse;
 end;
 
 class operator TCL3VecQuantity./(const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+  result.FValue := ALeft.FValue * ARight.FValue.Inverse;
 end;
 
 class operator TCL3VecQuantity.+(const ALeft: TCL3VecQuantity; const ARight: TRealQuantity): TCL3MultivecQuantity;
@@ -6071,7 +6033,31 @@ end;
 class operator TCL3VecQuantity./(const ALeft: TRealQuantity; const ARight: TCL3VecQuantity): TCL3VecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+  result.FValue := ALeft.FValue * ARight.FValue.Inverse;
+end;
+
+operator *(const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3VecQuantity;
+begin
+  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+operator *(const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3VecQuantity;
+begin
+  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+operator /(const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3VecQuantity;
+begin
+  result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
+  result.FValue := ALeft.FValue * ARight.FValue.Inverse;
+end;
+
+operator /(const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3VecQuantity;
+begin
+  result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
+  result.FValue := ALeft.FValue * ARight.FValue.Inverse;
 end;
 {$ENDIF}
 
@@ -6085,10 +6071,10 @@ begin
   result.FValue := FValue.Dual;
 end;
 
-function TCL3MultivecQuantityHelper.Inverse: TCL3MultivecQuantity;
+function TCL3MultivecQuantityHelper.Involute: TCL3MultivecQuantity;
 begin
   result.FDim := FDim;
-  result.FValue := FValue.Inverse;
+  result.FValue := FValue.Involute;
 end;
 
 function TCL3MultivecQuantityHelper.Reverse: TCL3MultivecQuantity;
@@ -6103,16 +6089,10 @@ begin
   result.FValue := FValue.Conjugate;
 end;
 
-function TCL3MultivecQuantityHelper.Reciprocal: TCL3MultivecQuantity;
+function TCL3MultivecQuantityHelper.Inverse: TCL3MultivecQuantity;
 begin
   result.FDim := CheckDiv(ScalarUnit.FDim, FDim);
-  result.FValue := FValue.Reciprocal;
-end;
-
-function TCL3MultivecQuantityHelper.LeftReciprocal: TCL3MultivecQuantity;
-begin
-  result.FDim := CheckDiv(ScalarUnit.FDim, FDim);
-  result.FValue := FValue.LeftReciprocal;
+  result.FValue := FValue.Inverse;
 end;
 
 function TCL3MultivecQuantityHelper.Normalized: TCL3MultivecQuantity;
@@ -6302,22 +6282,22 @@ begin
   result := FValue.SameValue(AVector.FValue);
 end;
 
-function TCL3MultivecQuantityHelper.ExtractMultivector(AComponents: TCL3MultivectorComponents): TCL3MultivecQuantity;
+function TCL3MultivecQuantityHelper.Extract(AComponents: TCL3MultivectorComponents): TCL3MultivecQuantity;
 begin
   result.FDim := FDim;
-  result.FValue := FValue.ExtractMultivector(AComponents);
+  result.FValue := FValue.Extract(AComponents);
 end;
 
-function TCL3MultivecQuantityHelper.ExtractBivector(AComponents: TCL3MultivectorComponents): TCL3BivecQuantity;
+function TCL3MultivecQuantityHelper.Extract(AComponents: TCL3BivectorComponents): TCL3BivecQuantity;
 begin
   result.FDim := FDim;
-  result.FValue := FValue.ExtractBivector(AComponents);
+  result.FValue := FValue.Extract(AComponents);
 end;
 
-function TCL3MultivecQuantityHelper.ExtractVector(AComponents: TCL3MultivectorComponents): TCL3VecQuantity;
+function TCL3MultivecQuantityHelper.Extract(AComponents: TCL3VectorComponents): TCL3VecQuantity;
 begin
   result.FDim := FDim;
-  result.FValue := FValue.ExtractVector(AComponents);
+  result.FValue := FValue.Extract(AComponents);
 end;
 
 function TCL3MultivecQuantityHelper.ExtractTrivector: TCL3TrivecQuantity;
@@ -6359,9 +6339,9 @@ begin
   result := FValue.IsVector;
 end;
 
-function TCL3MultivecQuantityHelper.IsBiVector: boolean;
+function TCL3MultivecQuantityHelper.IsBivector: boolean;
 begin
-  result := FValue.IsBiVector;
+  result := FValue.IsBivector;
 end;
 
 function TCL3MultivecQuantityHelper.IsTrivector: boolean;
@@ -6384,10 +6364,10 @@ begin
   result.FValue := FValue.Dual;
 end;
 
-function TCL3TrivecQuantityHelper.Inverse: TCL3TrivecQuantity;
+function TCL3TrivecQuantityHelper.Involute: TCL3TrivecQuantity;
 begin
   result.FDim := FDim;
-  result.FValue := FValue.Inverse;
+  result.FValue := FValue.Involute;
 end;
 
 function TCL3TrivecQuantityHelper.Reverse: TCL3TrivecQuantity;
@@ -6402,10 +6382,10 @@ begin
   result.FValue := FValue.Conjugate;
 end;
 
-function TCL3TrivecQuantityHelper.Reciprocal: TCL3TrivecQuantity;
+function TCL3TrivecQuantityHelper.Inverse: TCL3TrivecQuantity;
 begin
   result.FDim := CheckDiv(ScalarUnit.FDim, FDim);
-  result.FValue := FValue.Reciprocal;
+  result.FValue := FValue.Inverse;
 end;
 
 function TCL3TrivecQuantityHelper.Normalized: TCL3TrivecQuantity;
@@ -6596,10 +6576,10 @@ begin
   result.FValue := FValue.Dual;
 end;
 
-function TCL3BivecQuantityHelper.Inverse: TCL3BivecQuantity;
+function TCL3BivecQuantityHelper.Involute: TCL3BivecQuantity;
 begin
   result.FDim := FDim;
-  result.FValue := FValue.Inverse;
+  result.FValue := FValue.Involute;
 end;
 
 function TCL3BivecQuantityHelper.Conjugate: TCL3BivecQuantity;
@@ -6614,10 +6594,10 @@ begin
   result.FValue := FValue.Reverse;
 end;
 
-function TCL3BivecQuantityHelper.Reciprocal: TCL3BivecQuantity;
+function TCL3BivecQuantityHelper.Inverse: TCL3BivecQuantity;
 begin
   result.FDim := CheckDiv(ScalarUnit.FDim, FDim);
-  result.FValue := FValue.Reciprocal;
+  result.FValue := FValue.Inverse;
 end;
 
 function TCL3BivecQuantityHelper.Normalized: TCL3BivecQuantity;
@@ -6792,10 +6772,10 @@ begin
   result := FValue.SameValue(AVector.FValue);
 end;
 
-function TCL3BivecQuantityHelper.ExtractBivector(AComponents: TCL3MultivectorComponents): TCL3BivecQuantity;
+function TCL3BivecQuantityHelper.Extract(AComponents: TCL3BivectorComponents): TCL3BivecQuantity;
 begin
   result.FDim := FDim;
-  result.FValue := FValue.ExtractBivector(AComponents);
+  result.FValue := FValue.Extract(AComponents);
 end;
 
 function TCL3BivecQuantityHelper.ToMultivector: TCL3MultivecQuantity;
@@ -6814,10 +6794,10 @@ begin
   result.FValue := FValue.Dual;
 end;
 
-function TCL3VecQuantityHelper.Inverse: TCL3VecQuantity;
+function TCL3VecQuantityHelper.Involute: TCL3VecQuantity;
 begin
   result.FDim := FDim;
-  result.FValue := FValue.Inverse;
+  result.FValue := FValue.Involute;
 end;
 
 function TCL3VecQuantityHelper.Reverse: TCL3VecQuantity;
@@ -6832,10 +6812,10 @@ begin
   result.FValue := FValue.Conjugate;
 end;
 
-function TCL3VecQuantityHelper.Reciprocal: TCL3VecQuantity;
+function TCL3VecQuantityHelper.Inverse: TCL3VecQuantity;
 begin
   result.FDim := CheckDiv(ScalarUnit.FDim, FDim);
-  result.FValue := FValue.Reciprocal;
+  result.FValue := FValue.Inverse;
 end;
 
 function TCL3VecQuantityHelper.Normalized: TCL3VecQuantity;
@@ -7016,10 +6996,10 @@ begin
   result := FValue.SameValue(AVector.FValue);
 end;
 
-function TCL3VecQuantityHelper.ExtractVector(AComponents: TCL3MultivectorComponents): TCL3VecQuantity;
+function TCL3VecQuantityHelper.Extract(AComponents: TCL3VectorComponents): TCL3VecQuantity;
 begin
   result.FDim := FDim;
-  result.FValue := FValue.ExtractVector(AComponents);
+  result.FValue := FValue.Extract(AComponents);
 end;
 
 function TCL3VecQuantityHelper.ToMultivector: TCL3MultivecQuantity;
@@ -8366,9 +8346,9 @@ function TUnitHelper.ToString(const AQuantity: TCL3VecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := '(' + AQuantity.FValue.ToString + ') ' + GetSymbol(FPrefixes)
 {$ELSE}
-  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
+  result := '(' + AQuantity.ToString + ') ' + GetSymbol(FPrefixes)
 {$ENDIF}
 end;
 
@@ -8376,9 +8356,9 @@ function TUnitHelper.ToString(const AQuantity: TCL3BivecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := '(' + AQuantity.FValue.ToString + ') ' + GetSymbol(FPrefixes)
 {$ELSE}
-  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
+  result := '(' + AQuantity.ToString + ') ' + GetSymbol(FPrefixes)
 {$ENDIF}
 end;
 
@@ -8386,9 +8366,9 @@ function TUnitHelper.ToString(const AQuantity: TCL3TrivecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := '(' + AQuantity.FValue.ToString + ') ' + GetSymbol(FPrefixes)
 {$ELSE}
-  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
+  result := '(' + AQuantity.ToString + ') ' + GetSymbol(FPrefixes)
 {$ENDIF}
 end;
 
@@ -8396,9 +8376,9 @@ function TUnitHelper.ToString(const AQuantity: TCL3MultivecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := '(' + AQuantity.FValue.ToString + ') ' + GetSymbol(FPrefixes)
 {$ELSE}
-  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
+  result := '(' + AQuantity.ToString + ') ' + GetSymbol(FPrefixes)
 {$ENDIF}
 end;
 
@@ -8412,7 +8392,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetSymbol(APrefixes)
 end;
 
 function TUnitHelper.ToString(const AQuantity: TCL3BivecQuantity; const APrefixes: TPrefixes): string;
@@ -8425,7 +8405,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetSymbol(APrefixes)
 end;
 
 function TUnitHelper.ToString(const AQuantity: TCL3TrivecQuantity; const APrefixes: TPrefixes): string;
@@ -8438,7 +8418,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetSymbol(APrefixes)
 end;
 
 function TUnitHelper.ToString(const AQuantity: TCL3MultivecQuantity; const APrefixes: TPrefixes): string;
@@ -8451,16 +8431,16 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetSymbol(APrefixes)
 end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TCL3VecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetPluralName(FPrefixes)
+  result := '(' + AQuantity.FValue.ToString + ') ' + GetPluralName(FPrefixes)
 {$ELSE}
-  result := AQuantity.ToString + ' ' + GetPluralName(FPrefixes)
+  result := '(' + AQuantity.ToString + ') ' + GetPluralName(FPrefixes)
 {$ENDIF}
 end;
 
@@ -8468,9 +8448,9 @@ function TUnitHelper.ToVerboseString(const AQuantity: TCL3BivecQuantity): string
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetPluralName(FPrefixes)
+  result := '(' + AQuantity.FValue.ToString + ') ' + GetPluralName(FPrefixes)
 {$ELSE}
-  result := AQuantity.ToString + ' ' + GetPluralName(FPrefixes)
+  result := '(' + AQuantity.ToString + ') ' + GetPluralName(FPrefixes)
 {$ENDIF}
 end;
 
@@ -8478,9 +8458,9 @@ function TUnitHelper.ToVerboseString(const AQuantity: TCL3TrivecQuantity): strin
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetPluralName(FPrefixes)
+  result := '(' + AQuantity.FValue.ToString + ') ' + GetPluralName(FPrefixes)
 {$ELSE}
-  result := AQuantity.ToString + ' ' + GetPluralName(FPrefixes)
+  result := '(' + AQuantity.ToString + ') ' + GetPluralName(FPrefixes)
 {$ENDIF}
 end;
 
@@ -8488,9 +8468,9 @@ function TUnitHelper.ToVerboseString(const AQuantity: TCL3MultivecQuantity): str
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetPluralName(FPrefixes)
+  result := '(' + AQuantity.FValue.ToString + ') ' + GetPluralName(FPrefixes)
 {$ELSE}
-  result := AQuantity.ToString + ' ' + GetPluralName(FPrefixes)
+  result := '(' + AQuantity.ToString + ') ' + GetPluralName(FPrefixes)
 {$ENDIF}
 end;
 
@@ -8504,7 +8484,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetPluralName(APrefixes)
 end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TCL3BivecQuantity; const APrefixes: TPrefixes): string;
@@ -8517,7 +8497,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetPluralName(APrefixes)
 end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TCL3TrivecQuantity; const APrefixes: TPrefixes): string;
@@ -8530,7 +8510,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetPluralName(APrefixes)
 end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TCL3MultivecQuantity; const APrefixes: TPrefixes): string;
@@ -8543,7 +8523,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetPluralName(APrefixes)
 end;
 
 // TFactoredUnitHelper
@@ -8899,7 +8879,7 @@ begin
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetSymbol(FPrefixes)
 end;
 
 function TFactoredUnitHelper.ToString(const AQuantity: TRealVectorQuantity; const APrefixes: TPrefixes): string;
@@ -8912,7 +8892,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetSymbol(APrefixes)
 end;
 
 function TFactoredUnitHelper.ToVerboseString(const AQuantity: TRealVectorQuantity): string;
@@ -8925,7 +8905,7 @@ begin
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetPluralName(FPrefixes)
 end;
 
 function TFactoredUnitHelper.ToVerboseString(const AQuantity: TRealVectorQuantity; const APrefixes: TPrefixes): string;
@@ -8940,9 +8920,9 @@ begin
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
-    result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
+    result := '(' + FactoredValue.ToString + ') ' + GetPluralName(FPrefixes)
   else
-    result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes);
+    result := '(' + FactoredValue.ToString + ') ' + GetPluralName(APrefixes);
 end;
 
 function TFactoredUnitHelper.ToVector(const AQuantity: TComplexVectorQuantity): TComplexVector;
@@ -8975,7 +8955,7 @@ begin
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetSymbol(FPrefixes)
 end;
 
 function TFactoredUnitHelper.ToString(const AQuantity: TComplexVectorQuantity; const APrefixes: TPrefixes): string;
@@ -8988,7 +8968,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetSymbol(APrefixes)
 end;
 
 function TFactoredUnitHelper.ToVerboseString(const AQuantity: TComplexVectorQuantity): string;
@@ -9001,7 +8981,7 @@ begin
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetPluralName(FPrefixes)
 end;
 
 function TFactoredUnitHelper.ToVerboseString(const AQuantity: TComplexVectorQuantity; const APrefixes: TPrefixes): string;
@@ -9016,9 +8996,9 @@ begin
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
-    result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
+    result := '(' + FactoredValue.ToString + ') ' + GetPluralName(FPrefixes)
   else
-    result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes);
+    result := '(' + FactoredValue.ToString + ') ' + GetPluralName(APrefixes);
 end;
 
 function TFactoredUnitHelper.ToMatrix(const AQuantity: TRealMatrixQuantity): TRealMatrix;
@@ -9051,7 +9031,7 @@ begin
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetSymbol(FPrefixes)
 end;
 
 function TFactoredUnitHelper.ToString(const AQuantity: TRealMatrixQuantity; const APrefixes: TPrefixes): string;
@@ -9064,7 +9044,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetSymbol(APrefixes)
 end;
 
 function TFactoredUnitHelper.ToVerboseString(const AQuantity: TRealMatrixQuantity): string;
@@ -9077,7 +9057,7 @@ begin
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetPluralName(FPrefixes)
 end;
 
 function TFactoredUnitHelper.ToVerboseString(const AQuantity: TRealMatrixQuantity; const APrefixes: TPrefixes): string;
@@ -9092,9 +9072,9 @@ begin
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
-    result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
+    result := '(' + FactoredValue.ToString + ') ' + GetPluralName(FPrefixes)
   else
-    result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes);
+    result := '(' + FactoredValue.ToString + ') ' + GetPluralName(APrefixes);
 end;
 
 function TFactoredUnitHelper.ToMatrix(const AQuantity: TComplexMatrixQuantity): TComplexMatrix;
@@ -9127,7 +9107,7 @@ begin
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetSymbol(FPrefixes)
 end;
 
 function TFactoredUnitHelper.ToString(const AQuantity: TComplexMatrixQuantity; const APrefixes: TPrefixes): string;
@@ -9140,7 +9120,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetSymbol(APrefixes)
 end;
 
 function TFactoredUnitHelper.ToVerboseString(const AQuantity: TComplexMatrixQuantity): string;
@@ -9153,7 +9133,7 @@ begin
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetPluralName(FPrefixes)
 end;
 
 function TFactoredUnitHelper.ToVerboseString(const AQuantity: TComplexMatrixQuantity; const APrefixes: TPrefixes): string;
@@ -9168,9 +9148,9 @@ begin
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
-    result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
+    result := '(' + FactoredValue.ToString + ') ' + GetPluralName(FPrefixes)
   else
-    result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes);
+    result := '(' + FactoredValue.ToString + ') ' + GetPluralName(APrefixes);
 end;
 
 function TFactoredUnitHelper.ToString(const AQuantity: TCL3VecQuantity): string;
@@ -9183,7 +9163,7 @@ begin
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetSymbol(FPrefixes)
 end;
 
 function TFactoredUnitHelper.ToString(const AQuantity: TCL3BivecQuantity): string;
@@ -9196,7 +9176,7 @@ begin
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetSymbol(FPrefixes)
 end;
 
 function TFactoredUnitHelper.ToString(const AQuantity: TCL3TrivecQuantity): string;
@@ -9209,7 +9189,7 @@ begin
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetSymbol(FPrefixes)
 end;
 
 function TFactoredUnitHelper.ToString(const AQuantity: TCL3MultivecQuantity): string;
@@ -9222,7 +9202,7 @@ begin
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetSymbol(FPrefixes)
 end;
 
 function TFactoredUnitHelper.ToString(const AQuantity: TCL3VecQuantity; const APrefixes: TPrefixes): string;
@@ -9235,7 +9215,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetSymbol(APrefixes)
 end;
 
 function TFactoredUnitHelper.ToString(const AQuantity: TCL3BivecQuantity; const APrefixes: TPrefixes): string;
@@ -9248,7 +9228,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetSymbol(APrefixes)
 end;
 
 function TFactoredUnitHelper.ToString(const AQuantity: TCL3TrivecQuantity; const APrefixes: TPrefixes): string;
@@ -9261,7 +9241,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetSymbol(APrefixes)
 end;
 
 function TFactoredUnitHelper.ToString(const AQuantity: TCL3MultivecQuantity; const APrefixes: TPrefixes): string;
@@ -9274,7 +9254,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetSymbol(APrefixes)
 end;
 
 function TFactoredUnitHelper.ToVerboseString(const AQuantity: TCL3VecQuantity): string;
@@ -9287,7 +9267,7 @@ begin
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetPluralName(FPrefixes)
 end;
 
 function TFactoredUnitHelper.ToVerboseString(const AQuantity: TCL3BivecQuantity): string;
@@ -9300,7 +9280,7 @@ begin
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetPluralName(FPrefixes)
 end;
 
 function TFactoredUnitHelper.ToVerboseString(const AQuantity: TCL3TrivecQuantity): string;
@@ -9313,7 +9293,7 @@ begin
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetPluralName(FPrefixes)
 end;
 
 function TFactoredUnitHelper.ToVerboseString(const AQuantity: TCL3MultivecQuantity): string;
@@ -9326,7 +9306,7 @@ begin
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetPluralName(FPrefixes)
 end;
 
 function TFactoredUnitHelper.ToVerboseString(const AQuantity: TCL3VecQuantity; const APrefixes: TPrefixes): string;
@@ -9339,7 +9319,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetPluralName(FPrefixes)
 end;
 
 function TFactoredUnitHelper.ToVerboseString(const AQuantity: TCL3BivecQuantity; const APrefixes: TPrefixes): string;
@@ -9352,7 +9332,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetPluralName(FPrefixes)
 end;
 
 function TFactoredUnitHelper.ToVerboseString(const AQuantity: TCL3TrivecQuantity; const APrefixes: TPrefixes): string;
@@ -9365,7 +9345,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetPluralName(FPrefixes)
 end;
 
 function TFactoredUnitHelper.ToVerboseString(const AQuantity: TCL3MultivecQuantity; const APrefixes: TPrefixes): string;
@@ -9378,7 +9358,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetPluralName(FPrefixes)
 end;
 
 // TDegreeCelsiusUnitHelper
